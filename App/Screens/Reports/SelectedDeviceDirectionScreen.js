@@ -215,7 +215,7 @@ class SelectedDeviceDirectionScreen extends Component {
                             zoomTapEnabled={ true }
                             minZoomLevel={ 0 }
                             customMapStyle={ customMapStyle }
-                            //showsUserLocation={ false }
+                            showsUserLocation={ true }
                             //mapType={ Platform.OS == "android" ? "none" : "standard" }
                         >
                             {((this.state.currentLocation !== null) && (this.state.devicePosition !== null)) && 
