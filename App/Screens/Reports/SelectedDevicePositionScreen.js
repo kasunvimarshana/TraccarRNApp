@@ -287,6 +287,7 @@ class SelectedDevicePositionScreen extends Component {
                             minZoomLevel={ 0 }
                             customMapStyle={ customMapStyle }
                             showsUserLocation={ true }
+                            cacheEnabled={ true }
                             //mapType={ Platform.OS == "android" ? "none" : "standard" }
                             onRegionChange={ ( region, isGesture ) => { this.regionChangeHandler( region, isGesture ) } }
                             onRegionChangeComplete={ ( region, isGesture ) => { this.regionChangeCompleteHandler( region, isGesture ) } }

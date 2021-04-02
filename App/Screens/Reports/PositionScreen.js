@@ -402,6 +402,7 @@ class PositionScreen extends Component {
                             minZoomLevel={ 0 }
                             customMapStyle={ customMapStyle }
                             showsUserLocation={ false }
+                            cacheEnabled={ true }
                             //mapType={ Platform.OS == "android" ? "none" : "standard" }
                         >
                             {
