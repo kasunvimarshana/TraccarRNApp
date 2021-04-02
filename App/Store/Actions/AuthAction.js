@@ -138,7 +138,7 @@ export const authSignIn = ( args ) => {
 
 export const authSignOut = () => {
     return (dispatch, getState) => {
-        const promise = new Promise((resolve, reject) => { 
+        const promise = new Promise(async (resolve, reject) => { 
             try{
                 await dispatch( authRemoveUser() );
                 await dispatch( authSetUser( null ) );
