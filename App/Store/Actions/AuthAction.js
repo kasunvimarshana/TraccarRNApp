@@ -46,7 +46,8 @@ export const authSignIn = ( args ) => {
                 "Accept": "application/json",
                 //"Content-Type": "application/json",
                 "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8",
-                "Authorization": "Basic " + Base64.btoa(args.email + ":" + args.password) 
+                "Authorization": "Basic " + Base64.btoa(args.email + ":" + args.password), 
+                "Connection": "close" 
             },
             mode: "cors", //no-cors, *cors, same-origin
             credentials: "include", //include, *same-origin, omit
@@ -71,6 +72,10 @@ export const authSignIn = ( args ) => {
                 return Object.assign(responseData, {
                     JSESSIONID: JSESSIONID
                 });
+            },
+            (error) => {
+                console.log('error', error);
+                throw new Error( error );
             })
             .then(async (json) => {
                 console.log(json);
@@ -81,7 +86,7 @@ export const authSignIn = ( args ) => {
             })
             .catch((error) => {
                 dispatch( fetchEnd() );
-                return reject( error )
+                return reject( error );
             });
         });
 
@@ -216,7 +221,8 @@ export const checkAuth = () => {
                     method: "GET",
                     headers: { 
                         "Accept": "application/json",
-                        "Cookie": ("JSESSIONID=" + authUser.JSESSIONID)
+                        "Cookie": ("JSESSIONID=" + authUser.JSESSIONID), 
+                        "Connection": "close" 
                     },
                     mode: "cors", //no-cors, *cors, same-origin
                     credentials: "omit", //include, *same-origin, omit
@@ -236,12 +242,18 @@ export const checkAuth = () => {
                     throw new Error( response.status );
                 }
                 return response.json();
+            },
+            (error) => {
+                console.log('error', error);
+                throw new Error( error );
             })
             .then((json) => {
                 console.log(json);
                 return resolve(json);
             })
-            .catch((error) => reject( error ));
+            .catch((error) => {
+                return reject( error );
+            });
         });
         return promise;
     };
