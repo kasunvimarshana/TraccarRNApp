@@ -22,13 +22,16 @@ import {
 export const FETCH_TYPE_DEVICE = REPORT_OBJECT_TYPE_DEVICE;
 export const FETCH_TYPE_GROUP = REPORT_OBJECT_TYPE_GROUP;
 
-export const fetchEvents = (fetchType, from, to, type = null) => {
+export const fetchEvents = (fetchType, from, to, type = null, isCheckAuth = false) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             let authUser = null;
             let fetchTypeObject = null;
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {

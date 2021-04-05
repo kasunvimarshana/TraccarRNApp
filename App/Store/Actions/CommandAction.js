@@ -33,14 +33,17 @@ export const fetchEnd = () => {
     }
 };
 
-export const commandSend = (type, attributes = null) => {
+export const commandSend = (type, attributes = null, isCheckAuth = false) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( fetchStart() );
             let authUser = null;
             const device = getState().device.selectedDevice || {};
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {

@@ -32,13 +32,16 @@ export const fetchEnd = () => {
     }
 };
 
-export const fetchPosition = ( id ) => {
+export const fetchPosition = ( id, isCheckAuth = false ) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( fetchStart() );
             let authUser = null;
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {

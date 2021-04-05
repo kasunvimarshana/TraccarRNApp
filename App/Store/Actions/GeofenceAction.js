@@ -39,14 +39,17 @@ export const fetchEnd = () => {
 export const FETCH_TYPE_DEVICE = REPORT_OBJECT_TYPE_DEVICE;
 export const FETCH_TYPE_GROUP = REPORT_OBJECT_TYPE_GROUP;
 
-export const fetchGeofences = ( fetchType ) => {
+export const fetchGeofences = ( fetchType, isCheckAuth = false ) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( fetchStart() );
             let authUser = null;
             let fetchTypeObject = null;
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {

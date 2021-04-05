@@ -40,7 +40,7 @@ export const fetchEnd = () => {
 export const FETCH_TYPE_DEVICE = REPORT_OBJECT_TYPE_DEVICE;
 export const FETCH_TYPE_GROUP = REPORT_OBJECT_TYPE_GROUP;
 
-export const fetchSummary = (fetchType, from = null, to = null) => {
+export const fetchSummary = (fetchType, from = null, to = null, isCheckAuth = false) => {
     return (dispatch, getState) => {
         const currentDateTime = moment();
         let fromDateTime = from || getState().report.fromDateTime;
@@ -56,8 +56,11 @@ export const fetchSummary = (fetchType, from = null, to = null) => {
             dispatch( fetchStart() );
             let authUser = null;
             let fetchTypeObject = null;
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {

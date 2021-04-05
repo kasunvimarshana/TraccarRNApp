@@ -40,13 +40,16 @@ export const fetchEnd = () => {
     }
 };
 
-export const fetchDevices = () => {
+export const fetchDevices = (isCheckAuth = false) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( fetchStart() );
             let authUser = null;
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {
@@ -145,15 +148,18 @@ export const setSelectedDevicePosition = ( position ) => {
     }
 };
 
-export const fetchSelectedDevicePosition = () => {
+export const fetchSelectedDevicePosition = (isCheckAuth = false) => {
     return (dispatch, getState) => {
         //const currentDateTime = moment();
         const promise = new Promise((resolve, reject) => { 
             dispatch( devicePositionFetchStart() );
             let authUser = null;
             let selectedDevice = null;
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {
@@ -231,14 +237,17 @@ export const deviceUpdateEnd = () => {
     }
 };
 
-export const updateSelectedDevice = (attributes = {}, extraPathString = null) => {
+export const updateSelectedDevice = (attributes = {}, extraPathString = null, isCheckAuth = false) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( deviceUpdateStart() );
             let authUser = null;
             const device = getState().device.selectedDevice || {};
-            dispatch(checkAuth())
-            .then(() => {
+            let promiseObj = Promise.resolve( null );
+            if( isCheckAuth === true ){
+                promiseObj = dispatch(checkAuth());
+            }
+            promiseObj.then(() => {
                 return dispatch(authGetUser());
             })
             .then((user) => {

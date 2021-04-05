@@ -48,7 +48,8 @@
     "description": "Description",
     "githubUrl": "https://github.com/kasunvimarshana",
     "extra": {
-      "googleMapsApiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk"
+      "googleMapsApiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk",
+      "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082"
     }
   }
 }
