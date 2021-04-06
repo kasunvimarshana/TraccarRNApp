@@ -10,8 +10,8 @@ const firebaseConfig = {
     measurementId: "G-WV22N3ZLET"
 };
   
-//if (!firebase.apps.length) {
+if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-//}
+}
 
 export default firebase;
