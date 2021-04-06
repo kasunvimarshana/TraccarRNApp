@@ -32,7 +32,8 @@ export default function App() {
 
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification("addNotificationReceivedListener", notification);
+      console.log("addNotificationReceivedListener", notification);
+      setNotification(notification);
     });
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
@@ -42,7 +43,7 @@ export default function App() {
 
     // This listener is fired whenever some notifications have been dropped by the server
     notificationDroppedListener.current = Notifications.addNotificationsDroppedListener(notification => {
-      setNotification("addnotificationsdroppedlistenerlistener", notification);
+      console.log("addnotificationsdroppedlistenerlistener", notification);
     });
 
     //pushTokenListener = Notifications.addPushTokenListener(registerDevicePushTokenAsync);
