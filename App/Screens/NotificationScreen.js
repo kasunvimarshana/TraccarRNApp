@@ -18,6 +18,7 @@ export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
   const notificationDroppedListener = useRef();
+  const pushTokenListener = useRef();
 
   useEffect(() => {
     getExpoPushTokenAsync().then((token) => {
@@ -43,12 +44,16 @@ export default function App() {
     notificationDroppedListener.current = Notifications.addNotificationsDroppedListener(notification => {
       setNotification("addnotificationsdroppedlistenerlistener", notification);
     });
+
+    //pushTokenListener = Notifications.addPushTokenListener(registerDevicePushTokenAsync);
+
     console.log("firebase =>>>", firebase);
 
     return () => {
       Notifications.removeNotificationSubscription(responseListener.current);
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(notificationDroppedListener.current);
+      //Notifications.removeNotificationSubscription(pushTokenListener.current);
     };
   }, []);
 
