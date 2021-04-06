@@ -2,6 +2,7 @@
 //https://docs.expo.io/versions/latest/sdk/notifications/#firebaseremotemessage
 //https://docs.expo.io/versions/latest/sdk/notifications/#subscription
 //https://levelup.gitconnected.com/react-native-adding-push-notifications-to-your-app-with-expo-8e4b659ddbfb
+//https://forums.expo.io/t/expo-push-notification-is-not-working-after-building-the-android-apk/46794/5
 //https://www.npmjs.com/package/firebase-admin
 //https://firebase.google.com/docs/admin/setup
 
