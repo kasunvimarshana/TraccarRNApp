@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "648465021458",
+    "project_id": "globegps",
+    "storage_bucket": "globegps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648465021458:android:925f69301f110851f976cb",
+        "android_client_info": {
+          "package_name": "com.kasunv.globe_gps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648465021458-hrlm3qi782tidg4q3mu1tuq3m1ccg9d9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEBttIIgYRtmoXdElZHj_Fd8njOAkasWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648465021458-hrlm3qi782tidg4q3mu1tuq3m1ccg9d9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

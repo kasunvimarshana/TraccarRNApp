@@ -29,7 +29,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kasunv.mbc_app",
+      "package": "com.kasunv.globe_gps",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk"
@@ -40,7 +40,8 @@
         "ACCESS_FINE_LOCATION",
         "FOREGROUND_SERVICE",
         "ACCESS_BACKGROUND_LOCATION"
-      ]
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
