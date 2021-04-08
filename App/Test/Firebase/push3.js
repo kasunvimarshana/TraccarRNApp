@@ -1,5 +1,6 @@
 //https://farazpatankar.com/push-notifications-in-react-native/
 //https://www.codementor.io/@uokesita/react-native-push-notifications-with-firebase-2019-10on0z19t6
+//https://docs.expo.io/push-notifications/sending-notifications-custom/
 
 import { Alert, Platform } from 'react-native'
 import * as Permissions from 'expo-permissions';

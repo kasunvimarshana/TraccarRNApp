@@ -2239,6 +2239,16 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
+"@react-native-firebase/functions@^11.2.0":
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/functions/-/functions-11.2.0.tgz#41cd135d3bedd36e58c43dc703a437cd0ffa870c"
+  integrity sha512-xS7r7Xcgf9JZBukRvmR2aS6ddR6bp8wvFC72yLaOSJAk2xl7Df3oZZXN825LCU7TjICTaKkZIulpW6eW9wjnPA==
+
+"@react-native-firebase/messaging@^11.2.0":
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-11.2.0.tgz#e5eb21707f49aed0572fecb46b81d3f4ed693b70"
+  integrity sha512-TSfEpTqZGf/eQ/5qTVyhX74YvOkk4Kx7Dq/y6XBz8rYFEyxayjpJ/RV9SXTUbDYunOyhC7EUJxcWvG6C5AjoTw==
+
 "@react-native-mapbox-gl/maps@^8.2.0-beta1":
   version "8.2.0-beta1"
   resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-8.2.0-beta1.tgz#7e959964c1d1f19d7c3e05b76ec2414d0a279051"
@@ -4077,6 +4087,13 @@ expo-asset@~8.2.1:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
+expo-background-fetch@~8.6.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/expo-background-fetch/-/expo-background-fetch-8.6.0.tgz#c2a3fcf3a73fa04567deebfd2ad236d55c42c708"
+  integrity sha512-kTbSLOWv2Ja6p+lk54OYFZhZN7kZZQxPSMPb/x0jg5mtJZdBqmIyzmrOURtQOcKpJmFibSn3lWxUFdg+2y0Qew==
+  dependencies:
+    expo-task-manager "~8.6.0"
+
 expo-chart-kit@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/expo-chart-kit/-/expo-chart-kit-1.2.4.tgz#a1b3c4a1382c3500f995e8778e8a55889203d537"
@@ -4120,6 +4137,18 @@ expo-file-system@~9.3.0:
   integrity sha512-x83IVep6PVfzGLpzR5fhWgKGlDaF95vfRzvmLyOMnbSuM8gY9a8C92taxZxfitryy9+D46lbRcnxPvBqFkXMNg==
   dependencies:
     uuid "^3.4.0"
+
+expo-firebase-analytics@~2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/expo-firebase-analytics/-/expo-firebase-analytics-2.6.0.tgz#6c549ed2dceecb22d7d7160034a00896963d38a3"
+  integrity sha512-ciLHxYKfS0Oih184ckVJyYj95fWvK+xfDXG9yOkpzow/NIf9snp8ziXSMyJTwFg93bNr3uqvKxk985LSvEPe9Q==
+  dependencies:
+    expo-firebase-core "~1.2.0"
+
+expo-firebase-core@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/expo-firebase-core/-/expo-firebase-core-1.2.0.tgz#1f41d777cb04e19f495d27491b1596bdeb233f95"
+  integrity sha512-ojqiJLlH5BXQsrElPOtYsO0tHR2333mRDxV625Y0NQyjFBF17NQxlmCCkyh2uGO94LgcZTfB13SMiNHOe9RcZQ==
 
 expo-firebase-core@~1.3.0:
   version "1.3.0"
@@ -4202,6 +4231,13 @@ expo-status-bar@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.0.3.tgz#62b4d6145680abd43ba6ecfa465f835e88bf6263"
   integrity sha512-/Orgla1nkIrfswNHbuAOTbPVq0g3+GrhoQVk7MRafY2dwrFLgXhaPExS+eN2hpmzqPv2LG5cqAZDCQUAjmZYBQ==
+
+expo-task-manager@~8.6.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/expo-task-manager/-/expo-task-manager-8.6.0.tgz#615f57904f37d0beb024f513c715a0cdc6a2b50a"
+  integrity sha512-iyspQYN97KNxTgR7MEuqALxYQgefC9f/wacrZmtDKiXfJYBhcFeFjQiUMih/UZqJSfeIrp1zX3xrGSrM0Gub/w==
+  dependencies:
+    unimodules-app-loader "~1.4.0"
 
 expo@~40.0.0:
   version "40.0.1"

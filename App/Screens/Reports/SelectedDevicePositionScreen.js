@@ -20,6 +20,8 @@ import * as Location from 'expo-location';
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline, ProviderPropType, AnimatedRegion, Geojson, Circle, MAP_TYPES, PROVIDER_DEFAULT } from 'react-native-maps';
 import moment from 'moment';
 import geojson from 'geojson';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
 import CustomTheme from '../../Themes/CustomTheme';
 import MarkerComponent from '../../Components/MarkerComponent';
@@ -31,6 +33,8 @@ import {
     REPORT_OBJECT_TYPE_GROUP
 } from '../../Constants/AppConstants';
 import WKTHelper from '../../Helpers/WKTHelper';
+import { getExpoPushTokenAsync, getDevicePushTokenAsync } from '../../Helpers/NotificationHelper';
+import firebase from '../../Config/firebase';
 const markerImage_Device = require('../../Assets/images/car_5.png');
 
 moment.defaultFormat = moment.ISO_8601;
@@ -52,14 +56,28 @@ class SelectedDevicePositionScreen extends Component {
                     features: []
                 },
                 circles: []
-            }
+            },
+            devicePushTokenAsync: null
         };
+
+        Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+                shouldShowAlert: true,
+                shouldPlaySound: false,
+                shouldSetBadge: false,
+            }),
+        });
 
         this.mapViewRef = React.createRef();
         this.markerRef = React.createRef();
         this._isRegionChanging = false;
         this._position = null;
         this._map_region = this.getInitialRegion();
+
+        this._notificationReceivedListenerRef = React.createRef();
+        this._notificationResponseReceivedListenerRef = React.createRef();
+        this._notificationsDroppedListenerRef = React.createRef();
+        this._pushTokenListenerRef = React.createRef();
     }
 
     componentDidMount() {
@@ -75,6 +93,36 @@ class SelectedDevicePositionScreen extends Component {
 
         // fetchGeofences
         this.fetchGeofences();
+
+        // getExpoPushTokenAsync
+        getExpoPushTokenAsync().then((token) => {
+            console.log("getExpoPushTokenAsync", token);
+            this.setState({ devicePushTokenAsync: token });
+        });
+
+        // getDevicePushTokenAsync
+        getDevicePushTokenAsync().then((token) => {
+            console.log("getDevicePushTokenAsync", token);
+            //this.setState({ devicePushTokenAsync: token });
+        });
+
+        // This listener is fired whenever a notification is received while the app is foregrounded
+        this._notificationReceivedListenerRef.current = Notifications.addNotificationReceivedListener(notification => {
+            console.log("addNotificationReceivedListener", notification);
+        });
+
+        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+        this._notificationResponseReceivedListenerRef.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log("addNotificationResponseReceivedListener", response);
+        });
+
+        // This listener is fired whenever some notifications have been dropped by the server
+        this._notificationsDroppedListenerRef.current = Notifications.addNotificationsDroppedListener(notification => {
+            console.log("addnotificationsdroppedlistenerlistener", notification);
+        });
+
+        // addPushTokenListener
+        //this._pushTokenListenerRef = Notifications.addPushTokenListener(registerDevicePushTokenAsync);
     }
 
     componentDidUpdate(prevProps) {
@@ -97,6 +145,12 @@ class SelectedDevicePositionScreen extends Component {
         };
         //clearInterval
         clearInterval( this.intervalID_updateRegion );
+
+        // RemoveNotificationSubscription
+        Notifications.removeNotificationSubscription(this._notificationReceivedListenerRef.current);
+        Notifications.removeNotificationSubscription(this._notificationResponseReceivedListenerRef.current);
+        Notifications.removeNotificationSubscription(this._notificationsDroppedListenerRef.current);
+        //Notifications.removeNotificationSubscription(this._pushTokenListenerRef.current);
     }
 
     componentDidCatch(error, info) { 

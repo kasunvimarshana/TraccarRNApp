@@ -20,7 +20,6 @@ import SelectedDevicePositionScreen from '../Screens/Reports/SelectedDevicePosit
 import SelectedDeviceDirectionScreen from '../Screens/Reports/SelectedDeviceDirectionScreen';
 import ReportSummaryScreen from '../Screens/Reports/ReportSummaryScreen';
 import CommandScreen from '../Screens/CommandScreen';
-import NotificationScreen from '../Screens/NotificationScreen';
 import DeviceNavigationHeaderComponent from '../Components/DeviceNavigationHeaderComponent';
 
 import { REPORT_OBJECT_TYPE_DEVICE } from '../Constants/AppConstants';
@@ -292,50 +291,6 @@ const commandStack = ({ navigation }) => {
     );
 };
 
-const notificationStack = ({ navigation }) => {
-
-    const _notificationScreen = ( props = {} ) => {
-        props = Object.assign({}, props, {
-            object_type: REPORT_OBJECT_TYPE_DEVICE
-        });
-        return (<NotificationScreen {...props}/>);
-    };
-
-    return (
-        <Stack.Navigator 
-            initialRouteName="NotificationScreen"
-            screenOptions={{
-                headerLeft: () => (
-                    <DeviceNavigationHeaderComponent navigationProps={navigation} />
-                ),
-                headerStyle: {
-                    backgroundColor: colors.TiffanyBlue,
-                },
-                headerTintColor: colors.text,
-                headerTitleStyle: {
-                    fontWeight: 'bold'
-                },
-            }}
-        >
-            <Stack.Screen
-                name="NotificationScreen"
-                component={_notificationScreen}
-                options={{
-                    title: 'Notification'
-                }}
-                listeners={({ navigation, route }) => ({
-                    tabPress: e => {
-                        // Prevent default action
-                        //e.preventDefault();
-                        // Do something with the `navigation` object
-                        //navigation.navigate('Screen');
-                    }
-                })}
-            />
-        </Stack.Navigator>
-    );
-};
-
 const DeviceNavigationRoutes = ( props ) => {
     return (
         <BottomTab.Navigator
@@ -407,18 +362,6 @@ const DeviceNavigationRoutes = ( props ) => {
             <BottomTab.Screen
                 name="commandStack"
                 component={commandStack}
-                options={{
-                    tabBarLabel: () => {return null},
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome name="terminal" color={color} size={size} />
-                    ),
-                    unmountOnBlur: true,
-                }}
-            />
-
-            <BottomTab.Screen
-                name="notificationStack"
-                component={notificationStack}
                 options={{
                     tabBarLabel: () => {return null},
                     tabBarIcon: ({ color, size }) => (

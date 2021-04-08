@@ -1,9 +1,9 @@
 {
-  "name": "globe_gps",
-  "displayName": "globe_gps",
+  "name": "globeGPS",
+  "displayName": "globeGPS",
   "expo": {
-    "name": "globe_gps",
-    "slug": "globe_gps",
+    "name": "globeGPS",
+    "slug": "globeGPS",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,7 @@
       "config": {
         "googleMapsApiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk"
       },
-      "bundleIdentifier": "com.kasunv.globegps",
+      "bundleIdentifier": "com.kasunv.globeGPS",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -31,7 +31,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kasunv.globe_gps",
+      "package": "com.kasunv.globeGPS",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk"
@@ -54,8 +54,8 @@
         "projectId": "globegps",
         "storageBucket": "globegps.appspot.com",
         "messagingSenderId": "648465021458",
-        "appId": "1:648465021458:web:75d4772c7ae1d404f976cb",
-        "measurementId": "G-WV22N3ZLET"
+        "appId": "1:648465021458:web:a0ee54057b199b98f976cb",
+        "measurementId": "G-4NRYEMHMDE"
       }
     },
     "description": "Description",

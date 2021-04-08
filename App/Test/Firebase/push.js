@@ -1,4 +1,5 @@
 //https://github.com/expo/expo/blob/master/docs/pages/push-notifications/using-fcm.md
+//https://docs.expo.io/push-notifications/sending-notifications-custom/
 
 /*
 Uploading Server Credentials

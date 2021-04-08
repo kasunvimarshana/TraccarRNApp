@@ -5,6 +5,8 @@
 //https://forums.expo.io/t/expo-push-notification-is-not-working-after-building-the-android-apk/46794/5
 //https://www.npmjs.com/package/firebase-admin
 //https://firebase.google.com/docs/admin/setup
+//https://firebase.google.com/docs/auth/web/anonymous-auth
+//https://docs.expo.io/push-notifications/sending-notifications-custom/
 
 /* ---------- 1 ---------- */
 // import * as Notifications from 'expo-notifications';

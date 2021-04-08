@@ -1,4 +1,5 @@
 //http://jesidea.com/pakdb/react-native-facebook-integration-with-expo/
+//https://docs.expo.io/push-notifications/sending-notifications-custom/
 
 
 import { Permissions, Notifications } from 'expo';
