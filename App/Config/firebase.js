@@ -1,3 +1,9 @@
+// // This import loads the firebase namespace along with all its type information.
+// import firebase from 'firebase/app';
+// // These imports load individual services into the firebase namespace.
+// import 'firebase/auth';
+// import 'firebase/database';
+
 import * as firebase from 'firebase';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional

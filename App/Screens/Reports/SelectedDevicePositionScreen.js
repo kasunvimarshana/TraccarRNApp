@@ -28,13 +28,13 @@ import MarkerComponent from '../../Components/MarkerComponent';
 import { startProcessing, stopProcessing } from '../../Store/Actions/UIAction';
 import { fetchSelectedDevicePosition } from '../../Store/Actions/DeviceAction';
 import { fetchGeofences } from '../../Store/Actions/GeofenceAction';
+import { getExpoPushTokenAsync, getDevicePushTokenAsync, storeNotificationData } from '../../Store/Actions/NotificationAction';
 import { 
     REPORT_OBJECT_TYPE_DEVICE, 
     REPORT_OBJECT_TYPE_GROUP
 } from '../../Constants/AppConstants';
 import WKTHelper from '../../Helpers/WKTHelper';
-import { getExpoPushTokenAsync, getDevicePushTokenAsync } from '../../Helpers/NotificationHelper';
-import firebase from '../../Config/firebase';
+
 const markerImage_Device = require('../../Assets/images/car_5.png');
 
 moment.defaultFormat = moment.ISO_8601;
@@ -94,18 +94,6 @@ class SelectedDevicePositionScreen extends Component {
         // fetchGeofences
         this.fetchGeofences();
 
-        // getExpoPushTokenAsync
-        getExpoPushTokenAsync().then((token) => {
-            console.log("getExpoPushTokenAsync", token);
-            this.setState({ devicePushTokenAsync: token });
-        });
-
-        // getDevicePushTokenAsync
-        getDevicePushTokenAsync().then((token) => {
-            console.log("getDevicePushTokenAsync", token);
-            //this.setState({ devicePushTokenAsync: token });
-        });
-
         // This listener is fired whenever a notification is received while the app is foregrounded
         this._notificationReceivedListenerRef.current = Notifications.addNotificationReceivedListener(notification => {
             console.log("addNotificationReceivedListener", notification);
@@ -123,6 +111,13 @@ class SelectedDevicePositionScreen extends Component {
 
         // addPushTokenListener
         //this._pushTokenListenerRef = Notifications.addPushTokenListener(registerDevicePushTokenAsync);
+
+        this.getPushTokenData().then((data) => {
+            this.props.ui_storeNotificationData(data);
+        })
+        .catch((error) => {
+            console.log("error", error);
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -314,6 +309,17 @@ class SelectedDevicePositionScreen extends Component {
         return feature;
     }
 
+    getPushTokenData = async () => {
+        // getExpoPushTokenAsync
+        const expoPushToken = await this.props.ui_getExpoPushTokenAsync();
+        // getDevicePushTokenAsync
+        const devicePushToken = await this.props.ui_getDevicePushTokenAsync();
+        return {
+            expoPushToken: expoPushToken,
+            devicePushToken: devicePushToken
+        }
+    }
+
     render() {
         //const { colors } = this.props.theme;
         const markerImage = this.getMarkerImage();
@@ -451,7 +457,10 @@ const mapDispatchToProps = (dispatch) => {
         ui_startProcessing: () => dispatch(startProcessing()),
         ui_stopProcessing: () => dispatch(stopProcessing()),
         ui_fetchSelectedDevicePosition: () => dispatch(fetchSelectedDevicePosition()),
-        ui_fetchGeofences: ( fetchType ) => dispatch(fetchGeofences( fetchType ))
+        ui_fetchGeofences: ( fetchType ) => dispatch(fetchGeofences( fetchType )),
+        ui_getExpoPushTokenAsync: () => dispatch(getExpoPushTokenAsync()),
+        ui_getDevicePushTokenAsync: () => dispatch(getDevicePushTokenAsync()),
+        ui_storeNotificationData: () => dispatch(storeNotificationData()),
     };
 };
 
