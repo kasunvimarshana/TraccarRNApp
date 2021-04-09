@@ -100,8 +100,8 @@ class ReportScreen extends Component {
     */
 
     buttonOnPressHandler = () => {
-        this.props.ui_setFromDateTime( this.state.fromDateTime );
-        this.props.ui_setToDateTime( this.state.toDateTime );
+        this.setFromDateTime();
+        this.setFromDateTime();
     }
 
     fromDateTimeChangeHandler = ( fromDateTime ) => {
@@ -118,6 +118,26 @@ class ReportScreen extends Component {
 
     _setToDateTime = ( toDateTime ) => {
         this.setState({toDateTime: toDateTime});
+    }
+
+    setFromDateTime = () => {
+        let fromDateTime = null;
+        let _fromDateTime = this.state.fromDateTime;
+        _fromDateTime = moment(_fromDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
+        if( _fromDateTime.isValid() ){
+            fromDateTime = _fromDateTime.toDate();
+        }
+        this.props.ui_setFromDateTime( fromDateTime );
+    }
+
+    setFromDateTime = () => {
+        let toDateTime = null;
+        let _toDateTime = this.state.toDateTime;
+        _toDateTime = moment(_toDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
+        if( _toDateTime.isValid() ){
+            toDateTime = _toDateTime.toDate();
+        }
+        this.props.ui_setToDateTime( toDateTime );
     }
 
     render() {

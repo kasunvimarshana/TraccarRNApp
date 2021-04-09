@@ -69,7 +69,7 @@ export const DateTimePickerComponent = ( props ) => {
     };
 
     const dateOnChangeHandler = (event, selectedDateTime) => {
-        let currentDateTime = null;
+        let _dateTime_ = null;
         let tempDateTime = null;
         const defaultDateTime = moment(getValue(), [ moment.defaultFormat ], true).toObject();
         if (selectedDateTime !== undefined) { 
@@ -88,17 +88,17 @@ export const DateTimePickerComponent = ( props ) => {
                 tempDateTime = moment( tempDTO );
             }
             if( tempDateTime.isValid() ){
-                currentDateTime = tempDateTime.toDate();
+                _dateTime_ = tempDateTime.toDate();
             }
         }
 
         setIsShow(false);
-        setDateTime(currentDateTime);
+        setDateTime(_dateTime_);
         showTimePicker();
     };
 
     const timeOnChangeHandler = (event, selectedDateTime) => {
-        let currentDateTime = null;
+        let _dateTime_ = null;
         let tempDateTime = null;
         const defaultDateTime = moment(getValue(), [ moment.defaultFormat ], true).toObject();
         if (selectedDateTime !== undefined) { 
@@ -117,13 +117,13 @@ export const DateTimePickerComponent = ( props ) => {
                 tempDateTime = moment( tempDTO );
             }
             if( tempDateTime.isValid() ){
-                currentDateTime = tempDateTime.toDate();
+                _dateTime_ = tempDateTime.toDate();
             }
         }
 
         setIsShow(false);
-        setDateTime(currentDateTime);
-        onChange( currentDateTime );
+        setDateTime(_dateTime_);
+        onChange(_dateTime_);
     };
 
     const onPressHandler = () => {
