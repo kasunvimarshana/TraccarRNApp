@@ -84,11 +84,11 @@ class ReportScreen extends Component {
             this.setState({ object_type: nextProps.object_type });
         }
 
-        if (String(this.props.ui_fromDateTime) !== String(nextProps.ui_fromDateTime)) {
+        if (nextProps.ui_fromDateTime && String(this.props.ui_fromDateTime) !== String(nextProps.ui_fromDateTime)) {
             this._setFromDateTime( this.props.ui_fromDateTime );
         }
 
-        if (String(this.props.ui_toDateTime) !== String(nextProps.ui_toDateTime)) {
+        if (nextProps.ui_toDateTime && String(this.props.ui_toDateTime) !== String(nextProps.ui_toDateTime)) {
             this._setToDateTime( this.props.ui_toDateTime );
         }
     }
