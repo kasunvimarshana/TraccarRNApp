@@ -113,10 +113,16 @@ class SelectedDevicePositionScreen extends Component {
         //this._pushTokenListenerRef = Notifications.addPushTokenListener(registerDevicePushTokenAsync);
 
         this.getPushTokenData().then((data) => {
-            this.props.ui_storeNotificationData(data);
+            return this.props.ui_storeNotificationData(data)
+            .then((response) => {
+                console.log('response', response);
+            },
+            (error) => {
+                throw new Error( error );
+            });
         })
         .catch((error) => {
-            console.log("error", error);
+            console.log("error ---------------", error);
         });
     }
 
@@ -314,6 +320,7 @@ class SelectedDevicePositionScreen extends Component {
         const expoPushToken = await this.props.ui_getExpoPushTokenAsync();
         // getDevicePushTokenAsync
         const devicePushToken = await this.props.ui_getDevicePushTokenAsync();
+
         return {
             expoPushToken: expoPushToken,
             devicePushToken: devicePushToken
@@ -460,7 +467,7 @@ const mapDispatchToProps = (dispatch) => {
         ui_fetchGeofences: ( fetchType ) => dispatch(fetchGeofences( fetchType )),
         ui_getExpoPushTokenAsync: () => dispatch(getExpoPushTokenAsync()),
         ui_getDevicePushTokenAsync: () => dispatch(getDevicePushTokenAsync()),
-        ui_storeNotificationData: () => dispatch(storeNotificationData()),
+        ui_storeNotificationData: ( data ) => dispatch(storeNotificationData( data )),
     };
 };
 

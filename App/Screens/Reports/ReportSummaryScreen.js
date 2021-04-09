@@ -169,7 +169,7 @@ class ReportSummaryScreen extends Component {
                             (
                                 this.state.reportSummaryList.map((reportSummary, index) => (  
                                     <Card key={index} style={styles.card}>
-                                        { console.log("reportSummaryList => ", reportSummary, index) }
+                                        { /*console.log("reportSummaryList => ", reportSummary, index)*/ }
                                         <Card.Content>
                                             <List.Section>
                                                 {reportSummary.deviceId !== undefined && <List.Item title="Device ID" description={reportSummary.deviceId}/>}

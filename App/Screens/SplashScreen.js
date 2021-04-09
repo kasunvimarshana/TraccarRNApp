@@ -4,16 +4,19 @@ import {
     View,
     SafeAreaView,
     Platform,
-    Dimensions
+    Dimensions,
+    Image
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
     //Colors,
-    ActivityIndicator
+    ActivityIndicator,
+    Subheading
 } from 'react-native-paper';
 import { withTheme, useTheme } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import Constants from 'expo-constants';
 
 import CustomTheme from '../Themes/CustomTheme';
 import HeaderTextComponent from '../Components/HeaderTextComponent';
@@ -50,7 +53,12 @@ const SplashScreen = ( props ) => {
         <SafeAreaView style={styles.container}>
             <View style={styles.contentContainer}>
                 <StatusBar style="auto"/>
-                <HeaderTextComponent> GPS APP </HeaderTextComponent>
+                {/* <HeaderTextComponent> GPS APP </HeaderTextComponent> */}
+                <Image
+                    style={styles.image}
+                    source={require('../../assets/icon.png')}
+                />
+                <Subheading>V { Constants.manifest.version }</Subheading>
                 <ActivityIndicator 
                     animating={isAnimating} 
                     color={colors.primary} 
@@ -80,7 +88,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    activityIndicator: {}
+    activityIndicator: {},
+
+    image: {}
 });
 
 

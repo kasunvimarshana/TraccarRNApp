@@ -20,6 +20,7 @@ import SelectedDevicePositionScreen from '../Screens/Reports/SelectedDevicePosit
 import SelectedDeviceDirectionScreen from '../Screens/Reports/SelectedDeviceDirectionScreen';
 import ReportSummaryScreen from '../Screens/Reports/ReportSummaryScreen';
 import CommandScreen from '../Screens/CommandScreen';
+import HelpScreen from '../Screens/HelpScreen';
 import DeviceNavigationHeaderComponent from '../Components/DeviceNavigationHeaderComponent';
 
 import { REPORT_OBJECT_TYPE_DEVICE } from '../Constants/AppConstants';
@@ -100,7 +101,7 @@ const positionStack = ({ navigation }) => {
                 name="PositionScreen"
                 component={_positionScreen}
                 options={{
-                    title: 'Position'
+                    title: 'Playback'
                 }}
                 listeners={({ navigation, route }) => ({
                     tabPress: e => {
@@ -144,7 +145,7 @@ const selectedDevicePositionStack = ({ navigation }) => {
                 name="SelectedDevicePositionScreen"
                 component={_selectedDevicePositionScreen}
                 options={{
-                    title: 'Live Position'
+                    title: 'Live Tracking'
                 }}
                 listeners={({ navigation, route }) => ({
                     tabPress: e => {
@@ -291,6 +292,50 @@ const commandStack = ({ navigation }) => {
     );
 };
 
+const helpStack = ({ navigation }) => {
+
+    const _helpScreen = ( props = {} ) => {
+        props = Object.assign({}, props, {
+            object_type: REPORT_OBJECT_TYPE_DEVICE
+        });
+        return (<HelpScreen {...props}/>);
+    };
+
+    return (
+        <Stack.Navigator 
+            initialRouteName="HelpScreen"
+            screenOptions={{
+                headerLeft: () => (
+                    <DeviceNavigationHeaderComponent navigationProps={navigation} />
+                ),
+                headerStyle: {
+                    backgroundColor: colors.TiffanyBlue,
+                },
+                headerTintColor: colors.text,
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                },
+            }}
+        >
+            <Stack.Screen
+                name="HelpScreen"
+                component={_helpScreen}
+                options={{
+                    title: 'Help'
+                }}
+                listeners={({ navigation, route }) => ({
+                    tabPress: e => {
+                        // Prevent default action
+                        //e.preventDefault();
+                        // Do something with the `navigation` object
+                        //navigation.navigate('Screen');
+                    }
+                })}
+            />
+        </Stack.Navigator>
+    );
+};
+
 const DeviceNavigationRoutes = ( props ) => {
     return (
         <BottomTab.Navigator
@@ -366,6 +411,18 @@ const DeviceNavigationRoutes = ( props ) => {
                     tabBarLabel: () => {return null},
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome name="terminal" color={color} size={size} />
+                    ),
+                    unmountOnBlur: true,
+                }}
+            />
+
+            <BottomTab.Screen
+                name="helpStack"
+                component={helpStack}
+                options={{
+                    tabBarLabel: () => {return null},
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome name="question-circle-o" color={color} size={size} />
                     ),
                     unmountOnBlur: true,
                 }}

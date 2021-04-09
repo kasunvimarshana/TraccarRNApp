@@ -97,7 +97,7 @@ const groupDeviceScreenStack = ({ navigation }) => {
                 name="GroupDeviceScreen"
                 component={GroupDeviceScreen}
                 options={{
-                    title: 'Group Devices'
+                    title: 'Your Devices'
                 }}
             />
         </Stack.Navigator>
@@ -157,7 +157,7 @@ const DrawerNavigatorRoutes = ( props ) => {
             */}
             <Drawer.Screen
                 name="groupDeviceScreenStack"
-                options={{drawerLabel: 'Group Devices'}}
+                options={{drawerLabel: 'Your Devices'}}
                 component={groupDeviceScreenStack}
             />
             {/*
