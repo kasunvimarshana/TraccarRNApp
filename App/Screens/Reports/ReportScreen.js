@@ -17,8 +17,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import CustomTheme from '../../Themes/CustomTheme';
-import { DatePickerComponent, DEFAULT_FORMAT as DATE_DEFAULT_FORMAT } from '../../Components/DatePickerComponent';
-import { TimePickerComponent, DEFAULT_FORMAT as TIME_DEFAULT_FORMAT } from '../../Components/TimePickerComponent';
+import { DateTimePickerComponent, DEFAULT_FORMAT as DATE_TIME_DEFAULT_FORMAT } from '../../Components/DateTimePickerComponent';
 import ButtonComponent from '../../Components/ButtonComponent';
 import { startProcessing, stopProcessing } from '../../Store/Actions/UIAction';
 import { setFromDateTime, setToDateTime } from '../../Store/Actions/Reports/ReportAction';
@@ -35,11 +34,7 @@ class ReportScreen extends Component {
         this.state = {
             object_type: null,
             fromDateTime: null,
-            toDateTime: null,
-            fromDate: null,
-            fromTime: null,
-            toDate: null,
-            toTime: null
+            toDateTime: null
         };
     }
 
@@ -50,13 +45,8 @@ class ReportScreen extends Component {
         //Set Object Type
         this.setState({ object_type: this.props.object_type });
 
-        this.setState({ fromDateTime: this.props.ui_fromDateTime });
-        this._setFromDate( this.props.ui_fromDateTime );
-        this._setFromTime( this.props.ui_fromDateTime );
-
-        this.setState({ toDateTime: this.props.ui_toDateTime });
-        this._setToDate( this.props.ui_toDateTime );
-        this._setToTime( this.props.ui_toDateTime );
+        this._setFromDateTime( this.props.ui_fromDateTime );
+        this._setToDateTime( this.props.ui_toDateTime );
     }
 
     componentDidUpdate(prevProps) {
@@ -95,17 +85,11 @@ class ReportScreen extends Component {
         }
 
         if (String(this.props.ui_fromDateTime) !== String(nextProps.ui_fromDateTime)) {
-            this.setState({ fromDateTime: nextProps.ui_fromDateTime });
-
-            this._setFromDate( nextProps.ui_fromDateTime );
-            this._setFromTime( nextProps.ui_fromDateTime );
+            this._setFromDateTime( this.props.ui_fromDateTime );
         }
 
         if (String(this.props.ui_toDateTime) !== String(nextProps.ui_toDateTime)) {
-            this.setState({ toDateTime: nextProps.ui_toDateTime });
-
-            this._setToDate( nextProps.ui_toDateTime );
-            this._setToTime( nextProps.ui_toDateTime );
+            this._setToDateTime( this.props.ui_toDateTime );
         }
     }
 
@@ -116,90 +100,24 @@ class ReportScreen extends Component {
     */
 
     buttonOnPressHandler = () => {
-        this.setFromDateTime();
-        this.setToDateTime();
+        this.props.ui_setFromDateTime( this.state.fromDateTime );
+        this.props.ui_setToDateTime( this.state.toDateTime );
     }
 
-    fromDateChangeHandler = ( fromDate ) => {
-        this._setFromDate( fromDate );
+    fromDateTimeChangeHandler = ( fromDateTime ) => {
+        this._setFromDateTime( fromDateTime );
     }
 
-    fromTimeChangeHandler = ( fromTime ) => {
-        this._setFromTime( fromTime );
+    toDateTimeChangeHandler = ( toDateTime ) => {
+        this._setToDateTime( toDateTime );
     }
 
-    toDateChangeHandler = ( toDate ) => {
-        this._setToDate( toDate );
+    _setFromDateTime = ( fromDateTime ) => {
+        this.setState({fromDateTime: fromDateTime});
     }
 
-    toTimeChangeHandler = ( toTime ) => {
-        this._setToTime( toTime );
-    }
-
-    _setFromDate = ( fromDate ) => {
-        this.setState({fromDate: fromDate});
-    }
-
-    _setFromTime = ( fromTime ) => {
-        this.setState({fromTime: fromTime});
-    }
-
-    _setToDate = ( toDate ) => {
-        this.setState({toDate: toDate});
-    }
-
-    _setToTime = ( toTime ) => {
-        this.setState({toTime: toTime});
-    }
-
-    setFromDateTime = () => {
-        const currentDateTimeObject = moment().toObject();
-        let fromDateTime = null;
-        let fromDate = this.state.fromDate;
-        let fromTime = this.state.fromTime;
-        fromDate = moment(fromDate, [ DATE_DEFAULT_FORMAT ], true);
-        fromTime = moment(fromTime, [ TIME_DEFAULT_FORMAT ], true);
-        let fromDateObject = fromDate.toObject();
-        let fromTimeObject = fromTime.toObject();
-        const tempDTO = {
-            years: ( Number.isNaN( fromDateObject.years ) ) ? currentDateTimeObject.years : fromDateObject.years,
-            months: ( Number.isNaN( fromDateObject.months ) ) ? currentDateTimeObject.months : fromDateObject.months,
-            date: ( Number.isNaN( fromDateObject.date ) ) ? currentDateTimeObject.date : fromDateObject.date,
-            hours: ( Number.isNaN( fromTimeObject.hours ) ) ? currentDateTimeObject.hours : fromTimeObject.hours,
-            minutes: ( Number.isNaN( fromTimeObject.minutes ) ) ? currentDateTimeObject.minutes : fromTimeObject.minutes,
-            seconds: ( Number.isNaN( fromTimeObject.seconds ) ) ? currentDateTimeObject.seconds : fromTimeObject.seconds,
-            milliseconds: ( Number.isNaN( fromTimeObject.milliseconds ) ) ? currentDateTimeObject.milliseconds : fromTimeObject.milliseconds
-        };
-        let tempDateTime = moment( tempDTO );
-        if( tempDateTime.isValid() ){
-            fromDateTime = tempDateTime.toDate();
-        }
-        this.props.ui_setFromDateTime( fromDateTime );
-    }
-
-    setToDateTime = () => {
-        const currentDateTimeObject = moment().toObject();
-        let toDateTime = null;
-        let toDate = this.state.toDate;
-        let toTime = this.state.toTime;
-        toDate = moment(toDate, [ DATE_DEFAULT_FORMAT ], true);
-        toTime = moment(toTime, [ TIME_DEFAULT_FORMAT ], true);
-        let toDateObject = toDate.toObject();
-        let toTimeObject = toTime.toObject();
-        const tempDTO = {
-            years: ( Number.isNaN( toDateObject.years ) ) ? currentDateTimeObject.years : toDateObject.years,
-            months: ( Number.isNaN( toDateObject.months ) ) ? currentDateTimeObject.months : toDateObject.months,
-            date: ( Number.isNaN( toDateObject.date ) ) ? currentDateTimeObject.date : toDateObject.date,
-            hours: ( Number.isNaN( toTimeObject.hours ) ) ? currentDateTimeObject.hours : toTimeObject.hours,
-            minutes: ( Number.isNaN( toTimeObject.minutes ) ) ? currentDateTimeObject.minutes : toTimeObject.minutes,
-            seconds: ( Number.isNaN( toTimeObject.seconds ) ) ? currentDateTimeObject.seconds : toTimeObject.seconds,
-            milliseconds: ( Number.isNaN( toTimeObject.milliseconds ) ) ? currentDateTimeObject.milliseconds : toTimeObject.milliseconds
-        };
-        let tempDateTime = moment( tempDTO );
-        if( tempDateTime.isValid() ){
-            toDateTime = tempDateTime.toDate();
-        }
-        this.props.ui_setToDateTime( toDateTime );
+    _setToDateTime = ( toDateTime ) => {
+        this.setState({toDateTime: toDateTime});
     }
 
     render() {
@@ -210,33 +128,18 @@ class ReportScreen extends Component {
                 <View style={styles.contentContainer}>
                     <StatusBar style="auto"/>
 
-
-                    <DatePickerComponent 
+                    <DateTimePickerComponent
                         dateTimePickerViewStyle={styles.dateTimePickerComponent} 
-                        placeholder="From Date"
-                        value={ this.state.fromDate }
-                        onChange={( value ) => this.fromDateChangeHandler( value )}
+                        placeholder="From Date Time"
+                        value={ this.state.fromDateTime }
+                        onChange={( value ) => this.fromDateTimeChangeHandler( value )}
                     />
 
-                    <TimePickerComponent
+                    <DateTimePickerComponent
                         dateTimePickerViewStyle={styles.dateTimePickerComponent} 
-                        placeholder="From Time"
-                        value={ this.state.fromTime }
-                        onChange={( value ) => this.fromTimeChangeHandler( value )}
-                    />
-
-                    <DatePickerComponent 
-                        dateTimePickerViewStyle={styles.dateTimePickerComponent} 
-                        placeholder="To Date"
-                        value={ this.state.toDate }
-                        onChange={( value ) => this.toDateChangeHandler( value )}
-                    />
-
-                    <TimePickerComponent
-                        dateTimePickerViewStyle={styles.dateTimePickerComponent} 
-                        placeholder="To Time"
-                        value={ this.state.toTime }
-                        onChange={( value ) => this.toTimeChangeHandler( value )}
+                        placeholder="To Date Time"
+                        value={ this.state.toDateTime }
+                        onChange={( value ) => this.toDateTimeChangeHandler( value )}
                     />
 
                     <ButtonComponent 
