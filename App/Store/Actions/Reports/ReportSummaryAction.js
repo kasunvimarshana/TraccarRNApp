@@ -47,8 +47,8 @@ export const fetchSummary = (fetchType, from = null, to = null, isCheckAuth = fa
         let toDateTime = to || getState().report.toDateTime;
         fromDateTime = moment(fromDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
         toDateTime = moment(toDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
-        fromDateTime = (fromDateTime.isValid()) ? fromDateTime : currentDateTime.startOf('day');
-        toDateTime = (toDateTime.isValid()) ? toDateTime : currentDateTime.endOf('day');
+        fromDateTime = (fromDateTime.isValid()) ? fromDateTime : currentDateTime.clone().startOf('date');
+        toDateTime = (toDateTime.isValid()) ? toDateTime : currentDateTime.clone().endOf('date');
         fromDateTime = fromDateTime.toISOString( false );
         toDateTime = toDateTime.toISOString( false );
 

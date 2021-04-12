@@ -16,6 +16,8 @@ import GeofenceReducer from '../Reducers/GeofenceReducer';
 import ReportReducer from '../Reducers/Reports/ReportReducer';
 import PositionReducer from '../Reducers/Reports/PositionReducer';
 import ReportSummaryReducer from '../Reducers/Reports/ReportSummaryReducer';
+import ReportTripReducer from '../Reducers/Reports/ReportTripReducer';
+import EventReducer from '../Reducers/Reports/EventReducer';
 
 const rootReducer = combineReducers({
     ui: UIReducer,
@@ -27,7 +29,9 @@ const rootReducer = combineReducers({
 
     report: ReportReducer,
     position: PositionReducer,
-    reportSummary: ReportSummaryReducer
+    reportSummary: ReportSummaryReducer,
+    reportTrip: ReportTripReducer,
+    event: EventReducer
 });
 
 let composeEnhancers = compose;

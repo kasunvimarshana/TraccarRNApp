@@ -1,14 +1,18 @@
 import { NativeModules } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 import { 
-    SET_REPORT_EVENT_LIST
+    SET_REPORT_EVENT_LIST,
+    REPORT_EVENT_FETCH_START,
+    REPORT_EVENT_FETCH_END
 } from '../ActionType';
 import { 
     REMOTE_LOCATION_API_ORIGIN,
     REMOTE_LOCATION_API_URI, 
     REPORT_OBJECT_TYPE_DEVICE, 
-    REPORT_OBJECT_TYPE_GROUP 
+    REPORT_OBJECT_TYPE_GROUP, 
+    DATE_TIME_DEFAULT_FORMAT 
 } from '../../../Constants/AppConstants';
 import { 
     objectToQueryString, 
@@ -19,12 +23,37 @@ import {
     checkAuth
 } from '../AuthAction';
 
+export const fetchStart = () => {
+    return {
+        type: REPORT_EVENT_FETCH_START,
+        payload: null
+    }
+};
+
+export const fetchEnd = () => {
+    return {
+        type: REPORT_EVENT_FETCH_END,
+        payload: null
+    }
+};
+
 export const FETCH_TYPE_DEVICE = REPORT_OBJECT_TYPE_DEVICE;
 export const FETCH_TYPE_GROUP = REPORT_OBJECT_TYPE_GROUP;
 
-export const fetchEvents = (fetchType, from, to, type = null, isCheckAuth = false) => {
+export const fetchEvents = (fetchType, from = null, to = null, type = null, isCheckAuth = false) => {
     return (dispatch, getState) => {
+        const currentDateTime = moment();
+        let fromDateTime = from || getState().report.fromDateTime;
+        let toDateTime = to || getState().report.toDateTime;
+        fromDateTime = moment(fromDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
+        toDateTime = moment(toDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
+        fromDateTime = (fromDateTime.isValid()) ? fromDateTime : currentDateTime.clone().startOf('date');
+        toDateTime = (toDateTime.isValid()) ? toDateTime : currentDateTime.clone().endOf('date');
+        fromDateTime = fromDateTime.toISOString( false );
+        toDateTime = toDateTime.toISOString( false );
+
         const promise = new Promise((resolve, reject) => { 
+            dispatch( fetchStart() );
             let authUser = null;
             let fetchTypeObject = null;
             let promiseObj = Promise.resolve( null );
@@ -38,8 +67,9 @@ export const fetchEvents = (fetchType, from, to, type = null, isCheckAuth = fals
                 authUser = user;
                 let queryParameters = {
                     token:  authUser.token,
-                    from: from,
-                    to: to
+                    from: fromDateTime,
+                    to: toDateTime,
+                    type: type
                 };
 
                 switch( fetchType ){
@@ -84,19 +114,23 @@ export const fetchEvents = (fetchType, from, to, type = null, isCheckAuth = fals
             })
             .then(async (json) => {
                 console.log(json);
-                await dispatch( setDeviceList( json ) );
-                resolve( json );
+                await dispatch( setReportEventList( json ) );
+                dispatch( fetchEnd() );
+                return resolve( json );
             })
-            .catch((error) => reject( error ));
+            .catch((error) => {
+                dispatch( fetchEnd() );
+                return reject( error )
+            });
         });
 
         return promise;
     };
 };
 
-export const setDeviceList = ( deviceList ) => {
+export const setReportEventList = ( reportEventList ) => {
     return {
-        type: SET_DEVICE_LIST,
-        deviceList: deviceList
+        type: SET_REPORT_EVENT_LIST,
+        reportEventList: reportEventList
     }
 };
