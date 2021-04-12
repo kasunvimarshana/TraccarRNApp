@@ -69,7 +69,7 @@ export const fetchEvents = (fetchType, from = null, to = null, type = null, isCh
                     token:  authUser.token,
                     from: fromDateTime,
                     to: toDateTime,
-                    type: type
+                    //type: type
                 };
 
                 switch( fetchType ){

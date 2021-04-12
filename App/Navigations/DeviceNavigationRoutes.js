@@ -21,6 +21,8 @@ import SelectedDeviceDirectionScreen from '../Screens/Reports/SelectedDeviceDire
 import ReportSummaryScreen from '../Screens/Reports/ReportSummaryScreen';
 import CommandScreen from '../Screens/CommandScreen';
 import HelpScreen from '../Screens/HelpScreen';
+import ReportTripScreen from '../Screens/Reports/ReportTripScreen';
+import EventScreen from '../Screens/Reports/EventScreen';
 import DeviceNavigationHeaderComponent from '../Components/DeviceNavigationHeaderComponent';
 
 import { REPORT_OBJECT_TYPE_DEVICE } from '../Constants/AppConstants';
@@ -336,6 +338,94 @@ const helpStack = ({ navigation }) => {
     );
 };
 
+const reportTripStack = ({ navigation }) => {
+
+    const _reportTripScreen = ( props = {} ) => {
+        props = Object.assign({}, props, {
+            object_type: REPORT_OBJECT_TYPE_DEVICE
+        });
+        return (<ReportTripScreen {...props}/>);
+    };
+
+    return (
+        <Stack.Navigator 
+            initialRouteName="ReportTripScreen"
+            screenOptions={{
+                headerLeft: () => (
+                    <DeviceNavigationHeaderComponent navigationProps={navigation} />
+                ),
+                headerStyle: {
+                    backgroundColor: colors.TiffanyBlue,
+                },
+                headerTintColor: colors.text,
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                },
+            }}
+        >
+            <Stack.Screen
+                name="ReportTripScreen"
+                component={_reportTripScreen}
+                options={{
+                    title: 'Trips'
+                }}
+                listeners={({ navigation, route }) => ({
+                    tabPress: e => {
+                        // Prevent default action
+                        //e.preventDefault();
+                        // Do something with the `navigation` object
+                        //navigation.navigate('Screen');
+                    }
+                })}
+            />
+        </Stack.Navigator>
+    );
+};
+
+const eventStack = ({ navigation }) => {
+
+    const _eventScreen = ( props = {} ) => {
+        props = Object.assign({}, props, {
+            object_type: REPORT_OBJECT_TYPE_DEVICE
+        });
+        return (<EventScreen {...props}/>);
+    };
+
+    return (
+        <Stack.Navigator 
+            initialRouteName="EventScreen"
+            screenOptions={{
+                headerLeft: () => (
+                    <DeviceNavigationHeaderComponent navigationProps={navigation} />
+                ),
+                headerStyle: {
+                    backgroundColor: colors.TiffanyBlue,
+                },
+                headerTintColor: colors.text,
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                },
+            }}
+        >
+            <Stack.Screen
+                name="EventScreen"
+                component={_eventScreen}
+                options={{
+                    title: 'Events'
+                }}
+                listeners={({ navigation, route }) => ({
+                    tabPress: e => {
+                        // Prevent default action
+                        //e.preventDefault();
+                        // Do something with the `navigation` object
+                        //navigation.navigate('Screen');
+                    }
+                })}
+            />
+        </Stack.Navigator>
+    );
+};
+
 const DeviceNavigationRoutes = ( props ) => {
     return (
         <BottomTab.Navigator
@@ -399,6 +489,30 @@ const DeviceNavigationRoutes = ( props ) => {
                     tabBarLabel: () => {return null},
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome name="list-alt" color={color} size={size} />
+                    ),
+                    unmountOnBlur: true,
+                }}
+            />
+
+            <BottomTab.Screen
+                name="reportTripStack"
+                component={reportTripStack}
+                options={{
+                    tabBarLabel: () => {return null},
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome name="road" color={color} size={size} />
+                    ),
+                    unmountOnBlur: true,
+                }}
+            />
+
+            <BottomTab.Screen
+                name="eventStack"
+                component={eventStack}
+                options={{
+                    tabBarLabel: () => {return null},
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome name="tripadvisor" color={color} size={size} />
                     ),
                     unmountOnBlur: true,
                 }}
