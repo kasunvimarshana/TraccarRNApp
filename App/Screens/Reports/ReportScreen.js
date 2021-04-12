@@ -84,12 +84,12 @@ class ReportScreen extends Component {
             this.setState({ object_type: nextProps.object_type });
         }
 
-        if (nextProps.ui_fromDateTime && String(this.props.ui_fromDateTime) !== String(nextProps.ui_fromDateTime)) {
-            this._setFromDateTime( this.props.ui_fromDateTime );
+        if (String(this.props.ui_fromDateTime) !== String(nextProps.ui_fromDateTime)) {
+            this._setFromDateTime( nextProps.ui_fromDateTime );
         }
 
-        if (nextProps.ui_toDateTime && String(this.props.ui_toDateTime) !== String(nextProps.ui_toDateTime)) {
-            this._setToDateTime( this.props.ui_toDateTime );
+        if (String(this.props.ui_toDateTime) !== String(nextProps.ui_toDateTime)) {
+            this._setToDateTime( nextProps.ui_toDateTime );
         }
     }
 
@@ -101,7 +101,7 @@ class ReportScreen extends Component {
 
     buttonOnPressHandler = () => {
         this.setFromDateTime();
-        this.setFromDateTime();
+        this.setToDateTime();
     }
 
     fromDateTimeChangeHandler = ( fromDateTime ) => {
@@ -130,7 +130,7 @@ class ReportScreen extends Component {
         this.props.ui_setFromDateTime( fromDateTime );
     }
 
-    setFromDateTime = () => {
+    setToDateTime = () => {
         let toDateTime = null;
         let _toDateTime = this.state.toDateTime;
         _toDateTime = moment(_toDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);

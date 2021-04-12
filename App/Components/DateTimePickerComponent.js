@@ -1,5 +1,5 @@
 //import * as React from 'react';
-import React, { Component, useState, useEffect, useCallback } from 'react';
+import React, { Component, useState, useEffect, useCallback, useRef } from 'react';
 import { 
     StyleSheet,
     View,
@@ -33,11 +33,11 @@ export const DateTimePickerComponent = ( props ) => {
 
     moment.defaultFormat = DEFAULT_FORMAT;
     const currentDateTime = moment().toDate();
-
-    const [dateTime, setDateTime] = useState( value );
-    const [mode, setMode] = useState("date");
-    const [isShow, setIsShow] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [state, setState] = useState({
+        dateTime: value,
+        isVisible: false,
+        currentMode: null
+    });
 
     //const useMount = func => useEffect(() => func(), []);
     
@@ -46,19 +46,51 @@ export const DateTimePickerComponent = ( props ) => {
         
         if( _isMounted ){
             //
-            setDateTime(props.value);
+            setState((prevState) => {
+                return {
+                    ...prevState,
+                    dateTime: props.value
+                }
+            });
         }
 
         //cleanup
         return () => { _isMounted = false };
     }, [ props.value ]);
 
+    useEffect(() => {
+        let _isMounted = true;
+        
+        if( _isMounted ){
+            //
+        }
+
+        //cleanup
+        return () => { _isMounted = false };
+    }, []);
+
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const showMode = (currentMode) => {
-        setMode(currentMode);
-        setIsShow(true);
+    const showMode = ( mode ) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                currentMode: mode,
+                isVisible: true
+            }
+        });
+        //forceUpdate();
+    };
+
+    const hideMode = () => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                currentMode: null,
+                isVisible: false
+            }
+        });
         //forceUpdate();
     };
 
@@ -68,6 +100,14 @@ export const DateTimePickerComponent = ( props ) => {
 
     const showTimePicker = () => {
         showMode("time");
+    };
+
+    const hideDatePicker = () => {
+        hideMode();
+    };
+
+    const hideTimePicker = () => {
+        hideMode();
     };
 
     const dateOnChangeHandler = (event, selectedDateTime) => {
@@ -95,10 +135,14 @@ export const DateTimePickerComponent = ( props ) => {
             }
         }
 
-        console.log("_dateTime_ : date", _dateTime_);
-
-        setDateTime(_dateTime_);
-        showTimePicker();
+        setState((prevState) => {
+            return {
+                ...prevState,
+                dateTime: _dateTime_,
+                currentMode: "time",
+                isVisible: true
+            }
+        });
     };
 
     const timeOnChangeHandler = (event, selectedDateTime) => {
@@ -126,10 +170,14 @@ export const DateTimePickerComponent = ( props ) => {
             }
         }
 
-        console.log("_dateTime_ : time", _dateTime_);
-
-        setDateTime(_dateTime_);
-        setIsShow(false);
+        setState((prevState) => {
+            return {
+                ...prevState,
+                dateTime: _dateTime_,
+                currentMode: null,
+                isVisible: false
+            }
+        });
         onChange(_dateTime_);
     };
 
@@ -139,7 +187,7 @@ export const DateTimePickerComponent = ( props ) => {
 
     const getPlaceholder = () => {
         let tempPlaceholder = null;
-        const tempDateTime = moment(dateTime, [ moment.defaultFormat ], true);
+        const tempDateTime = moment(state.dateTime, [ moment.defaultFormat ], true);
         if( tempDateTime.isValid() ){
             tempPlaceholder = tempDateTime.format("YYYY-MM-DD hh:mm A");
         }
@@ -149,7 +197,7 @@ export const DateTimePickerComponent = ( props ) => {
 
     const getValue = () => {
         let defaultValue = null;
-        const tempDateTime = moment(dateTime, [ moment.defaultFormat ], true);
+        const tempDateTime = moment(state.dateTime, [ moment.defaultFormat ], true);
         if( tempDateTime.isValid() ){
             defaultValue = tempDateTime.toDate();
         }
@@ -160,10 +208,10 @@ export const DateTimePickerComponent = ( props ) => {
     const renderDatePicker = () => {
         let dateTimePicker = null;
 
-        dateTimePicker = (
+        dateTimePicker = (state.isVisible && state.currentMode === "date") && (
             <DateTimePicker
-                testID="dateTimePicker"
-                mode={mode} //date, time
+                //testID="dateTimePicker"
+                mode={state.currentMode} //date, time
                 is24Hour={false}
                 display="calendar" //default, spinner, calendar, clock
                 value={getValue()}
@@ -178,10 +226,10 @@ export const DateTimePickerComponent = ( props ) => {
     const renderTimePicker = () => {
         let dateTimePicker = null;
 
-        dateTimePicker = (
+        dateTimePicker = (state.isVisible && state.currentMode === "time") && (
             <DateTimePicker
-                testID="dateTimePicker"
-                mode={mode} //date, time
+                //testID="dateTimePicker"
+                mode={state.currentMode} //date, time
                 is24Hour={false}
                 display="clock" //default, spinner, calendar, clock
                 value={getValue()}
@@ -198,8 +246,8 @@ export const DateTimePickerComponent = ( props ) => {
             <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()}>
                 <Text style={[styles.text, placeholderStyle]}> {getPlaceholder()} </Text>
             </TouchableOpacity>
-            {(isShow && mode === "date") && (renderDatePicker())}
-            {(isShow && mode === "time") && (renderTimePicker())}
+            {(renderDatePicker())}
+            {(renderTimePicker())}
         </View>
     );
 
