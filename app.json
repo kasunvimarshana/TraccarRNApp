@@ -62,7 +62,7 @@
     "githubUrl": "https://github.com/kasunvimarshana",
     "extra": {
       "googleMapsApiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk",
-      "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082"
+      "remoteLocationAPIOrigin": "http://gps.globemw.net:8082"
     }
   }
 }
