@@ -24,7 +24,6 @@ const AuthRoutes = () => {
     );
 };
 
-
 const AppNavigator = () => {
     return (
         <NavigationContainer>

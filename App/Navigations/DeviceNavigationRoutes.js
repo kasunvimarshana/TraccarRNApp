@@ -530,6 +530,7 @@ const DeviceNavigationRoutes = ( props ) => {
                 }}
             />
 
+            {/*
             <BottomTab.Screen
                 name="helpStack"
                 component={helpStack}
@@ -541,6 +542,7 @@ const DeviceNavigationRoutes = ( props ) => {
                     unmountOnBlur: true,
                 }}
             />
+            */}
         </BottomTab.Navigator>
     );
 };

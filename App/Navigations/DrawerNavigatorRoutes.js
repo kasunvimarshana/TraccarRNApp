@@ -18,6 +18,7 @@ import DeviceScreen from '../Screens/DeviceScreen';
 import GroupScreen from '../Screens/GroupScreen';
 import GroupDeviceScreen from '../Screens/GroupDeviceScreen';
 import UserScreen from '../Screens/UserScreen';
+import HelpScreen from '../Screens/HelpScreen';
 import CustomSidebarMenu from '../Components/CustomSidebarMenu';
 import NavigationDrawerHeader from '../Components/NavigationDrawerHeader';
 
@@ -132,6 +133,34 @@ const userScreenStack = ({ navigation }) => {
     );
 };
 
+const helpScreenStack = ({ navigation }) => {
+    return (
+        <Stack.Navigator
+            initialRouteName="HelpScreen"
+            screenOptions={{
+                headerLeft: () => (
+                    <NavigationDrawerHeader navigationProps={navigation} />
+                ),
+                headerStyle: {
+                    backgroundColor: colors.TiffanyBlue,
+                },
+                headerTintColor: colors.text,
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                },
+            }}
+        >
+            <Stack.Screen
+                name="HelpScreen"
+                component={HelpScreen}
+                options={{
+                    title: 'Help'
+                }}
+            />
+        </Stack.Navigator>
+    );
+};
+
 const DrawerNavigatorRoutes = ( props ) => {
     return (
         <Drawer.Navigator
@@ -167,6 +196,11 @@ const DrawerNavigatorRoutes = ( props ) => {
                 component={userScreenStack}
             />
             */}
+            <Drawer.Screen
+                name="helpScreenStack"
+                options={{drawerLabel: 'Help'}}
+                component={helpScreenStack}
+            />
         </Drawer.Navigator>
     );
 };

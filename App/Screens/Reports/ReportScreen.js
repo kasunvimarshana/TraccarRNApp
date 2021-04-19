@@ -102,6 +102,11 @@ class ReportScreen extends Component {
     buttonOnPressHandler = () => {
         this.setFromDateTime();
         this.setToDateTime();
+        this.props.navigation.replace("DeviceNavigationRoutes", {
+            screen: 'positionStack',
+            initial: true,
+            params: {}
+        });
     }
 
     fromDateTimeChangeHandler = ( fromDateTime ) => {

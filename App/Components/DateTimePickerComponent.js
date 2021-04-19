@@ -39,12 +39,14 @@ export const DateTimePickerComponent = ( props ) => {
         currentMode: null
     });
 
+    const _isMountedRef = useRef(false);
+
     //const useMount = func => useEffect(() => func(), []);
     
     useEffect(() => {
-        let _isMounted = true;
+        _isMountedRef.current = true;
         
-        if( _isMounted ){
+        if( _isMountedRef.current ){
             //
             setState((prevState) => {
                 return {
@@ -59,9 +61,9 @@ export const DateTimePickerComponent = ( props ) => {
     }, [ props.value ]);
 
     useEffect(() => {
-        let _isMounted = true;
+        _isMountedRef.current = true;
         
-        if( _isMounted ){
+        if( _isMountedRef.current ){
             //
         }
 
@@ -138,11 +140,10 @@ export const DateTimePickerComponent = ( props ) => {
         setState((prevState) => {
             return {
                 ...prevState,
-                dateTime: _dateTime_,
-                currentMode: "time",
-                isVisible: true
+                dateTime: _dateTime_
             }
         });
+        showTimePicker();
     };
 
     const timeOnChangeHandler = (event, selectedDateTime) => {
@@ -208,7 +209,7 @@ export const DateTimePickerComponent = ( props ) => {
     const renderDatePicker = () => {
         let dateTimePicker = null;
 
-        dateTimePicker = (state.isVisible && state.currentMode === "date") && (
+        dateTimePicker = (
             <DateTimePicker
                 //testID="dateTimePicker"
                 mode={state.currentMode} //date, time
@@ -226,7 +227,7 @@ export const DateTimePickerComponent = ( props ) => {
     const renderTimePicker = () => {
         let dateTimePicker = null;
 
-        dateTimePicker = (state.isVisible && state.currentMode === "time") && (
+        dateTimePicker = (
             <DateTimePicker
                 //testID="dateTimePicker"
                 mode={state.currentMode} //date, time
@@ -246,8 +247,8 @@ export const DateTimePickerComponent = ( props ) => {
             <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()}>
                 <Text style={[styles.text, placeholderStyle]}> {getPlaceholder()} </Text>
             </TouchableOpacity>
-            {(renderDatePicker())}
-            {(renderTimePicker())}
+            {(state && state.isVisible === true && state.currentMode === "date") && (renderDatePicker())}
+            {(state && state.isVisible === true && state.currentMode === "time") && (renderTimePicker())}
         </View>
     );
 
