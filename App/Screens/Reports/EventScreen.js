@@ -7,7 +7,8 @@ import {
     Dimensions,
     FlatList,
     RefreshControl,
-    InteractionManager
+    InteractionManager,
+    ScrollView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
@@ -15,7 +16,9 @@ import {
     Text,
     ActivityIndicator,
     Card,
-    List
+    List,
+    Modal,
+    Portal
 } from 'react-native-paper';
 import { withTheme, useTheme } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';

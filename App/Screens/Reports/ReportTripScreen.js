@@ -7,7 +7,8 @@ import {
     Dimensions,
     FlatList,
     RefreshControl,
-    InteractionManager
+    InteractionManager,
+    ScrollView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
@@ -15,12 +16,16 @@ import {
     Text,
     ActivityIndicator,
     Card,
-    List
+    List,
+    Modal,
+    Portal,
+    Button
 } from 'react-native-paper';
 import { withTheme, useTheme } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import MapView, { PROVIDER_GOOGLE, Marker, ProviderPropType, MAP_TYPES, PROVIDER_DEFAULT } from 'react-native-maps';
 
 import CustomTheme from '../../Themes/CustomTheme';
 import ListItemSeperatorComponent from '../../Components/ListItemSeperatorComponent';
@@ -42,6 +47,8 @@ class ReportTripScreen extends Component {
             object_type: props.object_type,
             reportTripList: null,
             isFlatListRefreshing: false,
+            isModalVisible: false,
+            selectedTrip: null
         };
     }
 
@@ -145,6 +152,13 @@ class ReportTripScreen extends Component {
                 trip.endTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
             }
         }
+        if ( trip.startLat !== undefined && trip.startLon !== undefined ) { 
+            trip.startPosition = { latitude: trip.startLat, longitude: trip.startLon };
+        }
+        if ( trip.endLat !== undefined && trip.endLon !== undefined ) { 
+            trip.endPosition = { latitude: trip.endLat, longitude: trip.endLon };
+        }
+
         return {
             ...trip
         }
@@ -171,7 +185,9 @@ class ReportTripScreen extends Component {
         });
     }
 
-    listItemClickHandler = ( item ) => { }
+    listItemClickHandler = ( item ) => {
+        this.modalShowHandler( item );
+    }
 
     renderItem = ( props ) => {
         const { item } = props;
@@ -182,6 +198,28 @@ class ReportTripScreen extends Component {
             />
         );
     }
+
+    modalToggleHandler = () => {
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                isModalVisible: !prevState.isModalVisible
+            }
+        });
+    };
+
+    modalDismissHandler = () => {
+        this.setState({
+            isModalVisible: false
+        });
+    };
+
+    modalShowHandler = ( trip = {} ) => {
+        this.setState({
+            isModalVisible: true,
+            selectedTrip: trip
+        });
+    };
 
     render() {
         //const { colors } = this.props.theme;
@@ -200,6 +238,8 @@ class ReportTripScreen extends Component {
                 </SafeAreaView>
             );
         }
+
+        const selectedTrip = this.state.selectedTrip;
 
         return(
             <React.Fragment>
@@ -225,6 +265,100 @@ class ReportTripScreen extends Component {
                                 }
                             />
                         }
+
+                        {
+                            <Portal>
+                                <Modal 
+                                    visible={ this.state.isModalVisible } 
+                                    onDismiss={ this.modalDismissHandler } 
+                                    contentContainerStyle={ styles.modal }
+                                >
+                                    <Button 
+                                    icon="close" 
+                                    mode="contained" 
+                                    onPress={() => { this.modalDismissHandler() }} 
+                                    color={colors.OrangePeel}>
+                                        Close
+                                    </Button>
+                                    <ScrollView style={styles.scrollView}>
+                                        <Card style={styles.card}>
+                                            <Card.Content>
+                                                { 
+                                                    ( selectedTrip !== null ) &&
+                                                    (
+                                                        <>
+                                                            <List.Section>
+                                                                {selectedTrip.deviceId !== undefined && <List.Item title="Device ID" description={selectedTrip.deviceId}/>}
+                                                                {selectedTrip.deviceName !== undefined && <List.Item title="Device Name" description={selectedTrip.deviceName}/>}
+                                                                {selectedTrip.distanceText !== undefined && <List.Item title="Distance" description={selectedTrip.distanceText}/>}
+                                                                {selectedTrip.averageSpeedText !== undefined && <List.Item title="Average Speed" description={selectedTrip.averageSpeedText}/>}
+                                                                {selectedTrip.maxSpeedText !== undefined && <List.Item title="Max Speed" description={selectedTrip.maxSpeedText}/>}
+                                                                {selectedTrip.spentFuelText !== undefined && <List.Item title="Spent Fuel" description={selectedTrip.spentFuelText}/>}
+                                                                {selectedTrip.startTime !== undefined && <List.Item title="Start Time" description={selectedTrip.startTime}/>}
+                                                                {selectedTrip.endTime !== undefined && <List.Item title="End Time" description={selectedTrip.endTime}/>}
+                                                                {selectedTrip.startOdometer !== undefined && <List.Item title="Start Odometer" description={selectedTrip.startOdometer}/>}
+                                                                {selectedTrip.endOdometer !== undefined && <List.Item title="End Odometer" description={selectedTrip.endOdometer}/>}
+                                                            </List.Section>
+
+                                                            {
+                                                                ( selectedTrip.startPosition !== undefined ) && 
+                                                                (
+                                                                    <MapView
+                                                                        style={ styles.mapView } 
+                                                                        initialRegion={{
+                                                                            latitude: selectedTrip.startPosition.latitude,
+                                                                            longitude: selectedTrip.startPosition.longitude,
+                                                                            latitudeDelta: LATITUDE_DELTA,
+                                                                            longitudeDelta: LONGITUDE_DELTA,
+                                                                        }}
+                                                                        loadingEnabled={ true }
+                                                                        zoomEnabled={ true }
+                                                                        zoomControlEnabled={ true }
+                                                                        zoomTapEnabled={ true }
+                                                                        minZoomLevel={ 0 }
+                                                                        cacheEnabled={ true }
+                                                                        showsUserLocation={ false }
+                                                                        followUserLocation={ false }
+                                                                    >
+                                                                        {
+                                                                            ( selectedTrip.startPosition !== undefined ) && 
+                                                                            (
+                                                                                <Marker
+                                                                                    //onPress={() => { console.log("onPress"); }}
+                                                                                    coordinate={{
+                                                                                        latitude: selectedTrip.startPosition.latitude,
+                                                                                        longitude: selectedTrip.startPosition.longitude,
+                                                                                    }}
+                                                                                    title="Start Position"
+                                                                                />
+                                                                            )
+                                                                        }
+
+                                                                        {
+                                                                            ( selectedTrip.startPosition !== undefined ) && 
+                                                                            (
+                                                                                <Marker
+                                                                                    //onPress={() => { console.log("onPress"); }}
+                                                                                    coordinate={{
+                                                                                        latitude: selectedTrip.endPosition.latitude,
+                                                                                        longitude: selectedTrip.endPosition.longitude,
+                                                                                    }}
+                                                                                    title="End Position"
+                                                                                />
+                                                                            )
+                                                                        }
+                                                                    </MapView>
+                                                                )
+                                                            }
+                                                        </>
+                                                    )
+                                                }
+                                            </Card.Content>
+                                        </Card>
+                                    </ScrollView>
+                                </Modal>
+                            </Portal>
+                        }
                     </View>
                 </SafeAreaView>
             </React.Fragment>
@@ -235,7 +369,10 @@ class ReportTripScreen extends Component {
 
 const { colors } = CustomTheme;
 
-
+const { width, height } = Dimensions.get('window');
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const styles = StyleSheet.create({
     container: {
@@ -253,6 +390,29 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
     },
 
+    modal: {
+        backgroundColor: colors.transparent,
+        //padding: 5,
+        //margin: 5,
+        paddingHorizontal: 3,
+        paddingVertical: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    scrollView: {
+        width: "100%"
+    },
+
+    card: {
+        width: "100%",
+        height: "100%"
+    },
+
+    mapView: {
+        width: "100%",
+        height: 250
+    }
 });
 
 const mapStateToProps = (state) => {
