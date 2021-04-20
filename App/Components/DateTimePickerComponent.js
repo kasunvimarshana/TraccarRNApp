@@ -128,11 +128,10 @@ export const DateTimePickerComponent = ( props ) => {
             setState((prevState) => {
                 return {
                     ...prevState,
-                    dateTime: _dateTime_,
-                    currentMode: "time",
-                    isVisible: Platform.OS !== "ios"
+                    dateTime: _dateTime_
                 }
             });
+            showTimePicker();
         }else{
             setState((prevState) => {
                 return {
@@ -182,12 +181,12 @@ export const DateTimePickerComponent = ( props ) => {
     };
 
     const onChangeHandler = ( event, selectedValue ) => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                isVisible: Platform.OS === "ios"
-            }
-        });
+        // setState((prevState) => {
+        //     return {
+        //         ...prevState,
+        //         isVisible: Platform.OS === "ios"
+        //     }
+        // });
         if ( state.currentMode == "date" ) {
             dateOnChangeHandler(event, selectedValue);
         } else {
