@@ -12,6 +12,7 @@ import DeviceReducer from '../Reducers/DeviceReducer';
 import GroupReducer from '../Reducers/GroupReducer';
 import UserReducer from '../Reducers/UserReducer';
 import GeofenceReducer from '../Reducers/GeofenceReducer';
+import SettingReducer from '../Reducers/SettingReducer';
 //Reports
 import ReportReducer from '../Reducers/Reports/ReportReducer';
 import PositionReducer from '../Reducers/Reports/PositionReducer';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     group: GroupReducer,
     user: UserReducer,
     geofence: GeofenceReducer,
+    setting: SettingReducer,
 
     report: ReportReducer,
     position: PositionReducer,

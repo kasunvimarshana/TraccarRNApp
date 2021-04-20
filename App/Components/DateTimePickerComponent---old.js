@@ -36,7 +36,7 @@ export const DateTimePickerComponent = ( props ) => {
     const [state, setState] = useState({
         dateTime: value,
         isVisible: false,
-        currentMode: "date"
+        currentMode: null
     });
 
     const _isMountedRef = useRef(false);
@@ -82,6 +82,7 @@ export const DateTimePickerComponent = ( props ) => {
                 isVisible: true
             }
         });
+        //forceUpdate();
     };
 
     const hideMode = () => {
@@ -92,6 +93,7 @@ export const DateTimePickerComponent = ( props ) => {
                 isVisible: false
             }
         });
+        //forceUpdate();
     };
 
     const showDatePicker = () => {
@@ -102,7 +104,16 @@ export const DateTimePickerComponent = ( props ) => {
         showMode("time");
     };
 
+    const hideDatePicker = () => {
+        hideMode();
+    };
+
+    const hideTimePicker = () => {
+        hideMode();
+    };
+
     const dateOnChangeHandler = (event, selectedDateTime) => {
+        //setIsShow(Platform.OS === 'ios');
         let _dateTime_ = null;
         let tempDateTime = null;
         const defaultDateTime = moment(getValue(), [ moment.defaultFormat ], true).toObject();
@@ -129,14 +140,14 @@ export const DateTimePickerComponent = ( props ) => {
         setState((prevState) => {
             return {
                 ...prevState,
-                dateTime: _dateTime_,
-                currentMode: "time",
-                isVisible: Platform.OS !== "ios"
+                dateTime: _dateTime_
             }
         });
+        showTimePicker();
     };
 
     const timeOnChangeHandler = (event, selectedDateTime) => {
+        //setIsShow(Platform.OS === 'ios');
         let _dateTime_ = null;
         let tempDateTime = null;
         const defaultDateTime = moment(getValue(), [ moment.defaultFormat ], true).toObject();
@@ -164,27 +175,12 @@ export const DateTimePickerComponent = ( props ) => {
             return {
                 ...prevState,
                 dateTime: _dateTime_,
-                currentMode: "date",
-                isVisible: Platform.OS !== "ios"
+                currentMode: null,
+                isVisible: false
             }
         });
         onChange(_dateTime_);
     };
-
-    const onChangeHandler = ( event, selectedValue ) => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                isVisible: Platform.OS === "ios"
-            }
-        });
-
-        if ( state.currentMode == "date" ) {
-            dateOnChangeHandler(event, selectedValue);
-        } else {
-            timeOnChangeHandler(event, selectedValue);
-        }
-    }
 
     const onPressHandler = () => {
         showDatePicker();
@@ -210,26 +206,49 @@ export const DateTimePickerComponent = ( props ) => {
         return defaultValue || currentDateTime;
     };
 
+    const renderDatePicker = () => {
+        let dateTimePicker = null;
+
+        dateTimePicker = (
+            <DateTimePicker
+                //testID="dateTimePicker"
+                mode={state.currentMode} //date, time
+                is24Hour={false}
+                display="calendar" //default, spinner, calendar, clock
+                value={getValue()}
+                onChange={(event, _dateTime) => dateOnChangeHandler(event, _dateTime)}
+                {...dateTimePickerProps}
+            />
+        );
+
+        return dateTimePicker;
+    };
+
+    const renderTimePicker = () => {
+        let dateTimePicker = null;
+
+        dateTimePicker = (
+            <DateTimePicker
+                //testID="dateTimePicker"
+                mode={state.currentMode} //date, time
+                is24Hour={false}
+                display="clock" //default, spinner, calendar, clock
+                value={getValue()}
+                onChange={(event, _dateTime) => timeOnChangeHandler(event, _dateTime)}
+                {...dateTimePickerProps}
+            />
+        );
+
+        return dateTimePicker;
+    };
+
     return (
         <View style={[styles.dateTimePickerView, dateTimePickerViewStyle]}>
             <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()}>
                 <Text style={[styles.text, placeholderStyle]}> {getPlaceholder()} </Text>
             </TouchableOpacity>
-            {
-                (state && state.isVisible === true) && 
-                (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        //timeZoneOffsetInMinutes={0}
-                        mode={state.currentMode} //date, time
-                        is24Hour={false}
-                        display="default" //default, spinner, calendar, clock
-                        value={getValue()}
-                        onChange={ onChangeHandler }
-                        {...dateTimePickerProps}
-                    />
-                )
-            }
+            {(state && state.isVisible === true && state.currentMode === "date") && (renderDatePicker())}
+            {(state && state.isVisible === true && state.currentMode === "time") && (renderTimePicker())}
         </View>
     );
 

@@ -8,8 +8,7 @@ import {
     REPORT_REPORT_SUMMARY_FETCH_END
 } from '../ActionType';
 import { 
-    REMOTE_LOCATION_API_ORIGIN,
-    REMOTE_LOCATION_API_URI, 
+    KEY_REMOTE_LOCATION_API_ORIGIN, 
     REPORT_OBJECT_TYPE_DEVICE, 
     REPORT_OBJECT_TYPE_GROUP, 
     DATE_TIME_DEFAULT_FORMAT 
@@ -22,6 +21,7 @@ import {
     authGetUser, 
     checkAuth
 } from '../AuthAction';
+import { getSetting, saveSetting, deleteSetting } from '../SettingAction';
 
 export const fetchStart = () => {
     return {
@@ -42,27 +42,40 @@ export const FETCH_TYPE_GROUP = REPORT_OBJECT_TYPE_GROUP;
 
 export const fetchSummary = (fetchType, from = null, to = null, isCheckAuth = false) => {
     return (dispatch, getState) => {
-        const currentDateTime = moment();
-        let fromDateTime = from || getState().report.fromDateTime;
-        let toDateTime = to || getState().report.toDateTime;
-        fromDateTime = moment(fromDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
-        toDateTime = moment(toDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
-        fromDateTime = (fromDateTime.isValid()) ? fromDateTime : currentDateTime.clone().startOf('date');
-        toDateTime = (toDateTime.isValid()) ? toDateTime : currentDateTime.clone().endOf('date');
-        fromDateTime = fromDateTime.toISOString( false );
-        toDateTime = toDateTime.toISOString( false );
-
         const promise = new Promise((resolve, reject) => { 
             dispatch( fetchStart() );
+            let remote_location_api_origin = null;
+            let remote_location_api_uri = null;
+            let fetchData = {};
             let authUser = null;
             let fetchTypeObject = null;
-            let promiseObj = Promise.resolve( null );
-            if( isCheckAuth === true ){
-                promiseObj = dispatch(checkAuth());
-            }
-            promiseObj.then(() => {
+            const currentDateTime = moment();
+            let fromDateTime = from || getState().report.fromDateTime;
+            let toDateTime = to || getState().report.toDateTime;
+            fromDateTime = moment(fromDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
+            toDateTime = moment(toDateTime, [ DATE_TIME_DEFAULT_FORMAT ], true);
+            fromDateTime = (fromDateTime.isValid()) ? fromDateTime : currentDateTime.clone().startOf('date');
+            toDateTime = (toDateTime.isValid()) ? toDateTime : currentDateTime.clone().endOf('date');
+            fromDateTime = fromDateTime.toISOString( false );
+            toDateTime = toDateTime.toISOString( false );
+            dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+            .then( ( _remote_location_api_origin ) => {
+                remote_location_api_origin = _remote_location_api_origin;
+                remote_location_api_uri = `${remote_location_api_origin}/api`;
+            }, (error) => {
+                console.log('error', error);
+                throw new Error( error );
+            } )
+            .then( () => {
+                if( isCheckAuth === true ){
+                    return dispatch(checkAuth());
+                }else{
+                    return Promise.resolve( null );
+                }
+            } )
+            .then( () => {
                 return dispatch(authGetUser());
-            })
+            } )
             .then((user) => {
                 authUser = user;
                 let queryParameters = {
@@ -88,7 +101,7 @@ export const fetchSummary = (fetchType, from = null, to = null, isCheckAuth = fa
                         throw new Error( "fetchType" + fetchType );
                 }
 
-                const fetchData = {
+                fetchData = {
                     method: "GET",
                     headers: { 
                         "Accept": "application/json",
@@ -99,10 +112,10 @@ export const fetchSummary = (fetchType, from = null, to = null, isCheckAuth = fa
                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
                     //redirect: 'follow', // manual, *follow, error
                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    Origin: REMOTE_LOCATION_API_ORIGIN,
+                    Origin: remote_location_api_origin,
                 };
 
-                const api_url = buildURLWithQueryString(REMOTE_LOCATION_API_URI + "/reports/summary", queryParameters);
+                const api_url = buildURLWithQueryString(remote_location_api_uri + "/reports/summary", queryParameters);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

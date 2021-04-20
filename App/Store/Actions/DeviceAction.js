@@ -13,8 +13,7 @@ import {
     DEVICE_UPDATE_END
 } from './ActionType';
 import { 
-    REMOTE_LOCATION_API_ORIGIN,
-    REMOTE_LOCATION_API_URI 
+    KEY_REMOTE_LOCATION_API_ORIGIN 
 } from '../../Constants/AppConstants';
 import { 
     objectToQueryString, 
@@ -25,6 +24,7 @@ import {
     checkAuth
 } from './AuthAction';
 import { fetchPosition } from './PositionAction';
+import { getSetting, saveSetting, deleteSetting } from './SettingAction';
 
 export const fetchStart = () => {
     return {
@@ -44,17 +44,31 @@ export const fetchDevices = (isCheckAuth = false) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( fetchStart() );
+            let remote_location_api_origin = null;
+            let remote_location_api_uri = null;
+            let fetchData = {};
             let authUser = null;
-            let promiseObj = Promise.resolve( null );
-            if( isCheckAuth === true ){
-                promiseObj = dispatch(checkAuth());
-            }
-            promiseObj.then(() => {
+            dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+            .then( ( _remote_location_api_origin ) => {
+                remote_location_api_origin = _remote_location_api_origin;
+                remote_location_api_uri = `${remote_location_api_origin}/api`;
+            }, (error) => {
+                console.log('error', error);
+                throw new Error( error );
+            } )
+            .then( () => {
+                if( isCheckAuth === true ){
+                    return dispatch(checkAuth());
+                }else{
+                    return Promise.resolve( null );
+                }
+            } )
+            .then( () => {
                 return dispatch(authGetUser());
-            })
+            } )
             .then((user) => {
                 authUser = user;
-                const fetchData = {
+                fetchData = {
                     method: "GET",
                     headers: { 
                         "Accept": "application/json",
@@ -65,10 +79,10 @@ export const fetchDevices = (isCheckAuth = false) => {
                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
                     //redirect: 'follow', // manual, *follow, error
                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    Origin: REMOTE_LOCATION_API_ORIGIN,
+                    Origin: remote_location_api_origin,
                 };
 
-                const api_url = buildURLWithQueryString(REMOTE_LOCATION_API_URI + "/devices", {
+                const api_url = buildURLWithQueryString(remote_location_api_uri + "/devices", {
                     token:  authUser.token,
                     userId: authUser.id,
                     all:  true
@@ -90,7 +104,7 @@ export const fetchDevices = (isCheckAuth = false) => {
             .catch((error) => {
                 dispatch( fetchEnd() );
                 return reject( error );
-            });
+            });  
         });
 
         return promise;
@@ -153,15 +167,29 @@ export const fetchSelectedDevicePosition = (isCheckAuth = false) => {
         //const currentDateTime = moment();
         const promise = new Promise((resolve, reject) => { 
             dispatch( devicePositionFetchStart() );
+            let remote_location_api_origin = null;
+            let remote_location_api_uri = null;
+            let fetchData = {};
             let authUser = null;
             let selectedDevice = null;
-            let promiseObj = Promise.resolve( null );
-            if( isCheckAuth === true ){
-                promiseObj = dispatch(checkAuth());
-            }
-            promiseObj.then(() => {
+            dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+            .then( ( _remote_location_api_origin ) => {
+                remote_location_api_origin = _remote_location_api_origin;
+                remote_location_api_uri = `${remote_location_api_origin}/api`;
+            }, (error) => {
+                console.log('error', error);
+                throw new Error( error );
+            } )
+            .then( () => {
+                if( isCheckAuth === true ){
+                    return dispatch(checkAuth());
+                }else{
+                    return Promise.resolve( null );
+                }
+            } )
+            .then( () => {
                 return dispatch(authGetUser());
-            })
+            } )
             .then((user) => {
                 authUser = user;
                 let queryParameters = {
@@ -174,7 +202,7 @@ export const fetchSelectedDevicePosition = (isCheckAuth = false) => {
                     uniqueId: selectedDevice.uniqueId
                 });
 
-                const fetchData = {
+                fetchData = {
                     method: "GET",
                     headers: { 
                         "Accept": "application/json",
@@ -185,10 +213,10 @@ export const fetchSelectedDevicePosition = (isCheckAuth = false) => {
                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
                     //redirect: 'follow', // manual, *follow, error
                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    Origin: REMOTE_LOCATION_API_ORIGIN,
+                    Origin: remote_location_api_origin,
                 };
 
-                const api_url = buildURLWithQueryString(REMOTE_LOCATION_API_URI + "/devices", queryParameters);
+                const api_url = buildURLWithQueryString(remote_location_api_uri + "/devices", queryParameters);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {
@@ -216,7 +244,7 @@ export const fetchSelectedDevicePosition = (isCheckAuth = false) => {
             .catch((error) => {
                 dispatch( devicePositionFetchEnd() );
                 return reject( error )
-            });
+            }); 
         });
 
         return promise;
@@ -241,22 +269,36 @@ export const updateSelectedDevice = (attributes = {}, extraPathString = null, is
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( deviceUpdateStart() );
+            let remote_location_api_origin = null;
+            let remote_location_api_uri = null;
+            let fetchData = {};
             let authUser = null;
             const device = getState().device.selectedDevice || {};
-            let promiseObj = Promise.resolve( null );
-            if( isCheckAuth === true ){
-                promiseObj = dispatch(checkAuth());
-            }
-            promiseObj.then(() => {
+            dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+            .then( ( _remote_location_api_origin ) => {
+                remote_location_api_origin = _remote_location_api_origin;
+                remote_location_api_uri = `${remote_location_api_origin}/api`;
+            }, (error) => {
+                console.log('error', error);
+                throw new Error( error );
+            } )
+            .then( () => {
+                if( isCheckAuth === true ){
+                    return dispatch(checkAuth());
+                }else{
+                    return Promise.resolve( null );
+                }
+            } )
+            .then( () => {
                 return dispatch(authGetUser());
-            })
+            } )
             .then((user) => {
                 authUser = user;
                 let queryParameters = {
                     token:  authUser.token
                 };
 
-                const fetchData = {
+                fetchData = {
                     method: "PUT",
                     headers: { 
                         "Accept": "application/json",
@@ -268,7 +310,7 @@ export const updateSelectedDevice = (attributes = {}, extraPathString = null, is
                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
                     //redirect: 'follow', // manual, *follow, error
                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    Origin: REMOTE_LOCATION_API_ORIGIN,
+                    Origin: remote_location_api_origin,
                 };
 
                 let tempRequestBody = {
@@ -279,7 +321,7 @@ export const updateSelectedDevice = (attributes = {}, extraPathString = null, is
                 Object.assign(fetchData, {
                     body: JSON.stringify( tempRequestBody ),
                 });
-                let temp_url = (REMOTE_LOCATION_API_URI + "/devices/" + (device.id));
+                let temp_url = (remote_location_api_uri + "/devices/" + (device.id));
                 if( extraPathString !== null ){
                     temp_url = (( temp_url ) + "/" + extraPathString);
                 }

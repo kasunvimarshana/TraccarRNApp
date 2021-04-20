@@ -18,6 +18,8 @@ import {
 import { withTheme, useTheme } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { Picker } from '@react-native-picker/picker';
+import Constants from 'expo-constants';
 
 import CustomTheme from '../Themes/CustomTheme';
 import HeaderTextComponent from '../Components/HeaderTextComponent';
@@ -25,6 +27,8 @@ import TextInputComponent from '../Components/TextInputComponent';
 import ButtonComponent from '../Components/ButtonComponent';
 import { startProcessing, stopProcessing } from '../Store/Actions/UIAction';
 import { authSignIn, checkAuth } from '../Store/Actions/AuthAction';
+import { getSetting, saveSetting, deleteSetting } from '../Store/Actions/SettingAction';
+import { KEY_REMOTE_LOCATION_API_ORIGIN } from '../Constants/AppConstants';
 
 class LoginScreen extends Component {
 
@@ -37,7 +41,9 @@ class LoginScreen extends Component {
         this.state = {
             email: "",
             password: "",
-            isButtonDisabled: false
+            isButtonDisabled: false,
+            remote_location_api_origin: null,
+            remoteLocationAPIOriginList: Constants.manifest.extra.remoteLocationAPIOriginList
         };
     }
 
@@ -109,7 +115,14 @@ class LoginScreen extends Component {
             password: this.state.password
         };
 
-        this.props.ui_authSignIn( params ).then(() => {
+        this.props.ui_saveSetting({
+            key: KEY_REMOTE_LOCATION_API_ORIGIN,
+            value: this.state.remote_location_api_origin
+        })
+        .then(() => {
+            return this.props.ui_authSignIn( params );
+        })
+        .then(() => {
             return this.props.ui_checkAuth();
         })
         .then(() => {
@@ -135,8 +148,20 @@ class LoginScreen extends Component {
         });
     }
 
+    pickerOnValueChangeHandler = ( itemValue, itemIndex ) => {
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                remote_location_api_origin: itemValue
+            }
+        });
+    }
+
     render() {
         //const { colors } = this.props.theme;
+        const remoteLocationAPIOriginList_Map = new Map(Object.entries(this.state.remoteLocationAPIOriginList));
+        remoteLocationAPIOriginList_Map.set("Plese Select a Server", null);
+        const remoteLocationAPIOriginList_Array = Array.from(remoteLocationAPIOriginList_Map, ([key, value]) => ({ key, value }));
         
         return(
             <SafeAreaView style={styles.container}>
@@ -163,6 +188,21 @@ class LoginScreen extends Component {
                         secureTextEntry={true}
                         inputViewStyle={styles.textInputComponent}
                     />
+
+                    <Picker
+                        selectedValue={this.state.remote_location_api_origin}
+                        onValueChange={(itemValue, itemIndex) => this.pickerOnValueChangeHandler(itemValue, itemIndex)}
+                        style={styles.picker}
+                    >
+                        {
+                            ( remoteLocationAPIOriginList_Array !== null ) && 
+                            (
+                                remoteLocationAPIOriginList_Array.map((value, index) => (  
+                                    <Picker.Item key={ index } label={ value.key } value={ value.value }/>
+                                ))
+                            )
+                        }
+                    </Picker>
 
                     {
                         ( !this.state.isButtonDisabled ) && 
@@ -208,6 +248,10 @@ const styles = StyleSheet.create({
     textInputComponent: {
         width: "80%",
         marginBottom: 20
+    },
+
+    picker: {
+        width: "80%"
     }
 
 });
@@ -223,7 +267,9 @@ const mapDispatchToProps = (dispatch) => {
         ui_startProcessing: () => dispatch(startProcessing()),
         ui_stopProcessing: () => dispatch(stopProcessing()),
         ui_authSignIn: ( args ) => dispatch(authSignIn( args )),
-        ui_checkAuth: () => dispatch(checkAuth())
+        ui_checkAuth: () => dispatch(checkAuth()),
+        ui_getSetting: ( key ) => dispatch(authSignIn( key )),
+        ui_saveSetting: ( args ) => dispatch(saveSetting( args ))
     };
 };
 

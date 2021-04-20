@@ -8,8 +8,7 @@ import {
     GEOFENCE_FETCH_END
 } from './ActionType';
 import { 
-    REMOTE_LOCATION_API_ORIGIN,
-    REMOTE_LOCATION_API_URI, 
+    KEY_REMOTE_LOCATION_API_ORIGIN,
     REPORT_OBJECT_TYPE_DEVICE, 
     REPORT_OBJECT_TYPE_GROUP
 } from '../../Constants/AppConstants';
@@ -21,6 +20,7 @@ import {
     authGetUser, 
     checkAuth
 } from './AuthAction';
+import { getSetting, saveSetting, deleteSetting } from './SettingAction';
 
 export const fetchStart = () => {
     return {
@@ -43,15 +43,29 @@ export const fetchGeofences = ( fetchType, isCheckAuth = false ) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
             dispatch( fetchStart() );
+            let remote_location_api_origin = null;
+            let remote_location_api_uri = null;
+            let fetchData = {};
             let authUser = null;
             let fetchTypeObject = null;
-            let promiseObj = Promise.resolve( null );
-            if( isCheckAuth === true ){
-                promiseObj = dispatch(checkAuth());
-            }
-            promiseObj.then(() => {
+            dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+            .then( ( _remote_location_api_origin ) => {
+                remote_location_api_origin = _remote_location_api_origin;
+                remote_location_api_uri = `${remote_location_api_origin}/api`;
+            }, (error) => {
+                console.log('error', error);
+                throw new Error( error );
+            } )
+            .then( () => {
+                if( isCheckAuth === true ){
+                    return dispatch(checkAuth());
+                }else{
+                    return Promise.resolve( null );
+                }
+            } )
+            .then( () => {
                 return dispatch(authGetUser());
-            })
+            } )
             .then((user) => {
                 authUser = user;
                 let queryParameters = {
@@ -76,7 +90,7 @@ export const fetchGeofences = ( fetchType, isCheckAuth = false ) => {
                         throw new Error( "fetchType" + fetchType );
                 }
 
-                const fetchData = {
+                fetchData = {
                     method: "GET",
                     headers: { 
                         "Accept": "application/json",
@@ -87,10 +101,10 @@ export const fetchGeofences = ( fetchType, isCheckAuth = false ) => {
                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
                     //redirect: 'follow', // manual, *follow, error
                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    Origin: REMOTE_LOCATION_API_ORIGIN,
+                    Origin: remote_location_api_origin,
                 };
 
-                const api_url = buildURLWithQueryString(REMOTE_LOCATION_API_URI + "/geofences", queryParameters);
+                const api_url = buildURLWithQueryString(remote_location_api_uri + "/geofences", queryParameters);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

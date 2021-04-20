@@ -7,8 +7,8 @@ import {
     AUTH_FETCH_END
 } from './ActionType';
 import { 
-    REMOTE_LOCATION_API_ORIGIN,
-    REMOTE_LOCATION_API_URI 
+    KEY_ASYNC_STORAGE_USER,
+    KEY_REMOTE_LOCATION_API_ORIGIN 
 } from '../../Constants/AppConstants';
 import { 
     objectToQueryString, 
@@ -17,8 +17,9 @@ import {
     getCookie 
 } from '../../Helpers/HTTPHelper';
 import { Base64 } from '../../Helpers/Base64Helper';
+import { getSetting, saveSetting, deleteSetting } from './SettingAction';
 
-const APP_KEY_ASYNC_STORAGE_USER = "APP_KEY_ASYNC_STORAGE_USER"; //@ap:auth:user
+const APP_KEY_ASYNC_STORAGE_USER = KEY_ASYNC_STORAGE_USER;
 
 export const fetchStart = () => {
     return {
@@ -36,32 +37,45 @@ export const fetchEnd = () => {
 
 export const authSignIn = ( args ) => {
     return (dispatch, getState) => {
-        const fetchData = {
-            method: "POST",
-            body: objectToQueryString({
-                email: args.email,
-                password: args.password
-            }),
-            headers: { 
-                "Accept": "application/json",
-                //"Content-Type": "application/json",
-                "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8",
-                "Authorization": "Basic " + Base64.btoa(args.email + ":" + args.password), 
-                "Connection": "close" 
-            },
-            mode: "cors", //no-cors, *cors, same-origin
-            credentials: "include", //include, *same-origin, omit
-            cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
-            //redirect: 'follow', // manual, *follow, error
-            //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            Origin: REMOTE_LOCATION_API_ORIGIN,
-        };
-
         const promise = new Promise((resolve, reject) => {
             dispatch( fetchStart() );
-            clearCookies()
+            let remote_location_api_origin = null;
+            let remote_location_api_uri = null;
+            let fetchData = {};
+            dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+            .then( ( _remote_location_api_origin ) => {
+                remote_location_api_origin = _remote_location_api_origin;
+                remote_location_api_uri = `${remote_location_api_origin}/api`;
+
+                fetchData = {
+                    method: "POST",
+                    body: objectToQueryString({
+                        email: args.email,
+                        password: args.password
+                    }),
+                    headers: { 
+                        "Accept": "application/json",
+                        //"Content-Type": "application/json",
+                        "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8",
+                        "Authorization": "Basic " + Base64.btoa(args.email + ":" + args.password), 
+                        "Connection": "close" 
+                    },
+                    mode: "cors", //no-cors, *cors, same-origin
+                    credentials: "include", //include, *same-origin, omit
+                    cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
+                    //redirect: 'follow', // manual, *follow, error
+                    //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    Origin: remote_location_api_origin,
+                };
+            }, (error) => {
+                console.log('error', error);
+                throw new Error( error );
+            } )
             .then( () => {
-                return fetch(REMOTE_LOCATION_API_URI + "/session", fetchData)
+                return clearCookies()
+            } )
+            .then( () => {
+                return fetch(remote_location_api_uri + "/session", fetchData)
             } )
             .then(async (response) => {
                 if( response.status !== 200 ){
@@ -93,53 +107,6 @@ export const authSignIn = ( args ) => {
         return promise;
     };
 };
-
-
-
-// export const authSignOut = () => {
-//     return (dispatch, getState) => {
-//         const promise = new Promise((resolve, reject) => { 
-//             let authUser = null;
-//             dispatch(checkAuth())
-//             .then(() => {
-//                 return dispatch(authGetUser());
-//             })
-//             .then((user) => {
-//                 authUser = user;
-//                 const fetchData = {
-//                     method: "DELETE",
-//                     headers: { 
-//                         "Accept": "*/*",
-//                         "Cookie": ("JSESSIONID=" + authUser.JSESSIONID)
-//                     },
-//                     mode: "cors", //no-cors, *cors, same-origin
-//                     credentials: "omit", //include, *same-origin, omit
-//                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
-//                     //redirect: 'follow', // manual, *follow, error
-//                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-//                     Origin: REMOTE_LOCATION_API_ORIGIN,
-//                 };
-
-//                 const api_url = buildURLWithQueryString(REMOTE_LOCATION_API_URI + "/session", {
-//                     token:  authUser.token
-//                 });
-//                 return fetch(api_url, fetchData);
-//             })
-//             .then(async (response) => {
-//                 if( response.status !== 204 ){
-//                     throw new Error( response.status );
-//                 }
-//                 await dispatch( authRemoveUser() );
-//                 await dispatch( authSetUser( null ) );
-//                 return resolve( response.status );
-//             })
-//             .catch((error) => reject( error ));
-//         });
-
-//         return promise;
-//     };
-// };
-
 
 export const authSignOut = () => {
     return (dispatch, getState) => {
@@ -179,6 +146,7 @@ export const authGetUser = () => {
                 .catch((error) => reject( error ))
             }
         });
+
         return promise;
     };
 };
@@ -213,11 +181,24 @@ export const authAutoSignIn = () => {
 export const checkAuth = () => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => {
+            let remote_location_api_origin = null;
+            let remote_location_api_uri = null;
+            let fetchData = {};
             let authUser = null;
-            dispatch(authGetUser())
+            dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+            .then( ( _remote_location_api_origin ) => {
+                remote_location_api_origin = _remote_location_api_origin;
+                remote_location_api_uri = `${remote_location_api_origin}/api`;
+            }, (error) => {
+                console.log('error', error);
+                throw new Error( error );
+            } )
+            .then(() => {
+                return dispatch(authGetUser())
+            })
             .then((user) => {
                 authUser = user;
-                const fetchData = {
+                fetchData = {
                     method: "GET",
                     headers: { 
                         "Accept": "application/json",
@@ -229,10 +210,10 @@ export const checkAuth = () => {
                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
                     //redirect: 'follow', // manual, *follow, error
                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    Origin: REMOTE_LOCATION_API_ORIGIN,
+                    Origin: remote_location_api_origin,
                 };
 
-                const api_url = buildURLWithQueryString(REMOTE_LOCATION_API_URI + "/session", {
+                const api_url = buildURLWithQueryString(remote_location_api_uri + "/session", {
                     token:  authUser.token
                 });
                 return fetch(api_url, fetchData);
@@ -255,6 +236,7 @@ export const checkAuth = () => {
                 return reject( error );
             });
         });
+
         return promise;
     };
 };

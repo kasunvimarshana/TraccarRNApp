@@ -62,7 +62,13 @@
     "githubUrl": "https://github.com/kasunvimarshana",
     "extra": {
       "googleMapsApiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk",
-      "remoteLocationAPIOrigin": "http://gps.globemw.net:8082"
+      "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082",
+      "remoteLocationAPIOriginList": {
+        "sss1.globemw.net": "http://sss1.globemw.net:8082",
+        "gps.globemw.net": "http://gps.globemw.net:8082",
+        "gps1.globemw.net": "http://gps1.globemw.net:8082",
+        "gps2.globemw.net": "http://gps2.globemw.net:8082"
+      }
     }
   }
 }
