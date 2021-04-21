@@ -38,6 +38,8 @@
     "expo-constants": "~9.3.3",
     "expo-firebase-analytics": "~2.6.0",
     "expo-firebase-core": "~1.3.0",
+    "expo-font": "~8.4.0",
+    "expo-google-sign-in": "~8.4.0",
     "expo-location": "~10.0.0",
     "expo-notifications": "~0.8.2",
     "expo-permissions": "~10.0.0",
