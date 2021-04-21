@@ -33,6 +33,7 @@ import {
     fetchDevices,
     selectDevice 
 } from '../Store/Actions/DeviceAction';
+import { GetSortOrder_JSON_ASC, nest } from '../Helpers/ArrayHelper';
 
 class GroupDeviceScreen extends Component {
 
@@ -138,7 +139,7 @@ class GroupDeviceScreen extends Component {
     }
 
     formatGroupDevices = ( groupList = [], deviceList = [] ) => {
-        let formattedGroupDevices = [];
+        /*let formattedGroupDevices = [];
         const groupIdList = groupList.map(group => group.id);
         const ungroupDevices = {
             id: 0,
@@ -155,15 +156,38 @@ class GroupDeviceScreen extends Component {
             }, []);
             return { ...group, deviceList: [...tempDevices] };
         });
-        //formattedGroupDevices = groupDevices;
         formattedGroupDevices = Array.prototype.concat( groupDevices, { ...ungroupDevices } );
+        console.log("formattedGroupDevices", formattedGroupDevices);
+        return formattedGroupDevices;*/
+
+        let formattedGroupDevices = [];
+        const groupIdList = groupList.map(group => group.id);
+        const ungroupDevices = {
+            id: 0,
+            groupId: 0,
+            name: "Ungroup Devices",
+            deviceList: []
+        };
+        do { ungroupDevices.id = ( ungroupDevices.id + 1 ) } while ( groupIdList.includes( ungroupDevices.id ) );
+        ungroupDevices.deviceList = deviceList.filter((device, index, arr) => {
+            return groupIdList.includes( device.groupId ) === false
+        }, []);
+        const groupDevices = groupList.map(group => {
+            const tempDevices = deviceList.filter((device, index, arr) => {
+                return device.groupId === group.id
+            }, []);
+            return { ...group, deviceList: [...tempDevices] };
+        });
+        formattedGroupDevices = Array.prototype.concat( groupDevices, { ...ungroupDevices } );
+        formattedGroupDevices.sort(GetSortOrder_JSON_ASC("id"));
+        formattedGroupDevices = nest(formattedGroupDevices, 0, "groupId");
         console.log("formattedGroupDevices", formattedGroupDevices);
         return formattedGroupDevices;
     }
 
     searchFilterHandler = ( text ) => {
         const groupDeviceList = this.state.groupDeviceList || [];    
-        const filteredGroupDeviceList = groupDeviceList.filter(group => {      
+        /*const filteredGroupDeviceList = groupDeviceList.filter(group => {      
             const groupName = String(group.name).toLowerCase();
             const textData = String(text).toLowerCase();
             const devices = group.deviceList || [];
@@ -173,7 +197,12 @@ class GroupDeviceScreen extends Component {
                     return ( deviceName.indexOf(textData ) > -1)
                 }).length > 0 )
             );    
-        });  
+        });*/
+        const filteredGroupDeviceList = groupDeviceList.filter(group => {      
+            const groupName = String(group.name).toLowerCase();
+            const textData = String(text).toLowerCase();
+            return ( ( groupName.indexOf(textData ) > -1) );    
+        });
 
         if( this._isMounted ){
             this.setState({ 
