@@ -22,3 +22,6 @@ await fetch('https://fcm.googleapis.com/fcm/send', {
     },
   }),
 });
+
+//https://medium.com/yale-sandbox/react-native-push-notifications-with-firebase-cloud-functions-74b832d45386
+//https://docs.expo.io/versions/latest/sdk/notifications/

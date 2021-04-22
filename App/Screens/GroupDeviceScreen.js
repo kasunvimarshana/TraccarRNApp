@@ -111,7 +111,7 @@ class GroupDeviceScreen extends Component {
         if (
             ((nextProps.ui_groupList) && (nextProps.ui_deviceList))
         ) {
-            console.log("nextProps.ui_groupList, nextProps.ui_deviceList", nextProps.ui_groupList, nextProps.ui_deviceList);
+            //console.log("nextProps.ui_groupList, nextProps.ui_deviceList", nextProps.ui_groupList, nextProps.ui_deviceList);
             const groupDevices = this.formatGroupDevices([...nextProps.ui_groupList], [...nextProps.ui_deviceList]);
             this.setState({
                 groupDeviceList: groupDevices,
@@ -181,7 +181,7 @@ class GroupDeviceScreen extends Component {
         formattedGroupDevices = Array.prototype.concat( groupDevices, { ...ungroupDevices } );
         formattedGroupDevices.sort(GetSortOrder_JSON_ASC("id"));
         formattedGroupDevices = nest(formattedGroupDevices, 0, "groupId");
-        console.log("formattedGroupDevices", formattedGroupDevices);
+        console.log("formattedGroupDevices = ", formattedGroupDevices);
         return formattedGroupDevices;
     }
 

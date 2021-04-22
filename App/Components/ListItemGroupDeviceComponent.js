@@ -22,10 +22,47 @@ const ListItemGroupDeviceComponent = ({item, onPressHandler}) => {
 
     return (
         <View>
-            <List.AccordionGroup>
-                <List.Accordion title={item.name} id={item.id}>
+            {
+                <List.Section>
+                    <List.Accordion 
+                        title={item.name} 
+                        id={item.id}
+                        left={props => <List.Icon {...props} icon="city-variant-outline"/>}
+                    >
                     {
-                        item.deviceList !== null &&
+                        (item.children !== null) &&
+                        (
+                            item.children.map((group, index) => (  
+                                <List.AccordionGroup key={index}>
+                                    <List.Accordion 
+                                        title={group.name} 
+                                        id={group.id} 
+                                        left={props => <List.Icon {...props} icon="home-variant-outline"/>}
+                                    >
+                                    {
+                                        (group.deviceList !== null) &&
+                                        (
+                                            group.deviceList.map((device, index) => (  
+        
+                                                <List.Item
+                                                    key={index}
+                                                    title={device.name}
+                                                    description={null}
+                                                    left={props => <List.Icon {...props} icon="car" />}
+                                                    onPress={() => itemOnPressHandler( device )}
+                                                />
+        
+                                            ))
+                                        )
+                                    }
+                                    </List.Accordion>
+                                </List.AccordionGroup>
+                            ))
+                        ) 
+                    }
+
+                    {
+                        (item.deviceList !== null) &&
                         (
                             item.deviceList.map((device, index) => (  
 
@@ -33,15 +70,16 @@ const ListItemGroupDeviceComponent = ({item, onPressHandler}) => {
                                     key={index}
                                     title={device.name}
                                     description={null}
-                                    left={props => <AntDesign name="car" size={24} color="black" />}
+                                    left={props => <List.Icon {...props} icon="car" />}
                                     onPress={() => itemOnPressHandler( device )}
                                 />
 
                             ))
                         )
                     }
-                </List.Accordion>
-            </List.AccordionGroup>
+                    </List.Accordion>
+                </List.Section>
+            }
         </View>
     );
 }

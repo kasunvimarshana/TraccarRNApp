@@ -16,7 +16,8 @@ export const getExpoPushTokenAsync = () => {
     return (dispatch, getState) => {
         const promise = new Promise(async (resolve, reject) => { 
             try{
-                let token;
+                let token = undefined;
+                let experienceId = undefined;
                 if (Constants.isDevice) {
                     const { status: existingStatus } = await Notifications.getPermissionsAsync();
                     let finalStatus = existingStatus;
@@ -27,6 +28,10 @@ export const getExpoPushTokenAsync = () => {
                     if (finalStatus !== "granted") {
                         console.log("Failed to get push token for push notification!");
                         throw new Error("Failed to get push token for push notification!");
+                    }
+                    if ( !Constants.manifest ) {
+                        // Absence of the manifest means we're in bare workflow
+                        experienceId = '@username/example';
                     }
                     token = (await Notifications.getExpoPushTokenAsync()).data;
                 } else {
@@ -58,7 +63,7 @@ export const getDevicePushTokenAsync = () => {
     return (dispatch, getState) => {
         const promise = new Promise(async (resolve, reject) => { 
             try{
-                let token;
+                let token = undefined;
                 if (Constants.isDevice) {
                     const { status: existingStatus } = await Notifications.getPermissionsAsync();
                     let finalStatus = existingStatus;

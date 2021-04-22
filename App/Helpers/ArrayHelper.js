@@ -34,7 +34,11 @@ export const chunk = (arr, size) => {
 }
 
 export const nest = (itemsArray, id = null, link = 'parent_id') => {
-    return itemsArray
-    .filter((item) => item[link] === id)
-    .map((item) => ({ ...item, children: nest(itemsArray, item.id) }));
+    return itemsArray.filter((item) => {
+        return item[link] === id;
+    }).map((item) => {
+        let children = nest(itemsArray, item.id, link);
+        let _temp = { ...item, children: children };
+        return _temp;
+    });
 }
