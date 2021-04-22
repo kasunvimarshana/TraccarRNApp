@@ -50,30 +50,46 @@ class GroupDeviceScreen extends Component {
             groupDeviceList: null,
             filteredGroupDeviceList: null
         };
+
+        if (
+            ((props.ui_groupList) && (props.ui_deviceList))
+        ) {
+            const groupDevices = this.formatGroupDevices([...props.ui_groupList], [...props.ui_deviceList]);
+            this.state.groupDeviceList = groupDevices;
+            this.state.filteredGroupDeviceList = groupDevices;
+        }
     }
 
     componentDidMount() {
         // Subscribe to changes
         this._isMounted = true;
         
-        this.setState({
-            isLoading: true
-        });
-
         //let handle = InteractionManager.createInteractionHandle();
-        this.interactionPromise = InteractionManager.runAfterInteractions(() => {
-            this.props.ui_checkAuth()
-            .catch((error) => {
-                console.log("ui_checkAuth", error);
-                this.props.navigation.replace("AuthRoutes");
-            })
-            .then(async () => {
-                await this.fetchGroupDevices();
-                this.setState({
-                    isLoading: false
+        if( this.state.groupDeviceList === null ){
+            this.setState({
+                isLoading: true
+            });
+
+            this.interactionPromise = InteractionManager.runAfterInteractions(() => {
+                /*this.props.ui_checkAuth()
+                .catch((error) => {
+                    console.log("ui_checkAuth", error);
+                    this.props.navigation.replace("AuthRoutes");
+                })
+                .then(async () => {
+                    await this.fetchGroupDevices();
+                    this.setState({
+                        isLoading: false
+                    });
+                });*/
+                this.fetchGroupDevices()
+                .then(() => {
+                    this.setState({
+                        isLoading: false
+                    });
                 });
             });
-        });
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -93,7 +109,9 @@ class GroupDeviceScreen extends Component {
             return;
         };
 
-        InteractionManager.clearInteractionHandle( this.interactionPromise );
+        if( this.interactionPromise !== undefined ){
+            InteractionManager.clearInteractionHandle( this.interactionPromise );
+        }
     }
 
     componentDidCatch(error, info) { 
@@ -178,7 +196,8 @@ class GroupDeviceScreen extends Component {
             }, []);
             return { ...group, deviceList: [...tempDevices] };
         });
-        formattedGroupDevices = Array.prototype.concat( groupDevices, { ...ungroupDevices } );
+        //formattedGroupDevices = Array.prototype.concat( groupDevices, { ...ungroupDevices } );
+        formattedGroupDevices = groupDevices;
         formattedGroupDevices.sort(GetSortOrder_JSON_ASC("id"));
         formattedGroupDevices = nest(formattedGroupDevices, 0, "groupId");
         console.log("formattedGroupDevices = ", formattedGroupDevices);

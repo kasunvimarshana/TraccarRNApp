@@ -45,30 +45,45 @@ class UserScreen extends Component {
             userList: props.ui_userList,
             filteredUserList: props.ui_userList
         };
+
+        if (
+            (props.ui_userList)
+        ) {
+            this.state.userList = props.ui_userList;
+            this.state.filteredUserList = props.ui_userList;
+        }
     }
 
     componentDidMount() {
         // Subscribe to changes
         this._isMounted = true;
         
-        this.setState({
-            isLoading: true
-        });
-
         //let handle = InteractionManager.createInteractionHandle();
-        this.interactionPromise = InteractionManager.runAfterInteractions(() => {
-            this.props.ui_checkAuth()
-            .catch((error) => {
-                console.log("ui_checkAuth", error);
-                this.props.navigation.replace("AuthRoutes");
-            })
-            .then(async () => {
-                await this.fetchUsers();
-                this.setState({
-                    isLoading: false
+        if( this.state.userList === null ){
+            this.setState({
+                isLoading: true
+            });
+            
+            this.interactionPromise = InteractionManager.runAfterInteractions(() => {
+                /*this.props.ui_checkAuth()
+                .catch((error) => {
+                    console.log("ui_checkAuth", error);
+                    this.props.navigation.replace("AuthRoutes");
+                })
+                .then(async () => {
+                    await this.fetchUsers();
+                    this.setState({
+                        isLoading: false
+                    });
+                });*/
+                this.fetchUsers()
+                .then(() => {
+                    this.setState({
+                        isLoading: false
+                    });
                 });
             });
-        });
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -88,7 +103,9 @@ class UserScreen extends Component {
             return;
         };
 
-        InteractionManager.clearInteractionHandle( this.interactionPromise );
+        if( this.interactionPromise !== undefined ){
+            InteractionManager.clearInteractionHandle( this.interactionPromise );
+        }
     }
 
     componentDidCatch(error, info) { 

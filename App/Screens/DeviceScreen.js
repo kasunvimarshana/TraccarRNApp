@@ -45,30 +45,45 @@ class DeviceScreen extends Component {
             deviceList: props.ui_deviceList,
             filteredDeviceList: props.ui_deviceList
         };
+
+        if (
+            (props.ui_deviceList)
+        ) {
+            this.state.deviceList = props.ui_deviceList;
+            this.state.filteredDeviceList = props.ui_deviceList;
+        }
     }
 
     componentDidMount() {
         // Subscribe to changes
         this._isMounted = true;
         
-        this.setState({
-            isLoading: true
-        });
-
         //let handle = InteractionManager.createInteractionHandle();
-        this.interactionPromise = InteractionManager.runAfterInteractions(() => {
-            this.props.ui_checkAuth()
-            .catch((error) => {
-                console.log("ui_checkAuth", error);
-                this.props.navigation.replace("AuthRoutes");
-            })
-            .then(async () => {
-                await this.fetchDevices();
-                this.setState({
-                    isLoading: false
+        if( this.state.deviceList === null ){
+            this.setState({
+                isLoading: true
+            });
+            
+            this.interactionPromise = InteractionManager.runAfterInteractions(() => {
+                /*this.props.ui_checkAuth()
+                .catch((error) => {
+                    console.log("ui_checkAuth", error);
+                    this.props.navigation.replace("AuthRoutes");
+                })
+                .then(async () => {
+                    await this.fetchDevices();
+                    this.setState({
+                        isLoading: false
+                    });
+                });*/
+                this.fetchDevices()
+                .then(() => {
+                    this.setState({
+                        isLoading: false
+                    });
                 });
             });
-        });
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -88,7 +103,9 @@ class DeviceScreen extends Component {
             return;
         };
 
-        InteractionManager.clearInteractionHandle( this.interactionPromise );
+        if( this.interactionPromise !== undefined ){
+            InteractionManager.clearInteractionHandle( this.interactionPromise );
+        }
     }
 
     componentDidCatch(error, info) { 

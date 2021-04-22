@@ -59,7 +59,7 @@ const reportStack = ({ navigation }) => {
                 name="ReportScreen"
                 component={(_reportScreen)}
                 options={{
-                    title: 'Report'
+                    title: 'Playback Search'
                 }}
                 listeners={({ navigation, route }) => ({
                     tabPress: e => {
