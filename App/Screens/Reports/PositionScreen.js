@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import * as Location from 'expo-location';
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline, ProviderPropType, AnimatedRegion, MAP_TYPES, PROVIDER_DEFAULT } from 'react-native-maps';
 import moment from 'moment';
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 
 import CustomTheme from '../../Themes/CustomTheme';
 import AnimatedPolyLineComponent from '../../Components/AnimatedPolyLineComponent';
@@ -342,6 +343,7 @@ class PositionScreen extends Component {
         if( this.animatedPolyLineComponentRef.current ){
             this.animatedPolyLineComponentRef.current.start();
         }
+        this._activateKeepAwake();
     }
 
     stop = () => {
@@ -349,6 +351,7 @@ class PositionScreen extends Component {
         if( this.animatedPolyLineComponentRef.current ){
             this.animatedPolyLineComponentRef.current.stop();
         }
+        this._deactivateKeepAwake();
     }
 
     pause = () => {
@@ -356,7 +359,16 @@ class PositionScreen extends Component {
         if( this.animatedPolyLineComponentRef.current ){
             this.animatedPolyLineComponentRef.current.pause();
         }
+        this._deactivateKeepAwake();
     }
+
+    _activateKeepAwake = () => {
+        activateKeepAwake(); 
+    };
+
+    _deactivateKeepAwake = () => {
+        deactivateKeepAwake(); 
+    };
 
     render() {
         //const { colors } = this.props.theme;
