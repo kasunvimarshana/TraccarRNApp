@@ -18,6 +18,7 @@ import {
 } from '../../Helpers/HTTPHelper';
 import { Base64 } from '../../Helpers/Base64Helper';
 import { getSetting, saveSetting, deleteSetting } from './SettingAction';
+import { resetStore } from './StoreAction';
 
 const APP_KEY_ASYNC_STORAGE_USER = KEY_ASYNC_STORAGE_USER;
 
@@ -114,6 +115,7 @@ export const authSignOut = () => {
             try{
                 await dispatch( authRemoveUser() );
                 await dispatch( authSetUser( null ) );
+                await dispatch( resetStore() );
                 return resolve( null );
             }catch( error ){
                 reject( error );

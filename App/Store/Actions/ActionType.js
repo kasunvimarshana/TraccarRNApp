@@ -1,3 +1,6 @@
+//Reset Store
+export const RESET_STORE = "RESET_STORE";
+
 // UI Action Types
 export const UI_START_PROCESS = "UI_START_PROCESS";
 export const UI_STOP_PROCESS = "UI_STOP_PROCESS";

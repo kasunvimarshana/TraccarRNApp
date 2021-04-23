@@ -417,9 +417,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing,
-        ui_reportReportTripIsFetching: state.reportTrip.isFetching,
-        ui_reportTripList: state.reportTrip.reportTripList
+        ui_isProcessing: state.ui?.isProcessing,
+        ui_reportReportTripIsFetching: state.reportTrip?.isFetching,
+        ui_reportTripList: state.reportTrip?.reportTripList
     };
 };
 

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing
+        ui_isProcessing: state.ui?.isProcessing
     };
 };
 

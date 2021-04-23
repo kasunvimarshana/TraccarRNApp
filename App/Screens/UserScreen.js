@@ -269,9 +269,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing,
-        ui_selectedUser: state.user.selectedUser,
-        ui_userList: state.user.userList
+        ui_isProcessing: state.ui?.isProcessing,
+        ui_selectedUser: state.user?.selectedUser,
+        ui_userList: state.user?.userList
     };
 };
 

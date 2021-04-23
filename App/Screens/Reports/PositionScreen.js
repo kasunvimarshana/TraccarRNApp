@@ -514,9 +514,9 @@ const customMapStyle = [];
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing,
-        ui_reportPositionIsFetching: state.position.isFetching,
-        ui_positionList: state.position.positionList
+        ui_isProcessing: state.ui?.isProcessing,
+        ui_reportPositionIsFetching: state.position?.isFetching,
+        ui_positionList: state.position?.positionList
     };
 };
 

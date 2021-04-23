@@ -6,6 +6,7 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 
+import { RESET_STORE } from '../Actions/ActionType';
 import UIReducer from '../Reducers/UIReducer';
 import AuthReducer from '../Reducers/AuthReducer';
 import DeviceReducer from '../Reducers/DeviceReducer';
@@ -20,7 +21,26 @@ import ReportSummaryReducer from '../Reducers/Reports/ReportSummaryReducer';
 import ReportTripReducer from '../Reducers/Reports/ReportTripReducer';
 import EventReducer from '../Reducers/Reports/EventReducer';
 
-const rootReducer = combineReducers({
+var middlewares = [];
+middlewares.push(thunk);
+
+/*const rootReducer = combineReducers({
+    ui: UIReducer,
+    auth: AuthReducer,
+    device: DeviceReducer,
+    group: GroupReducer,
+    user: UserReducer,
+    geofence: GeofenceReducer,
+    setting: SettingReducer,
+
+    report: ReportReducer,
+    position: PositionReducer,
+    reportSummary: ReportSummaryReducer,
+    reportTrip: ReportTripReducer,
+    event: EventReducer
+});*/
+
+const appReducer = combineReducers({
     ui: UIReducer,
     auth: AuthReducer,
     device: DeviceReducer,
@@ -36,6 +56,13 @@ const rootReducer = combineReducers({
     event: EventReducer
 });
 
+const rootReducer = (state, action) => {
+    if (action.type === "RESET_STORE") {
+        state = undefined
+    }
+    return appReducer(state, action);
+}
+
 let composeEnhancers = compose;
 
 if( __DEV__ ){
@@ -43,7 +70,7 @@ if( __DEV__ ){
 }
 
 const configureStore = () => {
-    return createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+    return createStore(rootReducer, composeEnhancers(applyMiddleware(...middlewares)));
 };
 
 export default configureStore;

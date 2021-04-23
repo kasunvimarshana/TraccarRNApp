@@ -21,7 +21,11 @@ const CustomTheme = {
         transparent: "transparent",
 
         geofenceStrokeColor: "rgba(227, 53, 178, 0.85)",
-        geofenceFillColor: "rgba(227, 53, 178, 0.5)"
+        geofenceFillColor: "rgba(227, 53, 178, 0.5)",
+
+        deviceStatusOnline: "rgba(25, 255, 25, 1)",
+        deviceStatusOffline: "rgba(255, 25, 25, 1)",
+        deviceStatusDefault: "rgba(25, 25, 25, 1)"
     },
 };
 

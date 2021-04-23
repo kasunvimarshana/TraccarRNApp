@@ -463,9 +463,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing,
-        ui_selectedGroup: state.group.selectedGroup,
-        ui_selectedDevice: state.device.selectedDevice
+        ui_isProcessing: state.ui?.isProcessing,
+        ui_selectedGroup: state.group?.selectedGroup,
+        ui_selectedDevice: state.device?.selectedDevice
     };
 };
 

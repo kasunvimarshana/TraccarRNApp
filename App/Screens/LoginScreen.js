@@ -50,6 +50,14 @@ class LoginScreen extends Component {
     componentDidMount() {
         // Subscribe to changes
         this._isMounted = true;
+
+        this.getSetting( KEY_REMOTE_LOCATION_API_ORIGIN )
+        .then(( remote_location_api_origin ) => {
+            this.setState({
+                remote_location_api_origin: remote_location_api_origin
+            });
+        });
+
     }
 
     componentDidUpdate(prevProps) {
@@ -157,6 +165,10 @@ class LoginScreen extends Component {
         });
     }
 
+    getSetting = ( key ) => {
+        return this.props.ui_getSetting(key);
+    }
+
     render() {
         //const { colors } = this.props.theme;
         const remoteLocationAPIOriginList_Map = new Map(Object.entries(this.state.remoteLocationAPIOriginList));
@@ -258,7 +270,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing
+        ui_isProcessing: state.ui?.isProcessing
     };
 };
 
@@ -268,7 +280,7 @@ const mapDispatchToProps = (dispatch) => {
         ui_stopProcessing: () => dispatch(stopProcessing()),
         ui_authSignIn: ( args ) => dispatch(authSignIn( args )),
         ui_checkAuth: () => dispatch(checkAuth()),
-        ui_getSetting: ( key ) => dispatch(authSignIn( key )),
+        ui_getSetting: ( key ) => dispatch(getSetting( key )),
         ui_saveSetting: ( args ) => dispatch(saveSetting( args ))
     };
 };

@@ -178,6 +178,9 @@ class GroupDeviceScreen extends Component {
         console.log("formattedGroupDevices", formattedGroupDevices);
         return formattedGroupDevices;*/
 
+        groupList = groupList.map(this.formatGroup);
+        deviceList = deviceList.map(this.formatDevice);
+        
         let formattedGroupDevices = [];
         const groupIdList = groupList.map(group => group.id);
         const ungroupDevices = {
@@ -243,6 +246,25 @@ class GroupDeviceScreen extends Component {
                 isFlatListRefreshing: false
             });
         });
+    }
+
+    formatDevice = ( device ) => {
+        var onlineExpression = new RegExp("^(online|1)$", "i");
+        var offlineExpression = new RegExp("^(offline|0)$", "i");
+        if( device.status !== undefined ) {
+            if( onlineExpression.test( String(device.status) ) ){
+                device.status = "online";
+            }else if( offlineExpression.test( String(device.status) ) ){
+                device.status = "offline";
+            }else{
+                device.status = undefined;
+            }
+        }
+        return device;
+    }
+
+    formatGroup = ( group ) => {
+        return group;
     }
 
     listItemClickHandler = ( item ) => {
@@ -340,11 +362,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing,
-        ui_selectedGroup: state.group.selectedGroup,
-        ui_groupList: state.group.groupList,
-        ui_selectedDevice: state.device.selectedDevice,
-        ui_deviceList: state.device.deviceList
+        ui_isProcessing: state.ui?.isProcessing,
+        ui_selectedGroup: state.group?.selectedGroup,
+        ui_groupList: state.group?.groupList,
+        ui_selectedDevice: state.device?.selectedDevice,
+        ui_deviceList: state.device?.deviceList
     };
 };
 

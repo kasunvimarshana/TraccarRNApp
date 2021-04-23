@@ -214,9 +214,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing,
-        ui_fromDateTime: state.report.fromDateTime,
-        ui_toDateTime: state.report.toDateTime
+        ui_isProcessing: state.ui?.isProcessing,
+        ui_fromDateTime: state.report?.fromDateTime,
+        ui_toDateTime: state.report?.toDateTime
     };
 };
 

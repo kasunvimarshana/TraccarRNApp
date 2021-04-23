@@ -298,8 +298,8 @@ const customMapStyle = [];
 
 const mapStateToProps = (state) => {
     return {
-        ui_isProcessing: state.ui.isProcessing,
-        //ui_devicePosition: state.device.devicePosition
+        ui_isProcessing: state.ui?.isProcessing,
+        //ui_devicePosition: state.device?.devicePosition
     };
 };
 
