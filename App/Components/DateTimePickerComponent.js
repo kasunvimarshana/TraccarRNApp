@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import { 
     //Colors,
-    Text
+    Text,
+    IconButton
 } from 'react-native-paper';
 import { withTheme, useTheme } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
@@ -219,26 +220,39 @@ export const DateTimePickerComponent = ( props ) => {
     };
 
     return (
-        <View style={[styles.dateTimePickerView, dateTimePickerViewStyle]}>
-            <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()}>
-                <Text style={[styles.text, placeholderStyle]}> {getPlaceholder()} </Text>
-            </TouchableOpacity>
-            {
-                (state && state.isVisible === true) && 
-                (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        //timeZoneOffsetInMinutes={0}
-                        mode={state.currentMode} //date, time
-                        is24Hour={false}
-                        display="default" //default, spinner, calendar, clock
-                        value={getValue()}
-                        onChange={ onChangeHandler }
-                        {...dateTimePickerProps}
-                    />
-                )
-            }
-        </View>
+        <React.Fragment>
+            <View>
+            </View>
+            <View style={[styles.dateTimePickerView, dateTimePickerViewStyle]}>
+
+                <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()}>
+                    <Text style={[styles.text, placeholderStyle]}> {getPlaceholder()} </Text>
+                </TouchableOpacity>
+                {
+                    (state && state.isVisible === true) && 
+                    (
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            //timeZoneOffsetInMinutes={0}
+                            mode={state.currentMode} //date, time
+                            is24Hour={false}
+                            display="default" //default, spinner, calendar, clock
+                            value={getValue()}
+                            onChange={ onChangeHandler }
+                            {...dateTimePickerProps}
+                        />
+                    )
+                }
+            </View>
+            <View>
+                <IconButton
+                    icon="clock-outline"
+                    color={colors.text}
+                    size={20}
+                    onPress={() => showTimePicker()}
+                />
+            </View>
+        </React.Fragment>
     );
 
 };
@@ -254,7 +268,8 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: "stretch",
         justifyContent: "center",
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        flexDirection: "column"
     },
 
     touchableOpacity:{

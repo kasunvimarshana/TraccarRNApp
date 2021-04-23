@@ -26,7 +26,10 @@ const ListItemGroupDeviceComponent = ({item, onPressHandler}) => {
         <View>
             {
                 <List.Section>
-                    {/*<List.AccordionGroup expandedId={null}>*/}
+                    
+                    <List.AccordionGroup 
+                        //expandedId={null}
+                    >
                         <List.Item
                             title={item.name}
                             description={null}
@@ -42,7 +45,7 @@ const ListItemGroupDeviceComponent = ({item, onPressHandler}) => {
                                         id={group.id} 
                                         testID={String(group.id)}
                                         left={props => <List.Icon {...props} icon="home-variant-outline"/>}
-                                        expanded={true}
+                                        //expanded={true}
                                         //onPress={() => console.log("onPress")}
                                     >
                                     {
@@ -94,7 +97,7 @@ const ListItemGroupDeviceComponent = ({item, onPressHandler}) => {
                                 })
                             )
                         }
-                    {/*</List.AccordionGroup>*/}
+                    </List.AccordionGroup>
                 </List.Section>
             }
         </View>

@@ -145,6 +145,36 @@ class ReportScreen extends Component {
         this.props.ui_setToDateTime( toDateTime );
     }
 
+    buttonOnPressHandler_Today = () => {
+        const currentDateTime = moment();
+        let fromDateTime = currentDateTime.clone().startOf('date');
+        let toDateTime = currentDateTime.clone().endOf('date');
+        fromDateTime = fromDateTime.toDate();
+        toDateTime = toDateTime.toDate();
+        this._setFromDateTime( fromDateTime );
+        this._setToDateTime( toDateTime );
+    }
+    
+    buttonOnPressHandler_ThisWeek = () => {
+        const currentDateTime = moment();
+        let fromDateTime = currentDateTime.clone().startOf('week');
+        let toDateTime = currentDateTime.clone().endOf('week');
+        fromDateTime = fromDateTime.toDate();
+        toDateTime = toDateTime.toDate();
+        this._setFromDateTime( fromDateTime );
+        this._setToDateTime( toDateTime );
+    }
+
+    buttonOnPressHandler_ThisMonth = () => {
+        const currentDateTime = moment();
+        let fromDateTime = currentDateTime.clone().startOf('month');
+        let toDateTime = currentDateTime.clone().endOf('month');
+        fromDateTime = fromDateTime.toDate();
+        toDateTime = toDateTime.toDate();
+        this._setFromDateTime( fromDateTime );
+        this._setToDateTime( toDateTime );
+    }
+
     render() {
         //const { colors } = this.props.theme;
         
@@ -152,6 +182,21 @@ class ReportScreen extends Component {
             <SafeAreaView style={styles.container}>
                 <View style={styles.contentContainer}>
                     <StatusBar style="auto"/>
+
+                    <ButtonComponent 
+                        onPress={() => this.buttonOnPressHandler_Today()} 
+                        //disabled={this.state.isButtonDisabled} 
+                        buttonViewStyle={styles.buttonComponentDT}> Today </ButtonComponent>
+
+                    <ButtonComponent 
+                        onPress={() => this.buttonOnPressHandler_ThisWeek()} 
+                        //disabled={this.state.isButtonDisabled} 
+                        buttonViewStyle={styles.buttonComponentDT}> This Week </ButtonComponent>
+
+                    <ButtonComponent 
+                        onPress={() => this.buttonOnPressHandler_ThisMonth()} 
+                        //disabled={this.state.isButtonDisabled} 
+                        buttonViewStyle={styles.buttonComponentDT}> This Month </ButtonComponent>
 
                     <DateTimePickerComponent
                         dateTimePickerViewStyle={styles.dateTimePickerComponent} 
@@ -199,8 +244,8 @@ const styles = StyleSheet.create({
 
     dateTimePickerComponent: {
         width: "80%",
-        marginTop: 40,
-        marginBottom: 10
+        marginTop: 20,
+        marginBottom: 5
     },
 
     buttonComponent: {
@@ -208,6 +253,13 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginBottom: 10,
         backgroundColor: colors.OrangePeel,
+    },
+
+    buttonComponentDT: {
+        width: "80%",
+        marginTop: 20,
+        marginBottom: 10,
+        backgroundColor: colors.AntiqueBrass,
     }
 
 });
