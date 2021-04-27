@@ -1,11 +1,11 @@
 {
-  "name": "globeGPS",
-  "displayName": "globeGPS",
+  "name": "gps",
+  "displayName": "gps",
   "expo": {
-    "name": "globeGPS",
-    "slug": "globeGPS",
-    "version": "1.0.2",
-    "orientation": "portrait",
+    "name": "gps",
+    "slug": "gps",
+    "version": "1.0.3",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -21,9 +21,9 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk"
+        "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
       },
-      "bundleIdentifier": "com.kasunv.globeGPS",
+      "bundleIdentifier": "com.globemw.gps",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -31,10 +31,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kasunv.globeGPS",
+      "package": "com.globemw.gps",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk"
+          "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
         }
       },
       "permissions": [
@@ -49,7 +49,7 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "firebase": {
-        "apiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk",
+        "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
         "authDomain": "globegps.firebaseapp.com",
         "projectId": "globegps",
         "storageBucket": "globegps.appspot.com",
@@ -61,7 +61,7 @@
     "description": "Description",
     "githubUrl": "https://github.com/kasunvimarshana",
     "extra": {
-      "googleMapsApiKey": "AIzaSyAmB6wYgWfvij_6kcRcGl3ZFN_IADjfBfk",
+      "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
       "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082",
       "remoteLocationAPIOriginList": {
         "sss1.globemw.net": "http://sss1.globemw.net:8082",
@@ -69,6 +69,14 @@
         "gps1.globemw.net": "http://gps1.globemw.net:8082",
         "gps2.globemw.net": "http://gps2.globemw.net:8082"
       }
-    }
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "notification": {
+      "color": "#ffffff"
+    },
+    "scheme": "gps"
   }
 }
