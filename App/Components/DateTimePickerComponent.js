@@ -225,7 +225,7 @@ export const DateTimePickerComponent = ( props ) => {
                 style={[styles.dateTimePickerView, dateTimePickerViewStyle]}
             >
                 <View style={styles.dateTimeView}>
-                    <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()}>
+                    <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()} disabled={state.isVisible}>
                         <Text style={[styles.text, placeholderStyle]}> {getPlaceholder()} </Text>
                     </TouchableOpacity>
                     {
