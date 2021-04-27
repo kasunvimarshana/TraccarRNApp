@@ -14,8 +14,8 @@ const firebaseConfig = {
     projectId: "globegps",
     storageBucket: "globegps.appspot.com",
     messagingSenderId: "648465021458",
-    appId: "1:648465021458:web:a0ee54057b199b98f976cb",
-    measurementId: "G-4NRYEMHMDE"
+    appId: "1:648465021458:web:b1c8b6095045df77f976cb",
+    measurementId: "G-TLJ62N1QL6"
 };
   
 if (!firebase.apps.length) {

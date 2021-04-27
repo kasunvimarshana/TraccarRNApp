@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>648465021458-pf1fubgkpkdqfn24dm1h420e9hak6rfa.apps.googleusercontent.com</string>
+	<string>648465021458-6tudfq29dg75943bbegj4d6via02h4fs.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.648465021458-pf1fubgkpkdqfn24dm1h420e9hak6rfa</string>
+	<string>com.googleusercontent.apps.648465021458-6tudfq29dg75943bbegj4d6via02h4fs</string>
 	<key>API_KEY</key>
 	<string>AIzaSyA5IvCyKuUHYE08JNdZakLjPOHVJjeR-AY</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.kasunv.globeGPS</string>
+	<string>com.globemw.gps</string>
 	<key>PROJECT_ID</key>
 	<string>globegps</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:648465021458:ios:d536b668348ecc12f976cb</string>
+	<string>1:648465021458:ios:4711282446e9b573f976cb</string>
 	<key>DATABASE_URL</key>
 	<string>https://globegps-default-rtdb.firebaseio.com</string>
 </dict>

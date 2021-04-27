@@ -69,14 +69,6 @@
         "gps1.globemw.net": "http://gps1.globemw.net:8082",
         "gps2.globemw.net": "http://gps2.globemw.net:8082"
       }
-    },
-    "platforms": [
-      "android",
-      "ios"
-    ],
-    "notification": {
-      "color": "#ffffff"
-    },
-    "scheme": "gps"
+    }
   }
 }

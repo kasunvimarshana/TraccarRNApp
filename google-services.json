@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:648465021458:android:7f38061e39f7e07af976cb",
+        "mobilesdk_app_id": "1:648465021458:android:624c77a53078588cf976cb",
         "android_client_info": {
-          "package_name": "com.kasunv.globeGPS"
+          "package_name": "com.globemw.gps"
         }
       },
       "oauth_client": [
