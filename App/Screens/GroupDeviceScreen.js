@@ -216,14 +216,20 @@ class GroupDeviceScreen extends Component {
             return (( groupName.indexOf(textData ) > -1) || (
                 devices.filter(device => {      
                     const deviceName = String(device.name).toLowerCase();
-                    return ( deviceName.indexOf(textData ) > -1)
+                    return ( deviceName.indexOf( textData ) > -1)
                 }).length > 0 )
             );    
         });*/
         const filteredGroupDeviceList = groupDeviceList.filter(group => {      
             const groupName = String(group.name).toLowerCase();
             const textData = String(text).toLowerCase();
-            return ( ( groupName.indexOf(textData ) > -1) );    
+            const children = group.children || [];
+            return (( groupName.indexOf(textData ) > -1) || (
+                children.filter(child => {      
+                    const childName = String(child.name).toLowerCase();
+                    return ( childName.indexOf( textData ) > -1)
+                }).length > 0 )
+            );        
         });
 
         if( this._isMounted ){
