@@ -228,21 +228,6 @@ export const DateTimePickerComponent = ( props ) => {
                     <TouchableOpacity style={[styles.touchableOpacity]} onPress={() => onPressHandler()} disabled={state.isVisible}>
                         <Text style={[styles.text, placeholderStyle]}> {getPlaceholder()} </Text>
                     </TouchableOpacity>
-                    {
-                        (state && state.isVisible === true) && 
-                        (
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                //timeZoneOffsetInMinutes={0}
-                                mode={state.currentMode} //date, time
-                                is24Hour={false}
-                                display="default" //default, spinner, calendar, clock
-                                value={getValue()}
-                                onChange={ onChangeHandler }
-                                {...dateTimePickerProps}
-                            />
-                        )
-                    }
                 </View>
                 <View style={styles.timeView}>
                     <IconButton
@@ -253,6 +238,21 @@ export const DateTimePickerComponent = ( props ) => {
                     />
                 </View>
             </View>
+            {
+                (state && state.isVisible === true) && 
+                (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        //timeZoneOffsetInMinutes={0}
+                        mode={state.currentMode} //date, time
+                        is24Hour={false}
+                        display="default" //default, spinner, calendar, clock
+                        value={getValue()}
+                        onChange={ onChangeHandler }
+                        {...dateTimePickerProps}
+                    />
+                )
+            }
         </React.Fragment>
     );
 
