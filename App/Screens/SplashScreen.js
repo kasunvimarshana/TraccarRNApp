@@ -5,7 +5,8 @@ import {
     SafeAreaView,
     Platform,
     Dimensions,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
@@ -90,7 +91,11 @@ const styles = StyleSheet.create({
 
     activityIndicator: {},
 
-    image: {}
+    image: {},
+
+    scrollView: {
+        //flex: 1
+    }
 });
 
 

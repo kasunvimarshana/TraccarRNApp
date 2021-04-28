@@ -238,6 +238,10 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
     },
 
+    scrollView: {
+        //flex: 1
+    }
+
 });
 
 const mapStateToProps = (state) => {

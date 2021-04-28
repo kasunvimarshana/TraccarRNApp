@@ -8,7 +8,8 @@ import {
     TextInput,
     FlatList,
     RefreshControl,
-    InteractionManager
+    InteractionManager,
+    ScrollView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
@@ -362,6 +363,10 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: 'center',
         alignItems: 'stretch',
+    },
+
+    scrollView: {
+        //flex: 1
     }
 
 });

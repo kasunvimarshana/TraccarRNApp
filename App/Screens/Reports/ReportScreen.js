@@ -4,7 +4,8 @@ import {
     View,
     SafeAreaView,
     Platform,
-    Dimensions
+    Dimensions,
+    ScrollView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
@@ -260,6 +261,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10,
         backgroundColor: colors.AntiqueBrass,
+    },
+
+    scrollView: {
+        //flex: 1
     }
 
 });

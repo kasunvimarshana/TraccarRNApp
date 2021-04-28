@@ -7,7 +7,8 @@ import {
     Dimensions,
     TextInput,
     Alert,
-    InteractionManager
+    InteractionManager,
+    ScrollView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
@@ -264,6 +265,10 @@ const styles = StyleSheet.create({
 
     picker: {
         width: "80%"
+    },
+
+    scrollView: {
+        //flex: 1
     }
 
 });

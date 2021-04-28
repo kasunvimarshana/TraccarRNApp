@@ -5,7 +5,8 @@ import {
     SafeAreaView,
     Platform,
     Dimensions,
-    TextInput
+    TextInput,
+    ScrollView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { 
@@ -219,6 +220,10 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%"
     },
+
+    scrollView: {
+        //flex: 1
+    }
 
 });
 

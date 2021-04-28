@@ -24,7 +24,8 @@
         "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
       },
       "bundleIdentifier": "com.globemw.gps",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "requireFullScreen": true
     },
     "android": {
       "adaptiveIcon": {
