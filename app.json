@@ -1,75 +1,72 @@
 {
-  "name": "gps",
-  "displayName": "gps",
-  "expo": {
     "name": "gps",
-    "slug": "gps",
-    "version": "1.0.3",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "config": {
-        "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
+    "displayName": "gps",
+    "expo": {
+      "name": "gps",
+      "slug": "gps",
+      "version": "1.0.3",
+      "orientation": "portrait",
+      "icon": "./assets/icon.png",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
       },
-      "bundleIdentifier": "com.globemw.gps",
-      "googleServicesFile": "./GoogleService-Info.plist",
-      "requireFullScreen": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+      "updates": {
+        "fallbackToCacheTimeout": 0
       },
-      "package": "com.globemw.gps",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
+      "assetBundlePatterns": [
+        "**/*"
+      ],
+      "ios": {
+        "supportsTablet": true,
+        "config": {
+          "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
+        },
+        "bundleIdentifier": "com.globemw.gps",
+        "googleServicesFile": "./GoogleService-Info.plist",
+        "requireFullScreen": true
+      },
+      "android": {
+        "adaptiveIcon": {
+          "foregroundImage": "./assets/adaptive-icon.png",
+          "backgroundColor": "#FFFFFF"
+        },
+        "package": "com.globemw.gps",
+        "config": {
+          "googleMaps": {
+            "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
+          }
+        },
+        "permissions": [],
+        "useNextNotificationsApi": true,
+        "googleServicesFile": "./google-services.json"
+      },
+      "web": {
+        "favicon": "./assets/favicon.png",
+        "firebase": {
+          "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
+          "authDomain": "globegps.firebaseapp.com",
+          "projectId": "globegps",
+          "storageBucket": "globegps.appspot.com",
+          "messagingSenderId": "648465021458",
+          "appId": "1:648465021458:web:a0ee54057b199b98f976cb",
+          "measurementId": "G-4NRYEMHMDE"
         }
       },
-      "permissions": [
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION",
-        "FOREGROUND_SERVICE",
-        "ACCESS_BACKGROUND_LOCATION"
-      ],
-      "useNextNotificationsApi": true,
-      "googleServicesFile": "./google-services.json"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "firebase": {
-        "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
-        "authDomain": "globegps.firebaseapp.com",
-        "projectId": "globegps",
-        "storageBucket": "globegps.appspot.com",
-        "messagingSenderId": "648465021458",
-        "appId": "1:648465021458:web:a0ee54057b199b98f976cb",
-        "measurementId": "G-4NRYEMHMDE"
-      }
-    },
-    "description": "Description",
-    "githubUrl": "https://github.com/kasunvimarshana",
-    "extra": {
-      "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
-      "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082",
-      "remoteLocationAPIOriginList": {
-        "sss1.globemw.net": "http://sss1.globemw.net:8082",
-        "gps.globemw.net": "http://gps.globemw.net:8082",
-        "gps1.globemw.net": "http://gps1.globemw.net:8082",
-        "gps2.globemw.net": "http://gps2.globemw.net:8082"
+      "platforms": ["ios", "android"],
+      "description": "Description",
+      "githubUrl": "https://github.com/kasunvimarshana",
+      "extra": {
+        "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
+        "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082",
+        "remoteLocationAPIOriginList": {
+          "sss1.globemw.net": "http://sss1.globemw.net:8082",
+          "gps.globemw.net": "http://gps.globemw.net:8082",
+          "gps1.globemw.net": "http://gps1.globemw.net:8082",
+          "gps2.globemw.net": "http://gps2.globemw.net:8082"
+        }
       }
     }
   }
-}
+  
