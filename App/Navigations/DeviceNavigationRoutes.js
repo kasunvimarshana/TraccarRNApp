@@ -470,6 +470,7 @@ const DeviceNavigationRoutes = ( props ) => {
                 }}
             />
 
+            {/*
             <BottomTab.Screen
                 name="selectedDeviceDirectionStack"
                 component={selectedDeviceDirectionStack}
@@ -481,6 +482,7 @@ const DeviceNavigationRoutes = ( props ) => {
                     unmountOnBlur: true,
                 }}
             />
+            */}
 
             <BottomTab.Screen
                 name="reportSummaryStack"
