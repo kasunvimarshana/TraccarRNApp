@@ -26,7 +26,7 @@
         "bundleIdentifier": "com.globemw.gps",
         "googleServicesFile": "./GoogleService-Info.plist",
         "requireFullScreen": true,
-        "buildNumber": "5"
+        "buildNumber": "4"
       },
       "android": {
         "adaptiveIcon": {
@@ -42,7 +42,7 @@
         "permissions": [],
         "useNextNotificationsApi": true,
         "googleServicesFile": "./google-services.json",
-        "versionCode": 5
+        "versionCode": 4
       },
       "web": {
         "favicon": "./assets/favicon.png",
@@ -60,9 +60,6 @@
       "description": "Description",
       "githubUrl": "https://github.com/kasunvimarshana",
       "extra": {
-        "bugsnag": {
-          "apiKey": "d49d07b30ff7d02be7e2401b8c50b3df"
-        },
         "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
         "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082",
         "remoteLocationAPIOriginList": {

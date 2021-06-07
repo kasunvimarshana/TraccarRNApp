@@ -181,7 +181,7 @@ class LoginScreen extends Component {
                 <View style={styles.contentContainer}>
                     <StatusBar style="auto"/>
 
-                    <HeaderTextComponent>GPS APP</HeaderTextComponent>
+                    <HeaderTextComponent style={{textAlign: "center"}}>Globe Vehicle Tracking</HeaderTextComponent>
 
                     <TextInputComponent
                         placeholder="Email..."
