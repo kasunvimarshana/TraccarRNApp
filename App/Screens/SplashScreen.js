@@ -57,7 +57,7 @@ const SplashScreen = ( props ) => {
                 {/* <HeaderTextComponent> GPS APP </HeaderTextComponent> */}
                 <Image
                     style={styles.image}
-                    source={require('../../assets/icon.png')}
+                    source={require('../Assets/images/splash_icon.png')}
                 />
                 <Subheading>V { Constants.manifest.version }</Subheading>
                 <ActivityIndicator 
