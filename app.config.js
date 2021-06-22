@@ -1,6 +1,6 @@
 "use strict";
 
-//const APP_NAME = 'globe_gps';
+//const APP_NAME = 'com.globemw.gps';
 //export default {
 //    name: APP_NAME,
 //    version: process.env.MY_CUSTOM_PROJECT_VERSION || '1.0.0',
