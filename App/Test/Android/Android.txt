@@ -5,3 +5,23 @@ expo run:ios
 expo run:android
 
 expo prebuild --clean
+
+///////////////////////////////////////////////////
+Set the environment variable in the script command
+
+"scripts": {
+  "start": "node app.js",
+  "test": "NODE_ENV=test mocha --reporter spec"
+},
+
+"scripts": {
+    "help": "set NODE_ENV=YOURENV && tagove help",
+    "start": "set NODE_ENV=YOURENV && tagove start"
+}
+
+Then use process.env.NODE_ENV in your app.
+///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+EXPO_IMAGE_UTILS_NO_SHARP=true expo build:web
+///////////////////////////////////////////////////
