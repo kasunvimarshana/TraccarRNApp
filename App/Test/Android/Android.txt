@@ -1,0 +1,7 @@
+import com.facebook.react.BuildConfig;
+
+//https://docs.expo.io/workflow/customizing/
+expo run:ios
+expo run:android
+
+expo prebuild --clean
