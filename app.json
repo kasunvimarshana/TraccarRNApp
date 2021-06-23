@@ -1,7 +1,7 @@
 {
     "expo": {
-      "name": "gps",
-      "slug": "gps",
+      "name": "globemw.gps",
+      "slug": "globemw-gps",
       "version": "1.0.5",
       "orientation": "portrait",
       "icon": "./assets/icon.png",
