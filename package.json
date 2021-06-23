@@ -6,7 +6,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "minify_android": "expo start --no-dev --minify"
+    "minify_android": "expo start --no-dev --minify",
+
+    "_eject_android": "expo run:android",
+    "_make_assets_directory_android": "mkdir android\\app\\src\\main\\assets",
+    "_bundle_android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
   },
   "dependencies": {
     "@bugsnag/expo": "^7.10.0",
