@@ -215,11 +215,13 @@ class SelectedDevicePositionScreen extends Component {
         if ( position.deviceTime !== undefined ) { 
             let tempDateTime = moment(position.deviceTime, [ moment.defaultFormat ], true);
             if( tempDateTime.isValid() ){
-                position.deviceTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
+                position.deviceTimeText = position.deviceTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
             }
         }
         if ( position.speed !== undefined ) { 
-            position.speedText = (position.speed + " km/h");
+            let _speed = position.speed;
+            _speed = parseFloat(_speed).toFixed(0);
+            position.speedText = (_speed + " km/h");
         }
         return {
             ...position

@@ -117,17 +117,41 @@ class ReportSummaryScreen extends Component {
     */
 
     formatSummary = ( summary ) => {
+        console.log("params", summary);
         if ( summary.distance !== undefined ) { 
-            summary.distanceText = (summary.distance + " m");
+            let _distance = summary.distance;
+            _distance = parseFloat(_distance).toFixed(1);
+            summary.distanceText = (_distance + " m");
         }
         if ( summary.averageSpeed !== undefined ) { 
-            summary.averageSpeedText = (summary.averageSpeed + " km/h");
+            let _averageSpeed = summary.averageSpeed;
+            _averageSpeed = parseFloat(_averageSpeed).toFixed(0);
+            summary.averageSpeedText = (_averageSpeed + " km/h");
         }
         if ( summary.maxSpeed !== undefined ) { 
-            summary.maxSpeedText = (summary.maxSpeed + " km/h");
+            let _maxSpeed = summary.maxSpeed;
+            _maxSpeed = parseFloat(_maxSpeed).toFixed(0);
+            summary.maxSpeedText = (_maxSpeed + " km/h");
         }
         if ( summary.spentFuel !== undefined ) { 
-            summary.spentFuelText = (summary.spentFuel + " l");
+            let _spentFuel = summary.spentFuel;
+            _spentFuel = parseFloat(_spentFuel).toFixed(2);
+            summary.spentFuelText = (_spentFuel + " l");
+        }
+        if ( summary.engineHours !== undefined ) { 
+            let _engineHours = summary.engineHours;
+            _engineHours = (parseFloat(_engineHours) / 360).toFixed(2);
+            summary.engineHoursText = (_engineHours);
+        }
+        if ( summary.startOdometer !== undefined ) { 
+            let _startOdometer = summary.startOdometer;
+            _startOdometer = (parseFloat(_startOdometer) / 1000);
+            summary.startOdometerText = (_startOdometer);
+        }
+        if ( summary.endOdometer !== undefined ) { 
+            let _endOdometer = summary.endOdometer;
+            _endOdometer = (parseFloat(_endOdometer) / 1000);
+            summary.endOdometerText = (_endOdometer);
         }
         return {
             ...summary
@@ -178,10 +202,10 @@ class ReportSummaryScreen extends Component {
                                                 {reportSummary.distanceText !== undefined && <List.Item title="Device Distance" description={reportSummary.distanceText}/>}
                                                 {reportSummary.averageSpeedText !== undefined && <List.Item title="Avarage Speed" description={reportSummary.averageSpeedText}/>}
                                                 {reportSummary.maxSpeedText !== undefined && <List.Item title="Max Speed" description={reportSummary.maxSpeedText}/>}
-                                                {reportSummary.spentFuelText !== undefined && <List.Item title="Spent Fuel" description={reportSummary.spentFuelText}/>}
-                                                {reportSummary.startOdometer !== undefined && <List.Item title="Start Odometer" description={reportSummary.startOdometer}/>}
-                                                {reportSummary.endOdometer !== undefined && <List.Item title="End Odometer" description={reportSummary.endOdometer}/>}
-                                                {reportSummary.engineHours !== undefined && <List.Item title="Engine Hours" description={reportSummary.engineHours}/>}
+                                                {/*reportSummary.spentFuelText !== undefined && <List.Item title="Spent Fuel" description={reportSummary.spentFuelText}/>*/}
+                                                {reportSummary.startOdometerText !== undefined && <List.Item title="Start Vertual Odometer" description={reportSummary.startOdometerText}/>}
+                                                {reportSummary.endOdometerText !== undefined && <List.Item title="End Vertual Odometer" description={reportSummary.endOdometerText}/>}
+                                                {reportSummary.engineHoursText !== undefined && <List.Item title="Engine Hours" description={reportSummary.engineHoursText}/>}
                                             </List.Section>
                                         </Card.Content>
                                     </Card>

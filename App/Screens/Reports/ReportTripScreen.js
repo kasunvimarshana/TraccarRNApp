@@ -128,29 +128,48 @@ class ReportTripScreen extends Component {
     */
 
     formatTrip = ( trip ) => {
+        console.log("params", trip);
         if ( trip.distance !== undefined ) { 
-            trip.distanceText = (trip.distance + " m");
+            let _distance = trip.distance;
+            _distance = parseFloat(_distance).toFixed(1);
+            trip.distanceText = (_distance + " m");
         }
         if ( trip.averageSpeed !== undefined ) { 
-            trip.averageSpeedText = (trip.averageSpeed + " km/h");
+            let _averageSpeed = trip.averageSpeed;
+            _averageSpeed = parseFloat(_averageSpeed).toFixed(0);
+            trip.averageSpeedText = (_averageSpeed + " km/h");
         }
         if ( trip.maxSpeed !== undefined ) { 
-            trip.maxSpeedText = (trip.maxSpeed + " km/h");
+            let _maxSpeed = trip.maxSpeed;
+            _maxSpeed = parseFloat(_maxSpeed).toFixed(0);
+            trip.maxSpeedText = (_maxSpeed + " km/h");
         }
         if ( trip.spentFuel !== undefined ) { 
-            trip.spentFuelText = (trip.spentFuel + " l");
+            let _spentFuel = trip.spentFuel;
+            _spentFuel = parseFloat(_spentFuel).toFixed(2);
+            trip.spentFuelText = (_spentFuel + " l");
         }
         if ( trip.startTime !== undefined ) { 
             let tempDateTime = moment(trip.startTime, [ moment.defaultFormat ], true);
             if( tempDateTime.isValid() ){
-                trip.startTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
+                trip.startTimeText = trip.startTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
             }
         }
         if ( trip.endTime !== undefined ) { 
             let tempDateTime = moment(trip.endTime, [ moment.defaultFormat ], true);
             if( tempDateTime.isValid() ){
-                trip.endTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
+                trip.endTimeText = trip.endTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
             }
+        }
+        if ( trip.startOdometer !== undefined ) { 
+            let _startOdometer = trip.startOdometer;
+            _startOdometer = (parseFloat(_startOdometer) / 1000);
+            trip.startOdometerText = (_startOdometer);
+        }
+        if ( trip.endOdometer !== undefined ) { 
+            let _endOdometer = trip.endOdometer;
+            _endOdometer = (parseFloat(_endOdometer) / 1000);
+            trip.endOdometerText = (_endOdometer);
         }
         if ( trip.startLat !== undefined && trip.startLon !== undefined ) { 
             trip.startPosition = { latitude: trip.startLat, longitude: trip.startLon };
@@ -293,11 +312,11 @@ class ReportTripScreen extends Component {
                                                                 {selectedTrip.distanceText !== undefined && <List.Item title="Distance" description={selectedTrip.distanceText}/>}
                                                                 {selectedTrip.averageSpeedText !== undefined && <List.Item title="Average Speed" description={selectedTrip.averageSpeedText}/>}
                                                                 {selectedTrip.maxSpeedText !== undefined && <List.Item title="Max Speed" description={selectedTrip.maxSpeedText}/>}
-                                                                {selectedTrip.spentFuelText !== undefined && <List.Item title="Spent Fuel" description={selectedTrip.spentFuelText}/>}
-                                                                {selectedTrip.startTime !== undefined && <List.Item title="Start Time" description={selectedTrip.startTime}/>}
-                                                                {selectedTrip.endTime !== undefined && <List.Item title="End Time" description={selectedTrip.endTime}/>}
-                                                                {selectedTrip.startOdometer !== undefined && <List.Item title="Start Odometer" description={selectedTrip.startOdometer}/>}
-                                                                {selectedTrip.endOdometer !== undefined && <List.Item title="End Odometer" description={selectedTrip.endOdometer}/>}
+                                                                {/*selectedTrip.spentFuelText !== undefined && <List.Item title="Spent Fuel" description={selectedTrip.spentFuelText}/>*/}
+                                                                {selectedTrip.startTimeText !== undefined && <List.Item title="Start Time" description={selectedTrip.startTimeText}/>}
+                                                                {selectedTrip.endTimeText !== undefined && <List.Item title="End Time" description={selectedTrip.endTimeText}/>}
+                                                                {selectedTrip.startOdometerText !== undefined && <List.Item title="Start Vertual Odometer" description={selectedTrip.startOdometerText}/>}
+                                                                {selectedTrip.endOdometerText !== undefined && <List.Item title="End Vertual Odometer" description={selectedTrip.endOdometerText}/>}
                                                             </List.Section>
 
                                                             {

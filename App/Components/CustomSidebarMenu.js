@@ -48,7 +48,7 @@ const CustomSidebarMenu = ( props ) => {
                         {'GPS'.charAt(0)}
                     </Text>
                 </View>
-                <Text style={styles.profileHeaderText}> GPS APP </Text>
+                <Text style={styles.profileHeaderText}> Globe Vehicle Tracking </Text>
             </View>
             <View style={styles.profileHeaderLine} />
 

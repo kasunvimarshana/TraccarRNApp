@@ -70,7 +70,7 @@ export default class CustomMarker extends PureComponent {
             >
                 <View style={ styles.container }>
                     <View>
-                        {data.deviceTime !== undefined && <Text style={ styles.text }> Device Time : { data.deviceTime } </Text>}
+                        {data.deviceTimeText !== undefined && <Text style={ styles.text }> Device Time : { data.deviceTimeText } </Text>}
                         {data.speedText !== undefined && <Text style={ styles.text }> Speed : { data.speedText } </Text>}
                         {data.address !== null && <Text style={ styles.text }> Address : { data.address } </Text>}
                     </View>

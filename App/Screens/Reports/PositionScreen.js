@@ -189,12 +189,15 @@ class PositionScreen extends Component {
             if ( v.deviceTime !== undefined ) { 
                 let tempDateTime = moment(v.deviceTime, [ moment.defaultFormat ], true);
                 if( tempDateTime.isValid() ){
-                    v.deviceTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
+                    v.deviceTimeText = v.deviceTime = tempDateTime.format("YYYY-MM-DD hh:mm A");
                 }
             }
             if ( v.speed !== undefined ) { 
+                let _speed = v.speed;
+                _speed = parseFloat(_speed).toFixed(0);
                 v.speedText = (v.speed + " km/h");
             }
+
             return {
                 ...v
             }

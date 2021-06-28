@@ -1,8 +1,8 @@
 {
     "expo": {
-      "name": "globemw.gps",
-      "slug": "globemw-gps",
-      "version": "1.0.5",
+      "name": "gps",
+      "slug": "gps",
+      "version": "1.0.6",
       "orientation": "portrait",
       "icon": "./assets/icon.png",
       "splash": {
@@ -24,7 +24,7 @@
         "bundleIdentifier": "com.globemw.gps",
         "googleServicesFile": "./GoogleService-Info.plist",
         "requireFullScreen": true,
-        "buildNumber": "5"
+        "buildNumber": "6"
       },
       "android": {
         "adaptiveIcon": {
@@ -40,7 +40,7 @@
         "permissions": [],
         "useNextNotificationsApi": true,
         "googleServicesFile": "./google-services.json",
-        "versionCode": 5
+        "versionCode": 6
       },
       "web": {
         "favicon": "./assets/favicon.png",
