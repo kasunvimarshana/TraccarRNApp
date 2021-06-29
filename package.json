@@ -76,5 +76,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "sharp-cli": "^1.15.0"
   },
-  "private": true
+  "private": true,
+  "peerDependencies": {},
+  "optionalDependencies": {}
 }
