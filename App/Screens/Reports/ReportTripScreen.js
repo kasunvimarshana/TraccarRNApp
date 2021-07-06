@@ -131,22 +131,26 @@ class ReportTripScreen extends Component {
         console.log("params", trip);
         if ( trip.distance !== undefined ) { 
             let _distance = trip.distance;
-            _distance = parseFloat(_distance).toFixed(1);
+            _distance = parseFloat(_distance);
+            _distance = _distance.toFixed(1);
             trip.distanceText = (_distance + " m");
         }
         if ( trip.averageSpeed !== undefined ) { 
             let _averageSpeed = trip.averageSpeed;
-            _averageSpeed = parseFloat(_averageSpeed).toFixed(0);
+            _averageSpeed = parseFloat(_averageSpeed);
+            _averageSpeed = _averageSpeed.toFixed(0);
             trip.averageSpeedText = (_averageSpeed + " km/h");
         }
         if ( trip.maxSpeed !== undefined ) { 
             let _maxSpeed = trip.maxSpeed;
-            _maxSpeed = parseFloat(_maxSpeed).toFixed(0);
+            _maxSpeed = parseFloat(_maxSpeed);
+            _maxSpeed = _maxSpeed.toFixed(0);
             trip.maxSpeedText = (_maxSpeed + " km/h");
         }
         if ( trip.spentFuel !== undefined ) { 
             let _spentFuel = trip.spentFuel;
-            _spentFuel = parseFloat(_spentFuel).toFixed(2);
+            _spentFuel = parseFloat(_spentFuel);
+            _spentFuel = _spentFuel.toFixed(2);
             trip.spentFuelText = (_spentFuel + " l");
         }
         if ( trip.startTime !== undefined ) { 
@@ -164,11 +168,13 @@ class ReportTripScreen extends Component {
         if ( trip.startOdometer !== undefined ) { 
             let _startOdometer = trip.startOdometer;
             _startOdometer = (parseFloat(_startOdometer) / 1000);
+            _startOdometer = _startOdometer.toFixed(1);
             trip.startOdometerText = (_startOdometer);
         }
         if ( trip.endOdometer !== undefined ) { 
             let _endOdometer = trip.endOdometer;
             _endOdometer = (parseFloat(_endOdometer) / 1000);
+            _endOdometer = _endOdometer.toFixed(1);
             trip.endOdometerText = (_endOdometer);
         }
         if ( trip.startLat !== undefined && trip.startLon !== undefined ) { 
