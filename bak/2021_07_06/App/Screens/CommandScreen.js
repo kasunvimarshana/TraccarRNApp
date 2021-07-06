@@ -190,8 +190,7 @@ class CommandScreen extends Component {
 
     buttonOnPressHandler_updateDistance = () => {
         this.setState({isButtonDisabled_updateDistance: true});
-        let distance = (parseFloat(this.state.distance) * 1000);
-        this.updateSelectedDevice({totalDistance: distance}, "accumulators")
+        this.updateSelectedDevice({totalDistance: this.state.distance}, "accumulators")
         .then(() => {
             this.setState({isButtonDisabled_updateDistance: false});
             this.modalDismissHandler();
@@ -256,9 +255,6 @@ class CommandScreen extends Component {
     };
 
     modalShowHandler = ( distance = 0 ) => {
-        distance = (parseFloat(distance) / 1000);
-        distance = distance.toFixed(1);
-
         this.setState({
             isModalVisible: true,
             distance: distance

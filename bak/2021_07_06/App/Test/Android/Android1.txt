@@ -1,0 +1,21 @@
+//https://stackoverflow.com/questions/52777413/reactnative-metro-bundler-not-starting-automatically/56922690
+
+/* ************************************************** */
+//make the directory
+android/app/src/main/assets
+/* ************************************************** */
+
+/* ************************************************** */
+//replace sharedBlacklist variable in node_modules/metro-config/src/defaults/blacklist.js
+var sharedBlacklist = [
+  /node_modules[\/\\]react[\/\\]dist[\/\\].*/,
+  /website\/node_modules\/.*/,
+  /heapCapture\/bundle\.js/,
+  /.*\/__tests__\/.*/
+];
+/* ************************************************** */
+
+/* ************************************************** */
+//execute command like below on the terminal
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+/* ************************************************** */

@@ -1,0 +1,77 @@
+{
+    "name": "gps",
+    "displayName": "gps",
+    "expo": {
+      "name": "gps",
+      "slug": "gps",
+      "version": "1.0.5",
+      "orientation": "portrait",
+      "icon": "./assets/icon.png",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      },
+      "updates": {
+        "fallbackToCacheTimeout": 0
+      },
+      "assetBundlePatterns": [
+        "**/*"
+      ],
+      "ios": {
+        "supportsTablet": true,
+        "config": {
+          "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
+        },
+        "bundleIdentifier": "com.globemw.gps",
+        "googleServicesFile": "./GoogleService-Info.plist",
+        "requireFullScreen": true,
+        "buildNumber": "5"
+      },
+      "android": {
+        "adaptiveIcon": {
+          "foregroundImage": "./assets/adaptive-icon.png",
+          "backgroundColor": "#FFFFFF"
+        },
+        "package": "com.globemw.gps",
+        "config": {
+          "googleMaps": {
+            "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg"
+          }
+        },
+        "permissions": [],
+        "useNextNotificationsApi": true,
+        "googleServicesFile": "./google-services.json",
+        "versionCode": 5
+      },
+      "web": {
+        "favicon": "./assets/favicon.png",
+        "firebase": {
+          "apiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
+          "authDomain": "globegps.firebaseapp.com",
+          "projectId": "globegps",
+          "storageBucket": "globegps.appspot.com",
+          "messagingSenderId": "648465021458",
+          "appId": "1:648465021458:web:a0ee54057b199b98f976cb",
+          "measurementId": "G-4NRYEMHMDE"
+        }
+      },
+      "platforms": ["ios", "android"],
+      "description": "Description",
+      "githubUrl": "https://github.com/kasunvimarshana",
+      "extra": {
+        "bugsnag": {
+          "apiKey": "d49d07b30ff7d02be7e2401b8c50b3df"
+        },
+        "googleMapsApiKey": "AIzaSyCj1GCkj_JBywUVs46Z3QPcuAm650bIffg",
+        "remoteLocationAPIOrigin": "http://sss1.globemw.net:8082",
+        "remoteLocationAPIOriginList": {
+          "sss1.globemw.net": "http://sss1.globemw.net:8082",
+          "gps.globemw.net": "http://gps.globemw.net:8082",
+          "gps1.globemw.net": "http://gps1.globemw.net:8082",
+          "gps2.globemw.net": "http://gps2.globemw.net:8082"
+        }
+      }
+    }
+  }
+  

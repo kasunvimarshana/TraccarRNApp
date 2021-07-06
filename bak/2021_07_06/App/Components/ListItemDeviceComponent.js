@@ -1,0 +1,38 @@
+import * as React from 'react';
+import { 
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    StatusBar,
+    Dimensions,
+    Animated,
+    Easing
+} from 'react-native';
+import { 
+    //Colors,
+    List
+} from 'react-native-paper';
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
+
+const ListItemDeviceComponent = ({item, onPressHandler}) => {
+
+    const itemOnPressHandler = () => {
+        onPressHandler();
+    };
+
+    return (
+        <View>
+            <TouchableOpacity onPress={ itemOnPressHandler }>
+
+                <List.Item
+                    title={item.name}
+                    description={null}
+                    left={props => <AntDesign name="car" size={24} color="black" />}
+                />
+
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+export default ListItemDeviceComponent;

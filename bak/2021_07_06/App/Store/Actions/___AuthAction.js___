@@ -1,0 +1,150 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { 
+    AUTH_SET_USER
+} from './ActionType';
+import { 
+    REMOTE_LOCATION_API_ORIGIN,
+    REMOTE_LOCATION_API_URI 
+} from '../../Constants/AppConstants';
+import { objectToQueryString, buildURLWithQueryString } from '../../Helpers/URIComponentHelper';
+
+export const authSignIn = ( args ) => {
+    return (dispatch, getState) => {
+        const fetchData = {
+            method: "POST",
+            body: objectToQueryString({
+                email: "lahirutm@globemw.net",
+                password: "lahirutm"
+            }),
+            headers: { 
+                "Accept": "application/json",
+                //"Content-Type": "application/json",
+                "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8" 
+            },
+            mode: "cors", //no-cors, *cors, same-origin
+            credentials: "include", //include, *same-origin, omit
+            cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
+            //redirect: 'follow', // manual, *follow, error
+            //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            Origin: REMOTE_LOCATION_API_ORIGIN,
+        };
+
+        const promise = new Promise((resolve, reject) => {
+            fetch(REMOTE_LOCATION_API_URI + "/session", fetchData)
+            .then((response) => {
+                //console.log(response.headers.get('Content-Type'));
+                //console.log(response.headers.get('Date'));
+                //console.log(response.status);
+                //console.log(response.statusText);
+                //console.log(response.type);
+                //console.log(response.url);
+                return response.json();
+            })
+            .then((json) => {
+                //console.log(json);
+                const user = {
+                    "id": json.id,
+                    "email": json.email,
+                    "name": json.name,
+                    "token": json.token,
+                    "readonly": json.readonly
+                };
+                dispatch( authStoreUser( user ) );
+                dispatch( authSetUser( user ) );
+                resolve(json);
+            })
+            .catch((error) => reject());
+        });
+
+        return promise;
+    };
+};
+
+export const authSignOut = () => {
+    return (dispatch, getState) => {
+        const promise = new Promise((resolve, reject) => { });
+        return promise;
+    };
+};
+
+export const authGetUser = () => {
+    return (dispatch, getState) => {
+        const promise = new Promise((resolve, reject) => { 
+            let user = getState().auth.user;
+            if( (user) ){
+                resolve( user );
+            }else{
+                AsyncStorage.getItem("@ap:auth:user")
+                .then((authUserFromStorage) => {
+                    user = (user != null) ? JSON.parse( authUserFromStorage ) : null;
+                    if( (user) ){
+                        dispatch( authSetUser( user ) );
+                        resolve( user );
+                    }
+                })
+                .catch((error) => reject())
+            }
+        });
+        return promise;
+    };
+};
+
+export const authSetUser = ( user ) => {
+    return {
+        type: AUTH_SET_USER,
+        user: user
+    }
+};
+
+export const authStoreUser = ( user ) => {
+    return async (dispatch, getState) => {
+        const tempUser = JSON.stringify( user );
+        await AsyncStorage.setItem("@ap:auth:user", tempUser);
+    };
+};
+
+export const authAutoSignIn = () => {
+    return (dispatch, getState) => {
+        const promise = new Promise((resolve, reject) => { });
+        return promise;
+    };
+};
+
+export const checkAuth = () => {
+    return (dispatch, getState) => {
+        const promise = new Promise((resolve, reject) => {
+            let authUser = null;
+            dispatch(authGetUser())
+            .then((user) => {
+                authUser = user;
+
+                const fetchData = {
+                    method: "GET",
+                    headers: { 
+                        "Accept": "application/json",
+                        //"Authorization" : ("Basic " + authUser.token)
+                    },
+                    mode: "cors", //no-cors, *cors, same-origin
+                    credentials: "include", //include, *same-origin, omit
+                    cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
+                    //redirect: 'follow', // manual, *follow, error
+                    //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    Origin: REMOTE_LOCATION_API_ORIGIN,
+                };
+
+                const api_url = buildURLWithQueryString(REMOTE_LOCATION_API_URI + "/session", {tokenn:  authUser.token});
+                return fetch(api_url, fetchData);
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                //console.log(json);
+                resolve(json);
+            })
+            .catch((error) => reject());
+        });
+        return promise;
+    };
+}

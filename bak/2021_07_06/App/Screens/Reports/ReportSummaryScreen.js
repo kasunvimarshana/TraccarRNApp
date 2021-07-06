@@ -120,44 +120,37 @@ class ReportSummaryScreen extends Component {
         console.log("params", summary);
         if ( summary.distance !== undefined ) { 
             let _distance = summary.distance;
-            _distance = parseFloat(_distance);
-            _distance = _distance.toFixed(1);
+            _distance = parseFloat(_distance).toFixed(1);
             summary.distanceText = (_distance + " m");
         }
         if ( summary.averageSpeed !== undefined ) { 
             let _averageSpeed = summary.averageSpeed;
-            _averageSpeed = parseFloat(_averageSpeed);
-            _averageSpeed = _averageSpeed.toFixed(0);
+            _averageSpeed = parseFloat(_averageSpeed).toFixed(0);
             summary.averageSpeedText = (_averageSpeed + " km/h");
         }
         if ( summary.maxSpeed !== undefined ) { 
             let _maxSpeed = summary.maxSpeed;
-            _maxSpeed = parseFloat(_maxSpeed);
-            _maxSpeed = _maxSpeed.toFixed(0);
+            _maxSpeed = parseFloat(_maxSpeed).toFixed(0);
             summary.maxSpeedText = (_maxSpeed + " km/h");
         }
         if ( summary.spentFuel !== undefined ) { 
             let _spentFuel = summary.spentFuel;
-            _spentFuel = parseFloat(_spentFuel);
-            _spentFuel = _spentFuel.toFixed(2);
+            _spentFuel = parseFloat(_spentFuel).toFixed(2);
             summary.spentFuelText = (_spentFuel + " l");
         }
         if ( summary.engineHours !== undefined ) { 
             let _engineHours = summary.engineHours;
-            _engineHours = (parseFloat(_engineHours) / 360);
-            _engineHours = _engineHours.toFixed(2);
+            _engineHours = (parseFloat(_engineHours) / 360).toFixed(2);
             summary.engineHoursText = (_engineHours);
         }
         if ( summary.startOdometer !== undefined ) { 
             let _startOdometer = summary.startOdometer;
             _startOdometer = (parseFloat(_startOdometer) / 1000);
-            _startOdometer = _startOdometer.toFixed(1);
             summary.startOdometerText = (_startOdometer);
         }
         if ( summary.endOdometer !== undefined ) { 
             let _endOdometer = summary.endOdometer;
             _endOdometer = (parseFloat(_endOdometer) / 1000);
-            _endOdometer = _endOdometer.toFixed(1);
             summary.endOdometerText = (_endOdometer);
         }
         return {

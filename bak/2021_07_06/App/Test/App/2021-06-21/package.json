@@ -6,11 +6,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "minify_android": "expo start --no-dev --minify",
-    "_eject_android": "expo run:android",
-    "_make_assets_directory_android": "mkdir android\\app\\src\\main\\assets",
-    "_bundle_android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
-    "_expo_optimize": "npx expo-optimize"
+    "minify_android": "expo start --no-dev --minify"
   },
   "dependencies": {
     "@bugsnag/expo": "^7.10.0",
@@ -73,11 +69,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "npm-install-peers": "^1.2.2",
-    "sharp-cli": "^1.15.0"
+    "eslint-plugin-react-hooks": "^4.2.0"
   },
-  "private": true,
-  "peerDependencies": {},
-  "optionalDependencies": {}
+  "private": true
 }
