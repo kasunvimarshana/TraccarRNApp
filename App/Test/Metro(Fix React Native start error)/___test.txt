@@ -1,0 +1,82 @@
+//https://dev.to/3imed_jaberi/fix-react-native-start-error-invalid-regular-expression-4pem
+
+/* ***************************************************************************** */
+//./node_modules/metro-config/src/defaults/blacklist.js
+var sharedBlacklist = [
+  /node_modules[\/\\]react[\/\\]dist[\/\\].*/,
+  /website\/node_modules\/.*/,
+  /heapCapture\/bundle\.js/,
+  /.*\/__tests__\/.*/,
+];
+/* ***************************************************************************** */
+
+/* ***************************************************************************** */
+# npm
+npm i replace-in-file
+# yarn
+yarn add replace-in-file
+
+//2- Create a file at the same level as node_modules folder name it fix-metro-config.js (you can use any name you want).
+
+//fix-metro-config.js
+
+    const [{ hasChanged }] = replaceInFile.sync({
+      ...option,
+      files: METRO_CONFIG_PATH
+    })
+    // logger.
+    console.log(
+      `The iteration number ${index + 1} handled with status ${hasChanged}`
+    )
+  })
+} catch (error) {
+  // logger.
+  console.error("Error occurred:", error)
+}
+
+
+//Go to package.json
+
+//package.json
+
+{
+  ... // other keys.
+  "scripts": {
+    ... // other keys.
+    "postinstall": "node fix-metro-config.js", // add this line.
+    ... // other keys.
+  }
+  ... // other keys.
+}
+/* ***************************************************************************** */
+
+
+/* ***************************************************************************** */
+npx patch-package metro-config
+
+//Go to package.json
+
+//package.json
+
+{
+  ... // other keys.
+  "scripts": {
+    ... // other keys.
+    "postinstall": "npx patch-package", // add this line.
+    ... // other keys.
+  }
+  ... // other keys.
+}
+/* ***************************************************************************** */
+
+/* ***************************************************************************** */
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+/* ***************************************************************************** */
+
+/* ***************************************************************************** */
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+/* ***************************************************************************** */
