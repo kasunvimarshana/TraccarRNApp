@@ -2,7 +2,7 @@
     "expo": {
       "name": "gps",
       "slug": "gps",
-      "version": "1.0.6",
+      "version": "1.0.7",
       "orientation": "portrait",
       "icon": "./assets/icon.png",
       "splash": {
@@ -24,7 +24,7 @@
         "bundleIdentifier": "com.globemw.gps",
         "googleServicesFile": "./GoogleService-Info.plist",
         "requireFullScreen": true,
-        "buildNumber": "6"
+        "buildNumber": "7"
       },
       "android": {
         "adaptiveIcon": {
@@ -40,7 +40,7 @@
         "permissions": [],
         "useNextNotificationsApi": true,
         "googleServicesFile": "./google-services.json",
-        "versionCode": 6
+        "versionCode": 7
       },
       "web": {
         "favicon": "./assets/favicon.png",

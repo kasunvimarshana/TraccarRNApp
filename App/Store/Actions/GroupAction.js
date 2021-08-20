@@ -79,7 +79,7 @@ export const fetchGroups = (isCheckAuth = false) => {
                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/groups", {
                     token:  authUser.token,
                     userId: authUser.id,
-                    all:  true
+                    all:  (authUser.administrator) ? true : false
                 });
                 return fetch(api_url, fetchData);
             })
