@@ -105,6 +105,7 @@ export const fetchGeofences = ( fetchType, isCheckAuth = false ) => {
                 };
 
                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/geofences", queryParameters);
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

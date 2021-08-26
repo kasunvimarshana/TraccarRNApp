@@ -34,8 +34,7 @@ import {
     fetchDevices,
     selectDevice 
 } from '../Store/Actions/DeviceAction';
-import { GetSortOrder_JSON_ASC, nest, get_JSON_Min, get_JSON_Max, unique } from '../Helpers/ArrayHelper';
-import { isEmpty, getParameterCaseInsensitive } from "../Helpers/CommonHelper";
+import { GetSortOrder_JSON_ASC, nest, get_JSON_Min, get_JSON_Max } from '../Helpers/ArrayHelper';
 
 class GroupDeviceScreen extends Component {
 
@@ -159,34 +158,52 @@ class GroupDeviceScreen extends Component {
     }
 
     formatGroupDevices = ( groupList = [], deviceList = [] ) => {
+        /*let formattedGroupDevices = [];
+        const groupIdList = groupList.map(group => group.id);
+        const ungroupDevices = {
+            id: 0,
+            name: "Ungroup Devices",
+            deviceList: []
+        };
+        do { ungroupDevices.id = ( ungroupDevices.id + 1 ) } while ( groupIdList.includes( ungroupDevices.id ) );
+        ungroupDevices.deviceList = deviceList.filter((device, index, arr) => {
+            return groupIdList.includes( device.groupId ) === false
+        }, []);
+        const groupDevices = groupList.map(group => {
+            const tempDevices = deviceList.filter((device, index, arr) => {
+                return device.groupId === group.id
+            }, []);
+            return { ...group, deviceList: [...tempDevices] };
+        });
+        formattedGroupDevices = Array.prototype.concat( groupDevices, { ...ungroupDevices } );
+        console.log("formattedGroupDevices", formattedGroupDevices);
+        return formattedGroupDevices;*/
+
         groupList = groupList.map(this.formatGroup);
         deviceList = deviceList.map(this.formatDevice);
         
         let formattedGroupDevices = [];
-        const deviceGroupIdList = deviceList.map(device => Number( getParameterCaseInsensitive(device, "groupId") )).filter(unique);
-        console.log("deviceGroupIdList", deviceGroupIdList);
-        groupList = groupList.filter((group, index, arr) => {
-            return deviceGroupIdList.includes( Number( getParameterCaseInsensitive(group, "id") ) ) === true
-        }, []);
-        console.log("groupList", groupList);
-        const groupIdList = groupList.map(group => Number( getParameterCaseInsensitive(group, "id") ));
-        
+        const groupIdList = groupList.map(group => group.id);
         const ungroupDevices = {
             id: 0,
             groupId: 0,
             name: "Ungroup Devices",
             deviceList: []
         };
+        do { ungroupDevices.id = ( ungroupDevices.id + 1 ) } while ( groupIdList.includes( ungroupDevices.id ) );
+        ungroupDevices.deviceList = deviceList.filter((device, index, arr) => {
+            return groupIdList.includes( device.groupId ) === false
+        }, []);
         const groupDevices = groupList.map(group => {
             const tempDevices = deviceList.filter((device, index, arr) => {
-                return Number(getParameterCaseInsensitive(device, "groupId")) === Number(getParameterCaseInsensitive(group, "id"))
+                return device.groupId === group.id
             }, []);
             return { ...group, deviceList: [...tempDevices] };
         });
+        //formattedGroupDevices = Array.prototype.concat( groupDevices, { ...ungroupDevices } );
         formattedGroupDevices = groupDevices;
         formattedGroupDevices.sort(GetSortOrder_JSON_ASC("id"));
         let minGroupId = get_JSON_Min(formattedGroupDevices, "groupId");
-        console.log("minGroupId", minGroupId);
         formattedGroupDevices = nest(formattedGroupDevices, minGroupId, "groupId");
         console.log("formattedGroupDevices = ", formattedGroupDevices);
         return formattedGroupDevices;

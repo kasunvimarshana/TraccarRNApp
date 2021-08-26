@@ -91,6 +91,7 @@ export const commandSend = (type, attributes = null, isCheckAuth = false) => {
                 });
 
                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/commands/send", queryParameters);
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

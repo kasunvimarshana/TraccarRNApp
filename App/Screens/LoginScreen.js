@@ -29,6 +29,7 @@ import ButtonComponent from '../Components/ButtonComponent';
 import { startProcessing, stopProcessing } from '../Store/Actions/UIAction';
 import { authSignIn, checkAuth } from '../Store/Actions/AuthAction';
 import { getSetting, saveSetting, deleteSetting } from '../Store/Actions/SettingAction';
+import { getExpoPushTokenAsync, getDevicePushTokenAsync, storeNotificationData } from '../Store/Actions/NotificationAction';
 import { KEY_REMOTE_LOCATION_API_ORIGIN } from '../Constants/AppConstants';
 
 class LoginScreen extends Component {
@@ -134,7 +135,20 @@ class LoginScreen extends Component {
         .then(() => {
             return this.props.ui_checkAuth();
         })
-        .then(() => {
+        .then(async () => {
+            await this.getPushTokenData().then((data) => {
+                return this.props.ui_storeNotificationData(data)
+                .then((response) => {
+                    //console.log('response', response);
+                },
+                (error) => {
+                    throw new Error( error );
+                });
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
+
             this.setState({isButtonDisabled: false});
             this.props.navigation.replace("DrawerNavigationRoutes");
         })
@@ -168,6 +182,18 @@ class LoginScreen extends Component {
 
     getSetting = ( key ) => {
         return this.props.ui_getSetting(key);
+    }
+
+    getPushTokenData = async () => {
+        // getExpoPushTokenAsync
+        const expoPushToken = await this.props.ui_getExpoPushTokenAsync();
+        // getDevicePushTokenAsync
+        const devicePushToken = await this.props.ui_getDevicePushTokenAsync();
+
+        return {
+            expoPushToken: expoPushToken,
+            devicePushToken: devicePushToken
+        }
     }
 
     render() {
@@ -286,7 +312,10 @@ const mapDispatchToProps = (dispatch) => {
         ui_authSignIn: ( args ) => dispatch(authSignIn( args )),
         ui_checkAuth: () => dispatch(checkAuth()),
         ui_getSetting: ( key ) => dispatch(getSetting( key )),
-        ui_saveSetting: ( args ) => dispatch(saveSetting( args ))
+        ui_saveSetting: ( args ) => dispatch(saveSetting( args )),
+        ui_getExpoPushTokenAsync: () => dispatch(getExpoPushTokenAsync()),
+        ui_getDevicePushTokenAsync: () => dispatch(getDevicePushTokenAsync()),
+        ui_storeNotificationData: ( data ) => dispatch(storeNotificationData( data )),
     };
 };
 

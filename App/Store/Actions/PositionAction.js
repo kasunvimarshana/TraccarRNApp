@@ -78,6 +78,7 @@ export const fetchPosition = ( id, isCheckAuth = false ) => {
                     token:  authUser.token,
                     id: id
                 });
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

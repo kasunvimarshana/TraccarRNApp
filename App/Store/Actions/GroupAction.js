@@ -34,6 +34,108 @@ export const fetchEnd = () => {
     }
 };
 
+// export const fetchGroups = (isCheckAuth = false) => {
+//     return (dispatch, getState) => {
+//         const promise = new Promise((resolve, reject) => { 
+//             dispatch( fetchStart() );
+//             let remote_location_api_origin = null;
+//             let remote_location_api_uri = null;
+//             let fetchData = {};
+//             let authUser = null;
+//             dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
+//             .then( ( _remote_location_api_origin ) => {
+//                 remote_location_api_origin = _remote_location_api_origin;
+//                 remote_location_api_uri = `${remote_location_api_origin}/api`;
+//             }, (error) => {
+//                 console.log('error', error);
+//                 throw new Error( error );
+//             } )
+//             .then( () => {
+//                 if( isCheckAuth === true ){
+//                     return dispatch(checkAuth());
+//                 }else{
+//                     return Promise.resolve( null );
+//                 }
+//             } )
+//             .then( () => {
+//                 return dispatch(authGetUser());
+//             } )
+//             .then((user) => {
+//                 authUser = user;
+//                 fetchData = {
+//                     method: "GET",
+//                     headers: { 
+//                         "Accept": "application/json",
+//                         "Cookie": ("JSESSIONID=" + authUser.JSESSIONID)
+//                     },
+//                     mode: "cors", //no-cors, *cors, same-origin
+//                     credentials: "omit", //include, *same-origin, omit
+//                     cache: "default", //*default, no-cache, reload, force-cache, only-if-cached
+//                     //redirect: 'follow', // manual, *follow, error
+//                     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+//                     Origin: remote_location_api_origin,
+//                 };
+
+//                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/groups", {
+//                     token:  authUser.token,
+//                     userId: authUser.id,
+//                     all:  (authUser.administrator) ? true : false
+//                 });
+//                 console.log("api_url", api_url);
+//                 return fetch(api_url, fetchData);
+//             })
+//             .then((response) => {
+//                 if( response.status !== 200 ){
+//                     throw new Error( response.status );
+//                 }
+//                 return response.json();
+//             })
+//             .then(async (json) => {
+//                 console.log(json);
+//                 await dispatch( setGroupList( json ) );
+//                 dispatch( fetchEnd() );
+//                 return resolve( json );
+//             })
+//             .catch((error) => {
+//                 dispatch( fetchEnd() );
+//                 return reject( error );
+//             }); 
+//         });
+
+//         return promise;
+//     };
+// };
+
+export const setGroupList = ( groupList ) => {
+    return {
+        type: SET_GROUP_LIST,
+        deviceList: groupList
+    }
+};
+
+export const selectGroup = ( id ) => {
+    return (dispatch, getState) => {
+        let selectedGroup = null;
+        const groupList = getState().group.groupList;
+        if( (Array.isArray( groupList )) ){
+            /*selectedGroup = groupList.filter((item) => { 
+                return item.id === id; 
+            });*/
+            selectedGroup = groupList.find(function(item) {
+                return item.id === id;
+            });
+        }
+        dispatch(setSelectedGroup(selectedGroup));
+    }
+}
+
+export const setSelectedGroup = ( selectedGroup ) => {
+    return {
+        type: SET_SELECTED_GROUP,
+        selectedGroup: selectedGroup
+    }
+};
+
 export const fetchGroups = (isCheckAuth = false) => {
     return (dispatch, getState) => {
         const promise = new Promise((resolve, reject) => { 
@@ -45,6 +147,8 @@ export const fetchGroups = (isCheckAuth = false) => {
             dispatch( getSetting( KEY_REMOTE_LOCATION_API_ORIGIN ) )
             .then( ( _remote_location_api_origin ) => {
                 remote_location_api_origin = _remote_location_api_origin;
+                // remote_location_api_origin = String( remote_location_api_origin ).replace('http://', 'http://');
+                remote_location_api_origin = String( remote_location_api_origin ).replace(':8082', '');
                 remote_location_api_uri = `${remote_location_api_origin}/api`;
             }, (error) => {
                 console.log('error', error);
@@ -76,11 +180,18 @@ export const fetchGroups = (isCheckAuth = false) => {
                     Origin: remote_location_api_origin,
                 };
 
-                const api_url = buildURLWithQueryString(remote_location_api_uri + "/groups", {
-                    token:  authUser.token,
-                    userId: authUser.id,
-                    all:  (authUser.administrator) ? true : false
+                // const api_url = buildURLWithQueryString(remote_location_api_uri + "/groups", {
+                //     token:  authUser.token,
+                //     userId: authUser.id,
+                //     all:  (authUser.administrator) ? true : false
+                // });
+                let api_url = buildURLWithQueryString(remote_location_api_uri + "/get_user_groups.php", {
+                    // token:  authUser.token,
+                    user_id: authUser.id,
+                    // all:  (authUser.administrator) ? true : false
                 });
+                api_url = String( api_url ).replace('get_user_groups.php/', 'get_user_groups.php');
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {
@@ -103,34 +214,4 @@ export const fetchGroups = (isCheckAuth = false) => {
 
         return promise;
     };
-};
-
-export const setGroupList = ( groupList ) => {
-    return {
-        type: SET_GROUP_LIST,
-        deviceList: groupList
-    }
-};
-
-export const selectGroup = ( id ) => {
-    return (dispatch, getState) => {
-        let selectedGroup = null;
-        const groupList = getState().group.groupList;
-        if( (Array.isArray( groupList )) ){
-            /*selectedGroup = groupList.filter((item) => { 
-                return item.id === id; 
-            });*/
-            selectedGroup = groupList.find(function(item) {
-                return item.id === id;
-            });
-        }
-        dispatch(setSelectedGroup(selectedGroup));
-    }
-}
-
-export const setSelectedGroup = ( selectedGroup ) => {
-    return {
-        type: SET_SELECTED_GROUP,
-        selectedGroup: selectedGroup
-    }
 };

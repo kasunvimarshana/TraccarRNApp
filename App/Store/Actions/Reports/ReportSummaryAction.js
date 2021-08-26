@@ -116,6 +116,7 @@ export const fetchSummary = (fetchType, from = null, to = null, isCheckAuth = fa
                 };
 
                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/reports/summary", queryParameters);
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

@@ -81,6 +81,7 @@ export const fetchUsers = (isCheckAuth = false) => {
                     userId: authUser.id,
                     all:  (authUser.administrator) ? true : false
                 });
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

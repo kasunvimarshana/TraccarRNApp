@@ -76,7 +76,9 @@ export const authSignIn = ( args ) => {
                 return clearCookies()
             } )
             .then( () => {
-                return fetch(remote_location_api_uri + "/session", fetchData)
+                const api_url = (remote_location_api_uri + "/session");
+                console.log("api_url", api_url);
+                return fetch(api_url, fetchData);
             } )
             .then(async (response) => {
                 if( response.status !== 200 ){
@@ -218,6 +220,7 @@ export const checkAuth = () => {
                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/session", {
                     token:  authUser.token
                 });
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

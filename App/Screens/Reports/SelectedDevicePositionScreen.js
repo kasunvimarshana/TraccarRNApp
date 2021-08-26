@@ -113,18 +113,18 @@ class SelectedDevicePositionScreen extends Component {
         // addPushTokenListener
         //this._pushTokenListenerRef = Notifications.addPushTokenListener(registerDevicePushTokenAsync);
 
-        this.getPushTokenData().then((data) => {
-            return this.props.ui_storeNotificationData(data)
-            .then((response) => {
-                //console.log('response', response);
-            },
-            (error) => {
-                throw new Error( error );
-            });
-        })
-        .catch((error) => {
-            //console.log("error", error);
-        });
+        // this.getPushTokenData().then((data) => {
+        //     return this.props.ui_storeNotificationData(data)
+        //     .then((response) => {
+        //         //console.log('response', response);
+        //     },
+        //     (error) => {
+        //         throw new Error( error );
+        //     });
+        // })
+        // .catch((error) => {
+        //     //console.log("error", error);
+        // });
     }
 
     componentDidUpdate(prevProps) {

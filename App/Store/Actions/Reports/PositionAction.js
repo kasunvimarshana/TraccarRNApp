@@ -116,6 +116,7 @@ export const fetchPositions = (fetchType, from = null, to = null, type = null, i
                 };
 
                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/reports/route", queryParameters);
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {

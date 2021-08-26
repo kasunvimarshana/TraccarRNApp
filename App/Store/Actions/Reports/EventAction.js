@@ -117,6 +117,7 @@ export const fetchEvents = (fetchType, from = null, to = null, type = null, isCh
                 };
 
                 const api_url = buildURLWithQueryString(remote_location_api_uri + "/reports/events", queryParameters);
+                console.log("api_url", api_url);
                 return fetch(api_url, fetchData);
             })
             .then((response) => {
